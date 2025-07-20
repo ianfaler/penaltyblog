@@ -19,6 +19,61 @@ from .utils cimport (
     weibull_count_pmf,
 )
 
+# Constants for numerical stability
+cdef double MAX_LOG_VALUE = 700.0  # log(1e308) ≈ 708
+cdef double MIN_LOG_VALUE = -700.0
+cdef double SMALL_VALUE = 1e-15
+cdef double LARGE_PENALTY = 1e308
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+@cython.cdivision(True)
+@cython.nonecheck(False)
+@cython.initializedcheck(False)
+cdef inline double safe_exp(double x) nogil:
+    """Safe exponential function to prevent overflow/underflow."""
+    if x > MAX_LOG_VALUE:
+        return 1e308
+    elif x < MIN_LOG_VALUE:
+        return 0.0
+    else:
+        return exp(x)
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+@cython.cdivision(True)
+@cython.nonecheck(False)
+@cython.initializedcheck(False)
+cdef inline double safe_log(double x) nogil:
+    """Safe logarithm function to prevent log(0) and handle edge cases."""
+    if x <= 0.0:
+        return MIN_LOG_VALUE
+    elif x < SMALL_VALUE:
+        return log(SMALL_VALUE)
+    elif isinf(x) or isnan(x):
+        return MIN_LOG_VALUE
+    else:
+        return log(x)
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+@cython.cdivision(True)
+@cython.nonecheck(False)
+@cython.initializedcheck(False)
+cdef inline bint is_valid_probability(double p) nogil:
+    """Check if a value is a valid probability (finite and in [0,1])."""
+    return not (isnan(p) or isinf(p) or p < 0.0 or p > 1.0)
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+@cython.cdivision(True)
+@cython.nonecheck(False)
+@cython.initializedcheck(False)
+cdef inline bint is_valid_log_likelihood(double llk) nogil:
+    """Check if a log likelihood value is valid (finite and reasonable)."""
+    return not (isnan(llk) or isinf(llk) or llk > 0.0 or llk < MIN_LOG_VALUE)
+
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
@@ -34,7 +89,7 @@ def poisson_loss_function(np.int64_t[:] goals_home,
                           np.float64_t[:] defence,
                           double hfa) -> double:
     """
-    Computes the negative log-likelihood for a Dixon–Coles model.
+    Computes the negative log-likelihood for a Poisson model with improved numerical stability.
 
     Parameters:
       goals_home, goals_away: observed goals for home and away teams.
@@ -48,30 +103,58 @@ def poisson_loss_function(np.int64_t[:] goals_home,
     """
     cdef Py_ssize_t i, n = goals_home.shape[0]
     cdef double total_llk = 0.0
-    cdef double lambda_home, lambda_away, llk_home, llk_away
-    cdef int home_idx, away_idx, k_home, k_away
+    cdef double lambda_home, lambda_away, logP_home, logP_away
+    cdef Py_ssize_t home_idx, away_idx
+    cdef int k_home, k_away
+    
+    # Validate input parameters
+    if isnan(hfa) or isinf(hfa):
+        return LARGE_PENALTY
+    
+    for i in range(n):
+        home_idx = home_indices[i]
+        away_idx = away_indices[i]
+        k_home = goals_home[i]
+        k_away = goals_away[i]
+        
+        # Validate array indices
+        if home_idx < 0 or away_idx < 0 or home_idx >= attack.shape[0] or away_idx >= attack.shape[0]:
+            return LARGE_PENALTY
+        
+        # Validate parameters
+        if (isnan(attack[home_idx]) or isinf(attack[home_idx]) or 
+            isnan(attack[away_idx]) or isinf(attack[away_idx]) or
+            isnan(defence[home_idx]) or isinf(defence[home_idx]) or
+            isnan(defence[away_idx]) or isinf(defence[away_idx])):
+            return LARGE_PENALTY
+        
+        # Compute expected goals with safe exponential
+        lambda_home = safe_exp(hfa + attack[home_idx] + defence[away_idx])
+        lambda_away = safe_exp(attack[away_idx] + defence[home_idx])
+        
+        # Additional validation for lambda values
+        if lambda_home <= 0 or lambda_away <= 0 or lambda_home > 100 or lambda_away > 100:
+            return LARGE_PENALTY
+        
+        # Compute log probabilities
+        logP_home = poisson_log_pmf(k_home, lambda_home)
+        logP_away = poisson_log_pmf(k_away, lambda_away)
+        
+        # Validate log probabilities
+        if not is_valid_log_likelihood(logP_home) or not is_valid_log_likelihood(logP_away):
+            return LARGE_PENALTY
+        
+        # Validate weight
+        if isnan(weights[i]) or isinf(weights[i]) or weights[i] < 0:
+            return LARGE_PENALTY
+        
+        total_llk += (logP_home + logP_away) * weights[i]
+        
+        # Check for overflow in total likelihood
+        if isnan(total_llk) or isinf(total_llk):
+            return LARGE_PENALTY
 
-    # Main loop: optimized for performance
-    with nogil:
-        for i in prange(n):
-            home_idx = home_indices[i]
-            away_idx = away_indices[i]
-
-            # Compute expected goals
-            lambda_home = exp(hfa + attack[home_idx] + defence[away_idx])
-            lambda_away = exp(attack[away_idx] + defence[home_idx])
-
-            # Retrieve observed goals
-            k_home = goals_home[i]
-            k_away = goals_away[i]
-
-            # Compute Poisson log-likelihood contributions
-            llk_home = -lambda_home + k_home * log(lambda_home) - lgamma(k_home + 1)
-            llk_away = -lambda_away + k_away * log(lambda_away) - lgamma(k_away + 1)
-
-            total_llk += (llk_home + llk_away) * weights[i]
-
-    return total_llk
+    return -total_llk
 
 
 @cython.boundscheck(False)
