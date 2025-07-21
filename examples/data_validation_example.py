@@ -19,18 +19,16 @@ def main():
     print("\n1. Basic Data Validation")
     print("-" * 30)
 
-    # Create sample fixtures data
-    fixtures_df = pd.DataFrame(
-        {
-            "team_home": ["Arsenal", "Chelsea", "Liverpool", "Man City"],
-            "team_away": ["Tottenham", "Man United", "Newcastle", "Brighton"],
-            "goals_home": [2, 1, 3, 4],
-            "goals_away": [1, 1, 1, 0],
-            "date": pd.to_datetime(
-                ["2023-10-01", "2023-10-02", "2023-10-03", "2023-10-04"]
-            ),
-        }
-    )
+    # Get real fixtures data using FootballData scraper
+    print("📡 Fetching real Premier League data...")
+    scraper = pb.scrapers.FootballData("ENG Premier League", "2023-2024")
+    fixtures_df = scraper.get_fixtures()
+    
+    # Take a sample of recent completed matches for demonstration
+    completed_matches = fixtures_df.dropna(subset=['goals_home', 'goals_away'])
+    fixtures_df = completed_matches.head(10)  # Use first 10 completed matches
+    
+    print(f"📊 Using {len(fixtures_df)} real match records for validation")
 
     # Validate the data
     validation_report = pb.validate_fixtures(

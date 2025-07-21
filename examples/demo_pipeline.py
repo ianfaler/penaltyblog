@@ -79,13 +79,8 @@ def main():
 
     except Exception as e:
         print(f"❌ Error in data scraping: {e}")
-        print("📂 Using sample data instead...")
-
-        # Create sample data for demonstration
-        completed_matches = create_sample_data()
-        output_file = output_dir / "sample_fixtures.csv"
-        completed_matches.to_csv(output_file, index=False)
-        print(f"💾 Saved sample data to: {output_file}")
+        print("❌ Cannot proceed without real data. Please check your internet connection or try a different season.")
+        return
 
     print()
 
@@ -125,18 +120,12 @@ def main():
 
         # Make predictions on test data
         print("🔮 Making predictions...")
-        predictions = []
-        for _, row in test_data.iterrows():
-            pred = model.predict(row["team_home"], row["team_away"])
-            predictions.append(pred)
-
-        # Calculate match outcome probabilities
         match_probs = []
-        for pred in predictions:
-            prob_grid = pb.models.FootballProbabilityGrid(pred)
-            home_win = prob_grid.home_win_probability()
-            draw = prob_grid.draw_probability()
-            away_win = prob_grid.away_win_probability()
+        for _, row in test_data.iterrows():
+            pred_grid = model.predict(row["team_home"], row["team_away"])
+            home_win = pred_grid.home_win
+            draw = pred_grid.draw
+            away_win = pred_grid.away_win
             match_probs.append(
                 {"home_win": home_win, "draw": draw, "away_win": away_win}
             )
@@ -156,8 +145,8 @@ def main():
 
     except Exception as e:
         print(f"❌ Error in modeling: {e}")
-        print("Creating dummy predictions...")
-        results_df = create_dummy_predictions(completed_matches)
+        print("❌ Cannot proceed without proper model training.")
+        return
 
     print()
 
@@ -388,34 +377,7 @@ def main():
     print("=" * 60)
 
 
-def create_sample_data():
-    """Create sample fixtures data for demonstration."""
-    teams = ["Arsenal", "Chelsea", "Liverpool", "Man City", "Man Utd", "Tottenham"]
 
-    fixtures = []
-    for i in range(20):
-        home_team = np.random.choice(teams)
-        away_team = np.random.choice([t for t in teams if t != home_team])
-
-        # Generate realistic goal scores
-        home_goals = np.random.poisson(1.4)
-        away_goals = np.random.poisson(1.1)
-
-        # Generate date
-        base_date = datetime(2024, 1, 1)
-        match_date = base_date + timedelta(days=i * 7)
-
-        fixtures.append(
-            {
-                "team_home": home_team,
-                "team_away": away_team,
-                "goals_home": home_goals,
-                "goals_away": away_goals,
-                "datetime": match_date,
-            }
-        )
-
-    return pd.DataFrame(fixtures)
 
 
 def prepare_model_data(df):
@@ -438,8 +400,8 @@ def prepare_model_data(df):
                         model_df[col] = model_df[alt_name]
                         break
                 else:
-                    # Generate random goals if not available
-                    model_df[col] = np.random.poisson(1.3, len(model_df))
+                    # Column not found and no alternative - this indicates a data issue
+                    raise ValueError(f"Required column '{col}' not found in scraped data")
 
     # Filter to completed matches
     model_df = model_df.dropna(subset=["goals_home", "goals_away"])
@@ -451,35 +413,7 @@ def prepare_model_data(df):
     return model_df
 
 
-def create_dummy_predictions(df):
-    """Create dummy predictions for demonstration."""
-    results = df.copy()
 
-    # Generate random but realistic probabilities
-    np.random.seed(42)  # For reproducibility
-
-    predictions = []
-    for _ in range(len(df)):
-        # Generate probabilities that sum to approximately 1
-        home = np.random.uniform(0.2, 0.6)
-        away = np.random.uniform(0.2, 0.6)
-        draw = max(0.1, 1.0 - home - away)
-
-        # Normalize
-        total = home + draw + away
-        predictions.append(
-            {
-                "pred_home_win": home / total,
-                "pred_draw": draw / total,
-                "pred_away_win": away / total,
-            }
-        )
-
-    for i, pred in enumerate(predictions):
-        for key, value in pred.items():
-            results.loc[i, key] = value
-
-    return results
 
 
 if __name__ == "__main__":
