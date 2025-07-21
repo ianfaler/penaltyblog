@@ -16,8 +16,9 @@ from .data_monitoring import (
 )
 
 __all__ = [
+    "deprecated",
     "DataQualityValidator",
-    "DataValidationError", 
+    "DataValidationError",
     "DataValidationWarning",
     "validate_fixtures",
     "cross_validate_sources",

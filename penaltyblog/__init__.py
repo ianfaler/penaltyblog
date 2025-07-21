@@ -23,7 +23,7 @@ from .utils import (
 
 __all__ = [
     "backtest",
-    "fpl", 
+    "fpl",
     "implied",
     "kelly",
     "matchflow",
@@ -36,7 +36,7 @@ __all__ = [
     # Convenient access to key utilities
     "DataQualityValidator",
     "validate_fixtures",
-    "cross_validate_sources", 
+    "cross_validate_sources",
     "check_data_freshness",
     "record_data_fetch",
 ]

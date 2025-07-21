@@ -20,12 +20,11 @@ from .steps.utils import get_field, get_index
 
 __all__ = [
     "Flow",
-]
-
-# Optional: also expose under a namespace for convenience
-from . import predicates_helpers as predicates
-
-__all__ += [
+    # Modules
+    "aggregates",
+    # Utilities
+    "get_field",
+    "get_index",
     # Individual helpers
     "where_equals",
     "where_not_equals",
@@ -44,3 +43,6 @@ __all__ += [
     # Optional grouped access
     "predicates",
 ]
+
+# Optional: also expose under a namespace for convenience
+from . import predicates_helpers as predicates

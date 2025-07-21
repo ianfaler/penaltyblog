@@ -149,7 +149,7 @@ def parse_window_size(window_str: str) -> float:
     unit = window_str[-1].lower()
     try:
         val = float(window_str[:-1])
-    except:
+    except (ValueError, TypeError):
         raise ValueError(f"Could not parse window size from '{window_str}'")
     if unit == "s":
         return val
@@ -352,7 +352,7 @@ def apply_group_cumulative(
     alias = step["alias"]
 
     for group in records:
-        key = group["__group_key__"]
+        group["__group_key__"]
         rows = group["__group_records__"]
         total = 0
         for r in rows:

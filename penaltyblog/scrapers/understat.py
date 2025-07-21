@@ -1,6 +1,6 @@
 import json
 import re
-from typing import Any, Dict
+from typing import Any
 
 import pandas as pd
 from lxml import html

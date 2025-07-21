@@ -2,7 +2,6 @@
 Helpers for handling a streaming data pipeline, specifically the Flow class.
 """
 
-import importlib
 from typing import Any, Callable, Optional
 
 from tabulate import tabulate
