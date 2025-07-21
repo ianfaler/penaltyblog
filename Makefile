@@ -1,6 +1,6 @@
 # Penaltyblog Development Makefile
 
-.PHONY: help setup install install-dev clean test lint format check demo docs
+.PHONY: help setup install install-dev clean test lint format check demo docs serve
 
 # Default target
 help:
@@ -13,6 +13,7 @@ help:
 	@echo "  format        - Format code with black"
 	@echo "  check         - Run all code quality checks"
 	@echo "  demo          - Run the demo pipeline"
+	@echo "  serve         - Start the web interface"
 	@echo "  clean         - Clean build artifacts"
 	@echo "  docs          - Build documentation"
 
@@ -80,3 +81,7 @@ build: clean
 # Upload to PyPI (requires authentication)
 upload: build
 	python -m twine upload dist/*
+
+# Start the web interface
+serve:
+	python -m penaltyblog web

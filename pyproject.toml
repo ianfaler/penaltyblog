@@ -38,6 +38,8 @@ dependencies = [
     "scipy",
     "tabulate",
     "tqdm",
+    "fastapi>=0.111",
+    "uvicorn[standard]>=0.29",
 ]
 
 classifiers = [
