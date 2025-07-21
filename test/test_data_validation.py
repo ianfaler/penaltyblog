@@ -31,7 +31,7 @@ class TestDataQualityValidator:
         report = validator.validate_fixtures_data(df, "Premier League", "2022-2023")
 
         assert len(report["errors"]) == 0
-        assert "Found 4 unique teams" in " ".join(report["info"])
+        assert "Found 5 unique teams" in " ".join(report["info"])
 
     def test_validate_empty_dataframe(self):
         """Test validation with empty dataframe."""

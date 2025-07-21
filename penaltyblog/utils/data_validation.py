@@ -8,7 +8,7 @@ including validation of fixtures, stats, and historical data accuracy.
 import logging
 import warnings
 from datetime import datetime, timedelta
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
@@ -42,11 +42,11 @@ class DataQualityValidator:
             If True, raise exceptions for warnings. If False, issue warnings.
         """
         self.strict_mode = strict_mode
-        self.validation_report = {"errors": [], "warnings": [], "info": []}
+        self.validation_report: dict[str, list[str]] = {"errors": [], "warnings": [], "info": []}
 
     def reset_report(self):
         """Reset the validation report."""
-        self.validation_report = {"errors": [], "warnings": [], "info": []}
+        self.validation_report: dict[str, list[str]] = {"errors": [], "warnings": [], "info": []}
 
     def _add_error(self, message: str):
         """Add an error to the report."""
@@ -373,7 +373,7 @@ class DataQualityValidator:
             )
 
     def validate_historical_coverage(
-        self, data_sources: Dict[str, pd.DataFrame], required_seasons: List[str] = None
+        self, data_sources: Dict[str, pd.DataFrame], required_seasons: Optional[List[str]] = None
     ) -> Dict[str, Any]:
         """
         Validate historical data coverage across multiple sources.
@@ -396,7 +396,7 @@ class DataQualityValidator:
             self._add_error("No data sources provided for coverage validation")
             return self.validation_report
 
-        coverage_report = {
+        coverage_report: Dict[str, Any] = {
             "sources": {},
             "season_coverage": {},
             "competition_coverage": {},
