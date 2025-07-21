@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any
 
 from .predicates import AndPredicate, FieldPredicate, NotPredicate, OrPredicate
 

@@ -60,18 +60,18 @@ class FBRef(RequestsScraper):
         """
         try:
             # Validate season format
-            if not season or '-' not in season:
+            if not season or "-" not in season:
                 raise ValueError(f"Invalid season format: {season}")
-            
-            years = season.split('-')
+
+            years = season.split("-")
             if len(years) != 2:
                 raise ValueError(f"Season must be in format YYYY-YYYY, got: {season}")
-            
+
             # Basic validation of years
             start_year, end_year = map(int, years)
             if end_year != start_year + 1:
                 logger.warning(f"Unusual season span: {season}")
-            
+
             return season
         except Exception as e:
             logger.error(f"Error mapping season {season}: {e}")
@@ -82,31 +82,35 @@ class FBRef(RequestsScraper):
         if df.empty:
             logger.warning("Empty dataframe provided to _convert_date")
             return df
-        
+
         try:
-            if 'date' in df.columns and 'time' in df.columns:
+            if "date" in df.columns and "time" in df.columns:
                 # Combine date and time columns
                 datetime_strs = df["date"].astype(str) + " " + df["time"].astype(str)
                 df["datetime"] = pd.to_datetime(datetime_strs, errors="coerce")
-                
+
                 # Count conversion failures
                 failed_conversions = df["datetime"].isna() & df["date"].notna()
                 if failed_conversions.any():
-                    logger.warning(f"Failed to convert {failed_conversions.sum()} datetime values")
-            
-            if 'date' in df.columns:
+                    logger.warning(
+                        f"Failed to convert {failed_conversions.sum()} datetime values"
+                    )
+
+            if "date" in df.columns:
                 df["date"] = pd.to_datetime(df["date"], errors="coerce")
-                
+
                 # Remove rows with invalid dates
                 invalid_dates = df["date"].isna()
                 if invalid_dates.any():
-                    logger.warning(f"Removing {invalid_dates.sum()} rows with invalid dates")
+                    logger.warning(
+                        f"Removing {invalid_dates.sum()} rows with invalid dates"
+                    )
                     df = df[~invalid_dates]
-        
+
         except Exception as e:
             logger.error(f"Error in date conversion: {e}")
             # Continue without date conversion if it fails
-        
+
         return df
 
     def _rename_fixture_columns(self, df) -> pd.DataFrame:
@@ -120,12 +124,12 @@ class FBRef(RequestsScraper):
             "xG": "xg_home",
             "xG.1": "xg_away",
         }
-        
+
         # Only rename columns that exist
         existing_cols = {k: v for k, v in cols.items() if k in df.columns}
         if not existing_cols:
             logger.warning("No expected columns found for renaming")
-        
+
         df = df.rename(columns=existing_cols)
         return df
 
@@ -133,81 +137,91 @@ class FBRef(RequestsScraper):
         """
         Internal function to drop the spacer rows from the fixtures df
         """
-        if 'week' not in df.columns:
+        if "week" not in df.columns:
             logger.warning("No 'week' column found for filtering spacer rows")
             return df
-        
+
         initial_count = len(df)
         df = df[~df["week"].isna()]
         removed_count = initial_count - len(df)
-        
+
         if removed_count > 0:
             logger.info(f"Removed {removed_count} spacer rows")
-        
+
         return df
 
     def _drop_unplayed_fixtures(self, df: pd.DataFrame) -> pd.DataFrame:
         """
         Internal function to drop unplayed fixtures from the fixtures df
         """
-        if 'xg_home' not in df.columns:
+        if "xg_home" not in df.columns:
             logger.warning("No 'xg_home' column found for filtering unplayed fixtures")
             return df
-        
+
         initial_count = len(df)
         df = df[~df["xg_home"].isna()]
         removed_count = initial_count - len(df)
-        
+
         if removed_count > 0:
             logger.info(f"Removed {removed_count} unplayed fixtures")
-        
+
         return df
 
     def _split_score(self, df) -> pd.DataFrame:
         """
         Internal function to split the score column into goals_home and goals_away
         """
-        if 'score' not in df.columns:
+        if "score" not in df.columns:
             logger.warning("No 'score' column found for splitting")
             return df
-        
+
         try:
             # Handle different score formats
             score_parts = df["score"].str.split("–", expand=True)
-            
+
             if score_parts.shape[1] < 2:
                 # Try alternative separators
                 score_parts = df["score"].str.split("-", expand=True)
-            
+
             if score_parts.shape[1] >= 2:
                 df["goals_home"] = pd.to_numeric(score_parts[0], errors="coerce")
                 df["goals_away"] = pd.to_numeric(score_parts[1], errors="coerce")
-                
+
                 # Validate goal values
-                invalid_goals = (df["goals_home"].isna() | df["goals_away"].isna()) & df["score"].notna()
+                invalid_goals = (
+                    df["goals_home"].isna() | df["goals_away"].isna()
+                ) & df["score"].notna()
                 if invalid_goals.any():
-                    logger.warning(f"Failed to parse {invalid_goals.sum()} score values")
+                    logger.warning(
+                        f"Failed to parse {invalid_goals.sum()} score values"
+                    )
             else:
                 logger.warning("Could not split score column - unexpected format")
-        
+
         except Exception as e:
             logger.error(f"Error splitting score column: {e}")
-        
+
         return df
 
     def _validate_fixtures_response(self, content: str, url: str) -> bool:
         """Validate that the fixtures response contains expected data."""
         if not self.validate_response_data(content, url):
             return False
-        
+
         # Check for FBRef-specific content
         required_indicators = ["fixtures", "scores", "table"]
-        found_indicators = sum(1 for indicator in required_indicators if indicator.lower() in content.lower())
-        
+        found_indicators = sum(
+            1
+            for indicator in required_indicators
+            if indicator.lower() in content.lower()
+        )
+
         if found_indicators == 0:
-            logger.warning(f"Response from {url} doesn't appear to contain fixtures data")
+            logger.warning(
+                f"Response from {url} doesn't appear to contain fixtures data"
+            )
             return False
-        
+
         return True
 
     def get_fixtures(self) -> pd.DataFrame:
@@ -223,7 +237,7 @@ class FBRef(RequestsScraper):
         try:
             logger.info(f"Fetching fixtures for {self.competition} {self.season}")
             content = self.get(url)
-            
+
             if not self._validate_fixtures_response(content, url):
                 raise ValueError(f"Invalid fixtures response from {url}")
 
@@ -235,23 +249,28 @@ class FBRef(RequestsScraper):
                 dfs = pd.read_html(io.StringIO(content))
             except ValueError as e:
                 logger.error(f"No tables found in response from {url}")
-                raise ValueError(f"No fixtures data found for {self.competition} {self.season}") from e
-            
+                raise ValueError(
+                    f"No fixtures data found for {self.competition} {self.season}"
+                ) from e
+
             if not dfs:
-                raise ValueError(f"No tables found in fixtures page for {self.competition} {self.season}")
-            
+                raise ValueError(
+                    f"No tables found in fixtures page for {self.competition} {self.season}"
+                )
+
             # Use the first table (fixtures table)
             raw_df = dfs[0]
             logger.info(f"Raw fixtures data shape: {raw_df.shape}")
-            
+
             if raw_df.empty:
-                logger.warning(f"Empty fixtures table for {self.competition} {self.season}")
+                logger.warning(
+                    f"Empty fixtures table for {self.competition} {self.season}"
+                )
                 return pd.DataFrame()
 
             # Process the data pipeline
             df = (
-                raw_df
-                .pipe(self._rename_fixture_columns)
+                raw_df.pipe(self._rename_fixture_columns)
                 .pipe(self._drop_fixture_spacer_rows)
                 .pipe(self._drop_unplayed_fixtures)
                 .pipe(self._convert_date)
@@ -274,59 +293,73 @@ class FBRef(RequestsScraper):
 
             logger.info(f"Successfully processed {len(df)} fixtures")
             return df
-            
+
         except Exception as e:
-            logger.error(f"Error fetching fixtures for {self.competition} {self.season}: {e}")
+            logger.error(
+                f"Error fetching fixtures for {self.competition} {self.season}: {e}"
+            )
             raise
 
     def _flatten_stats_col_names(self, df):
         """Flatten multi-level column names."""
         if isinstance(df.columns, pd.MultiIndex):
             # Flatten multi-level columns
-            df.columns = ['_'.join(col).strip() for col in df.columns.values]
+            df.columns = ["_".join(col).strip() for col in df.columns.values]
             # Clean up column names
-            df.columns = [col.replace('__', '_').strip('_') for col in df.columns]
-        
+            df.columns = [col.replace("__", "_").strip("_") for col in df.columns]
+
         return df
 
     def _set_stat_col_types(self, df):
         """Set appropriate data types for statistical columns."""
         try:
             # Numeric columns that should be converted
-            numeric_patterns = ['goals', 'assists', 'shots', 'passes', 'tackles', 'cards', 'minutes', 'xg', 'xa']
-            
+            numeric_patterns = [
+                "goals",
+                "assists",
+                "shots",
+                "passes",
+                "tackles",
+                "cards",
+                "minutes",
+                "xg",
+                "xa",
+            ]
+
             for col in df.columns:
                 col_lower = col.lower()
                 if any(pattern in col_lower for pattern in numeric_patterns):
-                    df[col] = pd.to_numeric(df[col], errors='coerce')
-            
+                    df[col] = pd.to_numeric(df[col], errors="coerce")
+
         except Exception as e:
             logger.warning(f"Error setting column types: {e}")
-        
+
         return df
 
     def _player_ages(self, df):
         """Process player age information."""
-        if 'age' in df.columns:
+        if "age" in df.columns:
             try:
                 # Extract numeric age from age column (might be in format "23-123")
-                df['age_years'] = df['age'].str.split('-').str[0]
-                df['age_years'] = pd.to_numeric(df['age_years'], errors='coerce')
+                df["age_years"] = df["age"].str.split("-").str[0]
+                df["age_years"] = pd.to_numeric(df["age_years"], errors="coerce")
             except Exception as e:
                 logger.warning(f"Error processing player ages: {e}")
-        
+
         return df
 
     def list_stat_types(self) -> list:
         """
         Returns the stat types available to the .get_stats() function
         """
-        competition_info = COMPETITION_MAPPINGS.get(self.competition, {}).get("fbref", {})
+        competition_info = COMPETITION_MAPPINGS.get(self.competition, {}).get(
+            "fbref", {}
+        )
         stats = competition_info.get("stats", [])
-        
+
         if not stats:
             logger.warning(f"No stat types found for {self.competition}")
-        
+
         return stats
 
     def get_stats(self, stat_type: str) -> dict:
@@ -350,7 +383,7 @@ class FBRef(RequestsScraper):
             "defensive_actions": "defense",
             "playing_time": "playingtime",
         }
-        
+
         page = stat_page_mapping.get(stat_type, stat_type)
 
         url = (
@@ -364,12 +397,14 @@ class FBRef(RequestsScraper):
         )
 
         try:
-            logger.info(f"Fetching {stat_type} stats for {self.competition} {self.season}")
+            logger.info(
+                f"Fetching {stat_type} stats for {self.competition} {self.season}"
+            )
             content = self.get(url)
-            
+
             if not self.validate_response_data(content, url):
                 raise ValueError(f"Invalid stats response from {url}")
-            
+
             # Remove HTML comments
             content = content.replace("<!--", "").replace("-->", "")
 
@@ -377,10 +412,14 @@ class FBRef(RequestsScraper):
                 dfs = pd.read_html(io.StringIO(content))
             except ValueError as e:
                 logger.error(f"No tables found in stats response from {url}")
-                raise ValueError(f"No {stat_type} stats found for {self.competition} {self.season}") from e
-            
+                raise ValueError(
+                    f"No {stat_type} stats found for {self.competition} {self.season}"
+                ) from e
+
             if len(dfs) < 3:
-                raise ValueError(f"Expected 3 tables for {stat_type} stats, found {len(dfs)}")
+                raise ValueError(
+                    f"Expected 3 tables for {stat_type} stats, found {len(dfs)}"
+                )
 
             output = dict()
 
@@ -410,20 +449,19 @@ class FBRef(RequestsScraper):
 
             # Process player stats
             player_df = dfs[2].copy()
-            
+
             # Remove header rows that sometimes appear in player data
-            if 'rk' in player_df.columns:
+            if "rk" in player_df.columns:
                 player_df = player_df.query("rk != 'Rk'").copy()
-                
+
             # Drop unnecessary columns
-            cols_to_drop = ['rk', 'matches']
+            cols_to_drop = ["rk", "matches"]
             cols_to_drop = [col for col in cols_to_drop if col in player_df.columns]
             if cols_to_drop:
                 player_df = player_df.drop(cols_to_drop, axis=1)
 
             output["players"] = (
-                player_df
-                .pipe(self._flatten_stats_col_names)
+                player_df.pipe(self._flatten_stats_col_names)
                 .pipe(sanitize_columns)
                 .assign(season=self.season)
                 .assign(competition=self.competition)
@@ -441,7 +479,9 @@ class FBRef(RequestsScraper):
                     logger.info(f"Successfully processed {len(df)} {key} records")
 
             return output
-            
+
         except Exception as e:
-            logger.error(f"Error fetching {stat_type} stats for {self.competition} {self.season}: {e}")
+            logger.error(
+                f"Error fetching {stat_type} stats for {self.competition} {self.season}: {e}"
+            )
             raise

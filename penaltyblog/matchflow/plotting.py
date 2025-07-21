@@ -40,7 +40,6 @@ NODE_COLOURS = {
     "cache": "#D5DBDB",
     "schema": "#D5DBDB",
     "fused": "#D5DBDB",
-    "pipe": "#D5DBDB",
 }
 
 
@@ -74,7 +73,7 @@ def plot_plan(plan, ax=None, title=""):
         label = labels[node]
         notes = G.nodes[node]["step"].get("_notes")
         if notes:
-            label += f"\n// " + "; ".join(notes)
+            label += "\n// " + "; ".join(notes)
         ax.text(x + 0.05, y, label, ha="left", va="center", fontsize=9, wrap=True)
 
     ax.set_xlim(0, 1)

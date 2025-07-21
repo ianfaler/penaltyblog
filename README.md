@@ -49,6 +49,51 @@ Take your football analytics and betting strategy to the next level with **penal
 pip install penaltyblog
 ```
 
+## Quick-start
+
+Get up and running with **penaltyblog** in three simple commands:
+
+### 1. Clone and Setup
+```bash
+git clone https://github.com/martineastwood/penaltyblog.git
+cd penaltyblog
+make setup
+```
+
+### 2. Activate Environment
+```bash
+source venv/bin/activate
+```
+
+### 3. Run Demo Pipeline
+```bash
+python -m examples.demo_pipeline
+```
+
+This will:
+- ✅ Scrape live Premier League data
+- 🤖 Train a Poisson goals model
+- 💰 Calculate implied probabilities
+- ⭐ Generate team ratings
+- 📊 Evaluate model performance
+- 💾 Save all outputs to `examples/demo_output/`
+
+### Environment Variables
+
+Copy `.env.example` to `.env` and configure any required API keys:
+
+```bash
+cp .env.example .env
+# Edit .env with your API keys (all optional)
+```
+
+### Verify Installation
+
+```bash
+pytest test/  # Run all tests
+make check    # Run linting and type checking
+```
+
 ## Documentation
 
 Learn more about how to utilize `penaltyblog` by exploring the [official documentation](https://penaltyblog.readthedocs.io/en/latest/) and detailed examples:

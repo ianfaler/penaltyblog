@@ -1,13 +1,12 @@
 import pickle
 import logging
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 import numpy as np
 
 from penaltyblog.models.custom_types import (
     GoalInput,
-    ParamsOutput,
     TeamInput,
     WeightInput,
 )
@@ -17,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 class ModelNotFittedError(ValueError):
     """Raised when attempting to use an unfitted model."""
+
     pass
 
 
@@ -42,10 +42,10 @@ class BaseGoalsModel(ABC):
         # Initialize fitted status
         self.fitted = False
         self._params = None
-        
+
         # Validate and convert inputs to numpy arrays
         self._validate_inputs(goals_home, goals_away, teams_home, teams_away, weights)
-        
+
         # Convert inputs to numpy arrays
         self.goals_home = np.asarray(goals_home, dtype=np.int64, order="C")
         self.goals_away = np.asarray(goals_away, dtype=np.int64, order="C")
@@ -66,7 +66,13 @@ class BaseGoalsModel(ABC):
                 )
 
         # Validate that arrays have consistent lengths
-        arrays = [self.goals_home, self.goals_away, self.teams_home, self.teams_away, self.weights]
+        arrays = [
+            self.goals_home,
+            self.goals_away,
+            self.teams_home,
+            self.teams_away,
+            self.weights,
+        ]
         lengths = [len(arr) for arr in arrays]
         if not all(length == n_matches for length in lengths):
             raise ValueError(
@@ -81,44 +87,48 @@ class BaseGoalsModel(ABC):
 
         # Set up teams after validation
         self._setup_teams()
-        
-        logger.info(f"Initialized {self.__class__.__name__} with {n_matches} matches and {self.n_teams} teams")
+
+        logger.info(
+            f"Initialized {self.__class__.__name__} with {n_matches} matches and {self.n_teams} teams"
+        )
 
     def _validate_inputs(self, goals_home, goals_away, teams_home, teams_away, weights):
         """Validate input data types and basic constraints."""
-        
+
         # Check that inputs are not None
         if any(x is None for x in [goals_home, goals_away, teams_home, teams_away]):
-            raise ValueError("goals_home, goals_away, teams_home, and teams_away cannot be None")
-        
+            raise ValueError(
+                "goals_home, goals_away, teams_home, and teams_away cannot be None"
+            )
+
         # Check that inputs are not empty
         if any(len(x) == 0 for x in [goals_home, goals_away, teams_home, teams_away]):
             raise ValueError("Input arrays cannot be empty")
-        
+
         # Validate goal values are non-negative integers
         try:
             goals_home_arr = np.asarray(goals_home, dtype=np.int64)
             goals_away_arr = np.asarray(goals_away, dtype=np.int64)
-            
+
             if np.any(goals_home_arr < 0):
                 raise ValueError("Home goals must be non-negative integers")
             if np.any(goals_away_arr < 0):
                 raise ValueError("Away goals must be non-negative integers")
-                
+
         except (ValueError, TypeError) as e:
             raise ValueError(f"Goals must be convertible to non-negative integers: {e}")
-        
+
         # Validate team names are not empty strings
         try:
             teams_home_arr = np.asarray(teams_home, dtype=str)
             teams_away_arr = np.asarray(teams_away, dtype=str)
-            
-            if np.any(teams_home_arr == '') or np.any(teams_away_arr == ''):
+
+            if np.any(teams_home_arr == "") or np.any(teams_away_arr == ""):
                 raise ValueError("Team names cannot be empty strings")
-                
+
         except (ValueError, TypeError) as e:
             raise ValueError(f"Team names must be convertible to strings: {e}")
-        
+
         # Validate weights if provided
         if weights is not None:
             try:
@@ -128,7 +138,9 @@ class BaseGoalsModel(ABC):
                 if np.any(~np.isfinite(weights_arr)):
                     raise ValueError("Weights must be finite values")
             except (ValueError, TypeError) as e:
-                raise ValueError(f"Weights must be convertible to non-negative finite numbers: {e}")
+                raise ValueError(
+                    f"Weights must be convertible to non-negative finite numbers: {e}"
+                )
 
     def _setup_teams(self):
         """Set up unique teams and mappings for fast lookup."""
@@ -136,10 +148,10 @@ class BaseGoalsModel(ABC):
             np.unique(np.concatenate([self.teams_home, self.teams_away]))
         )
         self.n_teams = len(self.teams)
-        
+
         if self.n_teams < 2:
             raise ValueError(f"Must have at least 2 unique teams, got {self.n_teams}")
-        
+
         self.team_to_idx = {team: i for i, team in enumerate(self.teams)}
         self.home_idx = np.array(
             [self.team_to_idx[t] for t in self.teams_home], dtype=np.int64, order="C"
@@ -160,15 +172,19 @@ class BaseGoalsModel(ABC):
         """Validate that teams exist in the training data."""
         if home_team not in self.team_to_idx:
             available_teams = ", ".join(sorted(self.teams[:10]))  # Show first 10 teams
-            more_text = f" and {len(self.teams) - 10} more" if len(self.teams) > 10 else ""
+            more_text = (
+                f" and {len(self.teams) - 10} more" if len(self.teams) > 10 else ""
+            )
             raise ValueError(
                 f"Home team '{home_team}' not found in training data. "
                 f"Available teams: {available_teams}{more_text}"
             )
-            
+
         if away_team not in self.team_to_idx:
             available_teams = ", ".join(sorted(self.teams[:10]))  # Show first 10 teams
-            more_text = f" and {len(self.teams) - 10} more" if len(self.teams) > 10 else ""
+            more_text = (
+                f" and {len(self.teams) - 10} more" if len(self.teams) > 10 else ""
+            )
             raise ValueError(
                 f"Away team '{away_team}' not found in training data. "
                 f"Available teams: {available_teams}{more_text}"
@@ -261,19 +277,21 @@ class BaseGoalsModel(ABC):
     def __repr__(self):
         """String representation of the model."""
         lines = [
-            f"Module: Penaltyblog",
-            f"",
+            "Module: Penaltyblog",
+            "",
             f"Model: {self.__class__.__name__}",
-            f"",
+            "",
         ]
-        
+
         if not self.fitted:
             lines.append("Status: Model not fitted")
         else:
-            lines.extend([
-                f"Teams: {self.n_teams}",
-                f"Matches: {len(self.goals_home)}",
-                "Status: Model fitted and ready for predictions",
-            ])
-        
+            lines.extend(
+                [
+                    f"Teams: {self.n_teams}",
+                    f"Matches: {len(self.goals_home)}",
+                    "Status: Model fitted and ready for predictions",
+                ]
+            )
+
         return "\n".join(lines)

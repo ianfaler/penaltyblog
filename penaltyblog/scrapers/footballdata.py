@@ -62,7 +62,7 @@ class FootballData(RequestsScraper):
             years = season.split("-")
             if len(years) != 2:
                 raise ValueError(f"Season format should be YYYY-YYYY, got: {season}")
-            
+
             part1 = years[0][-2:]
             part2 = years[1][-2:]
             mapped = part1 + part2
@@ -80,8 +80,8 @@ class FootballData(RequestsScraper):
             return df
 
         # Remove any completely empty rows
-        df = df.dropna(how='all')
-        
+        df = df.dropna(how="all")
+
         if df.empty or "Date" not in df.columns:
             logger.warning("No Date column found or dataframe is empty after cleaning")
             return df
@@ -89,7 +89,7 @@ class FootballData(RequestsScraper):
         # Filter out rows with null/empty dates
         date_mask = df["Date"].notna() & (df["Date"] != "") & (df["Date"] != "Date")
         df = df[date_mask]
-        
+
         if df.empty:
             logger.warning("No valid dates found in dataframe")
             return df
@@ -97,45 +97,47 @@ class FootballData(RequestsScraper):
         try:
             # Check for date format - could be either %d/%m/%Y or %d/%m/%y
             sample_date = str(df["Date"].iloc[0]).strip()
-            
-            if not sample_date or sample_date.lower() == 'nan':
+
+            if not sample_date or sample_date.lower() == "nan":
                 logger.warning("First date value is empty or NaN")
                 return df
-                
+
             # Determine date format based on sample
             date_format = "%d/%m/%y" if len(sample_date) <= 8 else "%d/%m/%Y"
-            logger.info(f"Using date format: {date_format} for sample date: {sample_date}")
+            logger.info(
+                f"Using date format: {date_format} for sample date: {sample_date}"
+            )
 
             # Convert datetime column if Time exists
             if "Time" in df.columns:
                 time_mask = df["Time"].notna() & (df["Time"] != "")
                 valid_time_df = df[time_mask].copy()
-                
+
                 if not valid_time_df.empty:
                     time_format = date_format + " %H:%M"
                     valid_time_df["datetime"] = pd.to_datetime(
-                        valid_time_df["Date"].astype(str) + " " + valid_time_df["Time"].astype(str), 
-                        format=time_format, 
-                        errors="coerce"
+                        valid_time_df["Date"].astype(str)
+                        + " "
+                        + valid_time_df["Time"].astype(str),
+                        format=time_format,
+                        errors="coerce",
                     )
                     # Merge back the datetime column
                     df = df.merge(
-                        valid_time_df[["datetime"]], 
-                        left_index=True, 
-                        right_index=True, 
-                        how="left"
+                        valid_time_df[["datetime"]],
+                        left_index=True,
+                        right_index=True,
+                        how="left",
                     )
 
             # Convert Date column with robust error handling
             df["Date"] = pd.to_datetime(
-                df["Date"].astype(str), 
-                format=date_format, 
-                errors="coerce"
+                df["Date"].astype(str), format=date_format, errors="coerce"
             )
-            
+
             # Remove rows where date conversion failed
             df = df.dropna(subset=["Date"])
-            
+
             if df.empty:
                 logger.warning("No valid dates remain after conversion")
             else:
@@ -144,7 +146,9 @@ class FootballData(RequestsScraper):
         except Exception as e:
             logger.error(f"Error in date conversion: {e}")
             # Return dataframe with original date column if conversion fails
-            logger.warning("Falling back to original date column due to conversion error")
+            logger.warning(
+                "Falling back to original date column due to conversion error"
+            )
 
         return df
 
@@ -155,14 +159,16 @@ class FootballData(RequestsScraper):
         if df.empty:
             logger.warning("Empty fixtures dataframe")
             return df
-            
+
         required_columns = ["team_home", "team_away", "fthg", "ftag"]
         missing_columns = [col for col in required_columns if col not in df.columns]
-        
+
         if missing_columns:
             logger.error(f"Missing required columns: {missing_columns}")
-            raise ValueError(f"Missing required columns in fixtures data: {missing_columns}")
-        
+            raise ValueError(
+                f"Missing required columns in fixtures data: {missing_columns}"
+            )
+
         # Check for invalid scores (negative values, non-numeric)
         for col in ["fthg", "ftag"]:
             df[col] = pd.to_numeric(df[col], errors="coerce")
@@ -170,7 +176,7 @@ class FootballData(RequestsScraper):
             if invalid_scores.any():
                 logger.warning(f"Found {invalid_scores.sum()} invalid scores in {col}")
                 df = df[~invalid_scores]
-        
+
         # Check for missing team names
         team_cols = ["team_home", "team_away"]
         for col in team_cols:
@@ -178,7 +184,7 @@ class FootballData(RequestsScraper):
             if empty_teams.any():
                 logger.warning(f"Found {empty_teams.sum()} empty team names in {col}")
                 df = df[~empty_teams]
-        
+
         logger.info(f"Validated fixtures data: {len(df)} valid rows remaining")
         return df
 
@@ -198,30 +204,31 @@ class FootballData(RequestsScraper):
         try:
             logger.info(f"Fetching fixtures for {self.competition} {self.season}")
             content = self.get(url)
-            
+
             if not self.validate_response_data(content, url):
                 raise ValueError(f"Invalid response data from {url}")
-            
+
             # Read CSV with error handling for malformed data
             try:
                 raw_df = pd.read_csv(io.StringIO(content))
             except pd.errors.EmptyDataError:
                 logger.error(f"Empty CSV data from {url}")
-                raise ValueError(f"No data available for {self.competition} {self.season}")
+                raise ValueError(
+                    f"No data available for {self.competition} {self.season}"
+                )
             except pd.errors.ParserError as e:
                 logger.error(f"CSV parsing error from {url}: {e}")
                 raise ValueError(f"Malformed CSV data from {url}") from e
-            
+
             if raw_df.empty:
                 logger.warning(f"Empty dataframe from {url}")
                 return pd.DataFrame()
-            
+
             logger.info(f"Raw data shape: {raw_df.shape}")
-            
+
             # Process data with validation at each step
             df = (
-                raw_df
-                .pipe(self._convert_date)
+                raw_df.pipe(self._convert_date)
                 .rename(columns=col_renames)
                 .pipe(self._validate_fixtures_data)
                 .pipe(sanitize_columns)
@@ -246,7 +253,9 @@ class FootballData(RequestsScraper):
 
             logger.info(f"Successfully processed {len(df)} fixtures")
             return df
-            
+
         except Exception as e:
-            logger.error(f"Error fetching fixtures for {self.competition} {self.season}: {e}")
+            logger.error(
+                f"Error fetching fixtures for {self.competition} {self.season}: {e}"
+            )
             raise
