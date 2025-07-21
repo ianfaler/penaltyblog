@@ -65,9 +65,9 @@ class PoissonGoalsModel(BaseGoalsModel):
 
         self._params = np.concatenate(
             (
-                [1] * self.n_teams,
-                [-1] * self.n_teams,
-                [0.5],  # home advantage
+                [0.0] * self.n_teams,  # Start with neutral attack values
+                [0.0] * self.n_teams,  # Start with neutral defense values
+                [0.3],  # home advantage
             )
         )
 
@@ -157,10 +157,10 @@ class PoissonGoalsModel(BaseGoalsModel):
 
     def fit(self):
         options = {"maxiter": 1000, "disp": False}
-        constraints = [
-            {"type": "eq", "fun": lambda x: sum(x[: self.n_teams]) - self.n_teams}
-        ]
-        bounds = [(-3, 3)] * self.n_teams + [(-3, 3)] * self.n_teams + [(0, 3)]
+        # Remove the problematic constraint that's causing convergence issues
+        # The model will find natural parameter values without forcing sum constraints
+        constraints = []
+        bounds = [(-2, 2)] * self.n_teams + [(-2, 2)] * self.n_teams + [(0, 1)]
 
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore")
@@ -170,6 +170,7 @@ class PoissonGoalsModel(BaseGoalsModel):
                 constraints=constraints,
                 bounds=bounds,
                 options=options,
+                method='L-BFGS-B',
                 # jac=self._gradient,
             )
 

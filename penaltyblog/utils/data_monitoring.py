@@ -9,7 +9,7 @@ import json
 import logging
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
@@ -60,8 +60,8 @@ class DataFreshnessMonitor:
         source: str,
         competition: str,
         season: str,
-        data_hash: str = None,
-        record_count: int = None,
+        data_hash: Optional[str] = None,
+        record_count: Optional[int] = None,
     ):
         """
         Record a data fetch operation.
@@ -153,7 +153,7 @@ class DataFreshnessMonitor:
         competition: str,
         season: str,
         current_data_hash: str,
-        current_record_count: int = None,
+        current_record_count: Optional[int] = None,
     ) -> Dict[str, Any]:
         """
         Detect if data has changed since last fetch.

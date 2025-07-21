@@ -199,6 +199,8 @@ class FootballData(RequestsScraper):
         col_renames = {
             "HomeTeam": "team_home",
             "AwayTeam": "team_away",
+            "FTHG": "fthg",
+            "FTAG": "ftag",
         }
 
         try:
