@@ -1,21 +1,21 @@
 team_home,team_away,goals_home,goals_away,datetime
-Man City,Arsenal,0,0,2024-01-01
-Arsenal,Tottenham,1,1,2024-01-08
-Man City,Liverpool,1,1,2024-01-15
-Tottenham,Chelsea,0,3,2024-01-22
-Tottenham,Arsenal,0,2,2024-01-29
-Tottenham,Chelsea,1,4,2024-02-05
-Man City,Man Utd,0,0,2024-02-12
-Man Utd,Liverpool,2,1,2024-02-19
-Man City,Chelsea,2,0,2024-02-26
-Tottenham,Chelsea,1,0,2024-03-04
-Chelsea,Liverpool,1,5,2024-03-11
-Man City,Man Utd,0,1,2024-03-18
-Man Utd,Chelsea,1,0,2024-03-25
-Tottenham,Chelsea,2,0,2024-04-01
-Man Utd,Tottenham,2,3,2024-04-08
-Arsenal,Man City,2,2,2024-04-15
-Tottenham,Man Utd,0,3,2024-04-22
-Man Utd,Liverpool,2,1,2024-04-29
-Man City,Chelsea,0,1,2024-05-06
-Arsenal,Liverpool,0,1,2024-05-13
+Tottenham,Arsenal,3,1,2024-01-01
+Arsenal,Man Utd,2,0,2024-01-08
+Man City,Liverpool,0,2,2024-01-15
+Man City,Liverpool,2,0,2024-01-22
+Man Utd,Tottenham,2,2,2024-01-29
+Arsenal,Tottenham,1,1,2024-02-05
+Liverpool,Arsenal,0,2,2024-02-12
+Man City,Arsenal,1,1,2024-02-19
+Man Utd,Tottenham,1,1,2024-02-26
+Arsenal,Man City,0,0,2024-03-04
+Liverpool,Tottenham,0,0,2024-03-11
+Arsenal,Liverpool,2,1,2024-03-18
+Man City,Chelsea,3,2,2024-03-25
+Tottenham,Chelsea,1,2,2024-04-01
+Chelsea,Man Utd,3,0,2024-04-08
+Man City,Man Utd,0,0,2024-04-15
+Man City,Chelsea,0,1,2024-04-22
+Arsenal,Chelsea,0,1,2024-04-29
+Arsenal,Man Utd,1,0,2024-05-06
+Man Utd,Tottenham,0,0,2024-05-13
