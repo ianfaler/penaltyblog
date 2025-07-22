@@ -24,6 +24,7 @@ try:
     from penaltyblog.scrapers.fbref import FBRef
     from penaltyblog.scrapers.understat import Understat
     from penaltyblog.scrapers.footballdata import FootballData
+    from penaltyblog.scrapers.mls_official import MLSOfficial
     from penaltyblog.scrapers.common import COMPETITION_MAPPINGS
 except ImportError as e:
     # Fallback direct imports to avoid package dependency issues
@@ -37,6 +38,7 @@ except ImportError as e:
     from fbref import FBRef
     from understat import Understat
     from footballdata import FootballData
+    from mls_official import MLSOfficial
     from common import COMPETITION_MAPPINGS
 
 # Set up logging
@@ -98,6 +100,9 @@ LEAGUE_TO_COMPETITION = {
     
     # English League Two  
     "ENG_L2": "ENG League 2",
+    
+    # MLS
+    "USA_ML": "USA Major League Soccer",
     
     # English Conference
     "ENG_CN": "ENG Conference",
