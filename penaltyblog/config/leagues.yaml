@@ -5,7 +5,7 @@ leagues:
     country: "England"
     tier: 1
     season_id: "2024-25"
-    url_template: "https://www.premierleague.com/fixtures-results"
+    url_template: "https://fantasy.premierleague.com/api/fixtures/"
   
   ESP_LL:
     name: "La Liga"

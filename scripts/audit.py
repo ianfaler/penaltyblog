@@ -574,8 +574,9 @@ class DataIntegrityAuditor:
         print("\n" + "="*70)
         
         # Exit with appropriate code
-        if self.failures:
-            print(f"💥 AUDIT FAILED - {len(self.failures)} league(s) failed validation")
+        failed_leagues = [code for code, result in results.items() if result['status'] == 'FAIL']
+        if failed_leagues or self.failures:
+            print(f"💥 AUDIT FAILED - {len(failed_leagues)} league(s) failed")
             return 1
         else:
             print("🎉 AUDIT PASSED - All leagues validated successfully")

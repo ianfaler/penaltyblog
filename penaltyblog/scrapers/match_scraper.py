@@ -20,7 +20,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from penaltyblog.config.leagues import load_leagues, get_league_by_code, get_default_league
-from penaltyblog.scrapers.parsers import parse_html_to_dataframe, merge_fixture_dataframes
+from penaltyblog.scrapers.parsers import parse_html_to_dataframe, merge_fixture_dataframes, parse_league_data
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -51,7 +51,7 @@ class MatchScraper:
         
     def scrape_league(self, league_code: str) -> pd.DataFrame:
         """
-        Scrape match data for a specific league.
+        Scrape match data for a specific league with enhanced error handling.
         
         Parameters
         ----------
@@ -74,11 +74,8 @@ class MatchScraper:
             url = league.get_url()
             logger.debug(f"Fetching data from: {url}")
             
-            response = self.session.get(url, timeout=self.timeout)
-            response.raise_for_status()
-            
-            # Parse HTML to DataFrame
-            df = parse_html_to_dataframe(response.text, league_code)
+            # Use the enhanced parser with automatic format detection and error handling
+            df = parse_league_data(url, league_code, 'auto')
             
             if df.empty:
                 logger.warning(f"No match data found for {league.display_name}")
@@ -92,11 +89,8 @@ class MatchScraper:
             logger.info(f"✅ Successfully scraped {len(df)} matches from {league.display_name}")
             return df
             
-        except requests.RequestException as e:
-            logger.error(f"❌ Failed to fetch data for {league.display_name}: {e}")
-            return pd.DataFrame()
         except Exception as e:
-            logger.error(f"❌ Failed to parse data for {league.display_name}: {e}")
+            logger.error(f"❌ Failed to scrape data for {league.display_name}: {e}")
             return pd.DataFrame()
     
     def scrape_multiple_leagues(self, league_codes: List[str]) -> Dict[str, pd.DataFrame]:
