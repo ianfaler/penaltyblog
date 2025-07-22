@@ -1,0 +1,381 @@
+date,home,away,home_score,away_score,xg_home,xg_away,league_code,league_name,country,date_parsed
+2025-08-15,Man City,Brentford,,,,,ENG_PL,Premier League,England,2025-08-15
+2025-08-16,Aston Villa,Nottm Forest,,,,,ENG_PL,Premier League,England,2025-08-16
+2025-08-16,Chelsea,Liverpool,,,,,ENG_PL,Premier League,England,2025-08-16
+2025-08-16,West Ham,Bournemouth,,,,,ENG_PL,Premier League,England,2025-08-16
+2025-08-16,Spurs,Wolves,,,,,ENG_PL,Premier League,England,2025-08-16
+2025-08-16,Burnley,Man Utd,,,,,ENG_PL,Premier League,England,2025-08-16
+2025-08-17,Crystal Palace,Everton,,,,,ENG_PL,Premier League,England,2025-08-17
+2025-08-17,Sheffield Utd,Brighton,,,,,ENG_PL,Premier League,England,2025-08-17
+2025-08-17,Newcastle,Arsenal,,,,,ENG_PL,Premier League,England,2025-08-17
+2025-08-18,Luton,Fulham,,,,,ENG_PL,Premier League,England,2025-08-18
+2025-08-22,Wolves,Crystal Palace,,,,,ENG_PL,Premier League,England,2025-08-22
+2025-08-23,Man Utd,West Ham,,,,,ENG_PL,Premier League,England,2025-08-23
+2025-08-23,Brentford,Burnley,,,,,ENG_PL,Premier League,England,2025-08-23
+2025-08-23,Brighton,Aston Villa,,,,,ENG_PL,Premier League,England,2025-08-23
+2025-08-23,Bournemouth,Spurs,,,,,ENG_PL,Premier League,England,2025-08-23
+2025-08-23,Arsenal,Luton,,,,,ENG_PL,Premier League,England,2025-08-23
+2025-08-24,Everton,Sheffield Utd,,,,,ENG_PL,Premier League,England,2025-08-24
+2025-08-24,Fulham,Chelsea,,,,,ENG_PL,Premier League,England,2025-08-24
+2025-08-24,Liverpool,Newcastle,,,,,ENG_PL,Premier League,England,2025-08-24
+2025-08-25,Nottm Forest,Man City,,,,,ENG_PL,Premier League,England,2025-08-25
+2025-08-29,Aston Villa,Everton,,,,,ENG_PL,Premier League,England,2025-08-29
+2025-08-30,Crystal Palace,Liverpool,,,,,ENG_PL,Premier League,England,2025-08-30
+2025-08-30,Newcastle,Bournemouth,,,,,ENG_PL,Premier League,England,2025-08-30
+2025-08-30,West Ham,Brentford,,,,,ENG_PL,Premier League,England,2025-08-30
+2025-08-30,Spurs,Brighton,,,,,ENG_PL,Premier League,England,2025-08-30
+2025-08-30,Burnley,Fulham,,,,,ENG_PL,Premier League,England,2025-08-30
+2025-08-30,Luton,Nottm Forest,,,,,ENG_PL,Premier League,England,2025-08-30
+2025-08-31,Chelsea,Man Utd,,,,,ENG_PL,Premier League,England,2025-08-31
+2025-08-31,Sheffield Utd,Wolves,,,,,ENG_PL,Premier League,England,2025-08-31
+2025-08-31,Man City,Arsenal,,,,,ENG_PL,Premier League,England,2025-08-31
+2025-09-13,Arsenal,Sheffield Utd,,,,,ENG_PL,Premier League,England,2025-09-13
+2025-09-13,Brentford,Chelsea,,,,,ENG_PL,Premier League,England,2025-09-13
+2025-09-13,Brighton,Crystal Palace,,,,,ENG_PL,Premier League,England,2025-09-13
+2025-09-13,Bournemouth,Man City,,,,,ENG_PL,Premier League,England,2025-09-13
+2025-09-13,Everton,Spurs,,,,,ENG_PL,Premier League,England,2025-09-13
+2025-09-13,Fulham,Aston Villa,,,,,ENG_PL,Premier League,England,2025-09-13
+2025-09-13,Liverpool,Luton,,,,,ENG_PL,Premier League,England,2025-09-13
+2025-09-13,Man Utd,Newcastle,,,,,ENG_PL,Premier League,England,2025-09-13
+2025-09-13,Nottm Forest,Burnley,,,,,ENG_PL,Premier League,England,2025-09-13
+2025-09-13,Wolves,West Ham,,,,,ENG_PL,Premier League,England,2025-09-13
+2025-09-20,Arsenal,Man Utd,,,,,ENG_PL,Premier League,England,2025-09-20
+2025-09-20,Brentford,Nottm Forest,,,,,ENG_PL,Premier League,England,2025-09-20
+2025-09-20,Chelsea,West Ham,,,,,ENG_PL,Premier League,England,2025-09-20
+2025-09-20,Bournemouth,Sheffield Utd,,,,,ENG_PL,Premier League,England,2025-09-20
+2025-09-20,Liverpool,Brighton,,,,,ENG_PL,Premier League,England,2025-09-20
+2025-09-20,Man City,Fulham,,,,,ENG_PL,Premier League,England,2025-09-20
+2025-09-20,Newcastle,Crystal Palace,,,,,ENG_PL,Premier League,England,2025-09-20
+2025-09-20,Spurs,Aston Villa,,,,,ENG_PL,Premier League,England,2025-09-20
+2025-09-20,Wolves,Everton,,,,,ENG_PL,Premier League,England,2025-09-20
+2025-09-20,Burnley,Luton,,,,,ENG_PL,Premier League,England,2025-09-20
+2025-09-27,Aston Villa,Liverpool,,,,,ENG_PL,Premier League,England,2025-09-27
+2025-09-27,Brighton,Newcastle,,,,,ENG_PL,Premier League,England,2025-09-27
+2025-09-27,Crystal Palace,Chelsea,,,,,ENG_PL,Premier League,England,2025-09-27
+2025-09-27,Everton,Man City,,,,,ENG_PL,Premier League,England,2025-09-27
+2025-09-27,Fulham,Wolves,,,,,ENG_PL,Premier League,England,2025-09-27
+2025-09-27,Luton,Brentford,,,,,ENG_PL,Premier League,England,2025-09-27
+2025-09-27,Man Utd,Bournemouth,,,,,ENG_PL,Premier League,England,2025-09-27
+2025-09-27,Nottm Forest,Arsenal,,,,,ENG_PL,Premier League,England,2025-09-27
+2025-09-27,Sheffield Utd,Spurs,,,,,ENG_PL,Premier League,England,2025-09-27
+2025-09-27,West Ham,Burnley,,,,,ENG_PL,Premier League,England,2025-09-27
+2025-10-04,Arsenal,Wolves,,,,,ENG_PL,Premier League,England,2025-10-04
+2025-10-04,Aston Villa,Bournemouth,,,,,ENG_PL,Premier League,England,2025-10-04
+2025-10-04,Brentford,Liverpool,,,,,ENG_PL,Premier League,England,2025-10-04
+2025-10-04,Brighton,Man Utd,,,,,ENG_PL,Premier League,England,2025-10-04
+2025-10-04,Crystal Palace,Man City,,,,,ENG_PL,Premier League,England,2025-10-04
+2025-10-04,Fulham,Everton,,,,,ENG_PL,Premier League,England,2025-10-04
+2025-10-04,Luton,West Ham,,,,,ENG_PL,Premier League,England,2025-10-04
+2025-10-04,Newcastle,Spurs,,,,,ENG_PL,Premier League,England,2025-10-04
+2025-10-04,Nottm Forest,Sheffield Utd,,,,,ENG_PL,Premier League,England,2025-10-04
+2025-10-04,Burnley,Chelsea,,,,,ENG_PL,Premier League,England,2025-10-04
+2025-10-18,Chelsea,Nottm Forest,,,,,ENG_PL,Premier League,England,2025-10-18
+2025-10-18,Bournemouth,Luton,,,,,ENG_PL,Premier League,England,2025-10-18
+2025-10-18,Everton,Brentford,,,,,ENG_PL,Premier League,England,2025-10-18
+2025-10-18,Liverpool,Arsenal,,,,,ENG_PL,Premier League,England,2025-10-18
+2025-10-18,Man City,Newcastle,,,,,ENG_PL,Premier League,England,2025-10-18
+2025-10-18,Man Utd,Fulham,,,,,ENG_PL,Premier League,England,2025-10-18
+2025-10-18,Sheffield Utd,Crystal Palace,,,,,ENG_PL,Premier League,England,2025-10-18
+2025-10-18,West Ham,Aston Villa,,,,,ENG_PL,Premier League,England,2025-10-18
+2025-10-18,Spurs,Burnley,,,,,ENG_PL,Premier League,England,2025-10-18
+2025-10-18,Wolves,Brighton,,,,,ENG_PL,Premier League,England,2025-10-18
+2025-10-25,Arsenal,Everton,,,,,ENG_PL,Premier League,England,2025-10-25
+2025-10-25,Aston Villa,Man Utd,,,,,ENG_PL,Premier League,England,2025-10-25
+2025-10-25,Brentford,Sheffield Utd,,,,,ENG_PL,Premier League,England,2025-10-25
+2025-10-25,Brighton,Man City,,,,,ENG_PL,Premier League,England,2025-10-25
+2025-10-25,Crystal Palace,Spurs,,,,,ENG_PL,Premier League,England,2025-10-25
+2025-10-25,Fulham,West Ham,,,,,ENG_PL,Premier League,England,2025-10-25
+2025-10-25,Luton,Wolves,,,,,ENG_PL,Premier League,England,2025-10-25
+2025-10-25,Newcastle,Chelsea,,,,,ENG_PL,Premier League,England,2025-10-25
+2025-10-25,Nottm Forest,Liverpool,,,,,ENG_PL,Premier League,England,2025-10-25
+2025-10-25,Burnley,Bournemouth,,,,,ENG_PL,Premier League,England,2025-10-25
+2025-11-01,Chelsea,Luton,,,,,ENG_PL,Premier League,England,2025-11-01
+2025-11-01,Bournemouth,Arsenal,,,,,ENG_PL,Premier League,England,2025-11-01
+2025-11-01,Everton,Brighton,,,,,ENG_PL,Premier League,England,2025-11-01
+2025-11-01,Liverpool,Burnley,,,,,ENG_PL,Premier League,England,2025-11-01
+2025-11-01,Man City,Aston Villa,,,,,ENG_PL,Premier League,England,2025-11-01
+2025-11-01,Man Utd,Brentford,,,,,ENG_PL,Premier League,England,2025-11-01
+2025-11-01,Sheffield Utd,Newcastle,,,,,ENG_PL,Premier League,England,2025-11-01
+2025-11-01,West Ham,Crystal Palace,,,,,ENG_PL,Premier League,England,2025-11-01
+2025-11-01,Spurs,Fulham,,,,,ENG_PL,Premier League,England,2025-11-01
+2025-11-01,Wolves,Nottm Forest,,,,,ENG_PL,Premier League,England,2025-11-01
+2025-11-08,Aston Villa,Brentford,,,,,ENG_PL,Premier League,England,2025-11-08
+2025-11-08,Brighton,Nottm Forest,,,,,ENG_PL,Premier League,England,2025-11-08
+2025-11-08,Crystal Palace,Burnley,,,,,ENG_PL,Premier League,England,2025-11-08
+2025-11-08,Everton,Chelsea,,,,,ENG_PL,Premier League,England,2025-11-08
+2025-11-08,Fulham,Liverpool,,,,,ENG_PL,Premier League,England,2025-11-08
+2025-11-08,Man Utd,Man City,,,,,ENG_PL,Premier League,England,2025-11-08
+2025-11-08,Sheffield Utd,Luton,,,,,ENG_PL,Premier League,England,2025-11-08
+2025-11-08,West Ham,Newcastle,,,,,ENG_PL,Premier League,England,2025-11-08
+2025-11-08,Spurs,Arsenal,,,,,ENG_PL,Premier League,England,2025-11-08
+2025-11-08,Wolves,Bournemouth,,,,,ENG_PL,Premier League,England,2025-11-08
+2025-11-22,Arsenal,West Ham,,,,,ENG_PL,Premier League,England,2025-11-22
+2025-11-22,Brentford,Wolves,,,,,ENG_PL,Premier League,England,2025-11-22
+2025-11-22,Chelsea,Brighton,,,,,ENG_PL,Premier League,England,2025-11-22
+2025-11-22,Bournemouth,Crystal Palace,,,,,ENG_PL,Premier League,England,2025-11-22
+2025-11-22,Liverpool,Spurs,,,,,ENG_PL,Premier League,England,2025-11-22
+2025-11-22,Luton,Aston Villa,,,,,ENG_PL,Premier League,England,2025-11-22
+2025-11-22,Man City,Sheffield Utd,,,,,ENG_PL,Premier League,England,2025-11-22
+2025-11-22,Newcastle,Fulham,,,,,ENG_PL,Premier League,England,2025-11-22
+2025-11-22,Nottm Forest,Man Utd,,,,,ENG_PL,Premier League,England,2025-11-22
+2025-11-22,Burnley,Everton,,,,,ENG_PL,Premier League,England,2025-11-22
+2025-11-29,Aston Villa,Burnley,,,,,ENG_PL,Premier League,England,2025-11-29
+2025-11-29,Brighton,Bournemouth,,,,,ENG_PL,Premier League,England,2025-11-29
+2025-11-29,Crystal Palace,Arsenal,,,,,ENG_PL,Premier League,England,2025-11-29
+2025-11-29,Everton,Newcastle,,,,,ENG_PL,Premier League,England,2025-11-29
+2025-11-29,Fulham,Nottm Forest,,,,,ENG_PL,Premier League,England,2025-11-29
+2025-11-29,Man Utd,Luton,,,,,ENG_PL,Premier League,England,2025-11-29
+2025-11-29,Sheffield Utd,Chelsea,,,,,ENG_PL,Premier League,England,2025-11-29
+2025-11-29,West Ham,Liverpool,,,,,ENG_PL,Premier League,England,2025-11-29
+2025-11-29,Spurs,Brentford,,,,,ENG_PL,Premier League,England,2025-11-29
+2025-11-29,Wolves,Man City,,,,,ENG_PL,Premier League,England,2025-11-29
+2025-12-03,Arsenal,Brighton,,,,,ENG_PL,Premier League,England,2025-12-03
+2025-12-03,Brentford,Fulham,,,,,ENG_PL,Premier League,England,2025-12-03
+2025-12-03,Chelsea,Aston Villa,,,,,ENG_PL,Premier League,England,2025-12-03
+2025-12-03,Bournemouth,Everton,,,,,ENG_PL,Premier League,England,2025-12-03
+2025-12-03,Liverpool,Man Utd,,,,,ENG_PL,Premier League,England,2025-12-03
+2025-12-03,Luton,Crystal Palace,,,,,ENG_PL,Premier League,England,2025-12-03
+2025-12-03,Man City,Spurs,,,,,ENG_PL,Premier League,England,2025-12-03
+2025-12-03,Newcastle,Wolves,,,,,ENG_PL,Premier League,England,2025-12-03
+2025-12-03,Nottm Forest,West Ham,,,,,ENG_PL,Premier League,England,2025-12-03
+2025-12-03,Burnley,Sheffield Utd,,,,,ENG_PL,Premier League,England,2025-12-03
+2025-12-06,Aston Villa,Arsenal,,,,,ENG_PL,Premier League,England,2025-12-06
+2025-12-06,Brentford,Crystal Palace,,,,,ENG_PL,Premier League,England,2025-12-06
+2025-12-06,Chelsea,Wolves,,,,,ENG_PL,Premier League,England,2025-12-06
+2025-12-06,Fulham,Sheffield Utd,,,,,ENG_PL,Premier League,England,2025-12-06
+2025-12-06,Liverpool,Everton,,,,,ENG_PL,Premier League,England,2025-12-06
+2025-12-06,Luton,Man City,,,,,ENG_PL,Premier League,England,2025-12-06
+2025-12-06,Man Utd,Spurs,,,,,ENG_PL,Premier League,England,2025-12-06
+2025-12-06,Nottm Forest,Bournemouth,,,,,ENG_PL,Premier League,England,2025-12-06
+2025-12-06,West Ham,Brighton,,,,,ENG_PL,Premier League,England,2025-12-06
+2025-12-06,Burnley,Newcastle,,,,,ENG_PL,Premier League,England,2025-12-06
+2025-12-13,Arsenal,Burnley,,,,,ENG_PL,Premier League,England,2025-12-13
+2025-12-13,Brighton,Luton,,,,,ENG_PL,Premier League,England,2025-12-13
+2025-12-13,Bournemouth,Liverpool,,,,,ENG_PL,Premier League,England,2025-12-13
+2025-12-13,Crystal Palace,Fulham,,,,,ENG_PL,Premier League,England,2025-12-13
+2025-12-13,Everton,Man Utd,,,,,ENG_PL,Premier League,England,2025-12-13
+2025-12-13,Man City,Chelsea,,,,,ENG_PL,Premier League,England,2025-12-13
+2025-12-13,Newcastle,Brentford,,,,,ENG_PL,Premier League,England,2025-12-13
+2025-12-13,Sheffield Utd,West Ham,,,,,ENG_PL,Premier League,England,2025-12-13
+2025-12-13,Spurs,Nottm Forest,,,,,ENG_PL,Premier League,England,2025-12-13
+2025-12-13,Wolves,Aston Villa,,,,,ENG_PL,Premier League,England,2025-12-13
+2025-12-20,Aston Villa,Newcastle,,,,,ENG_PL,Premier League,England,2025-12-20
+2025-12-20,Brentford,Bournemouth,,,,,ENG_PL,Premier League,England,2025-12-20
+2025-12-20,Chelsea,Spurs,,,,,ENG_PL,Premier League,England,2025-12-20
+2025-12-20,Fulham,Arsenal,,,,,ENG_PL,Premier League,England,2025-12-20
+2025-12-20,Liverpool,Sheffield Utd,,,,,ENG_PL,Premier League,England,2025-12-20
+2025-12-20,Luton,Everton,,,,,ENG_PL,Premier League,England,2025-12-20
+2025-12-20,Man Utd,Wolves,,,,,ENG_PL,Premier League,England,2025-12-20
+2025-12-20,Nottm Forest,Crystal Palace,,,,,ENG_PL,Premier League,England,2025-12-20
+2025-12-20,West Ham,Man City,,,,,ENG_PL,Premier League,England,2025-12-20
+2025-12-20,Burnley,Brighton,,,,,ENG_PL,Premier League,England,2025-12-20
+2025-12-27,Arsenal,Chelsea,,,,,ENG_PL,Premier League,England,2025-12-27
+2025-12-27,Brighton,Brentford,,,,,ENG_PL,Premier League,England,2025-12-27
+2025-12-27,Bournemouth,Fulham,,,,,ENG_PL,Premier League,England,2025-12-27
+2025-12-27,Crystal Palace,Aston Villa,,,,,ENG_PL,Premier League,England,2025-12-27
+2025-12-27,Everton,West Ham,,,,,ENG_PL,Premier League,England,2025-12-27
+2025-12-27,Man City,Burnley,,,,,ENG_PL,Premier League,England,2025-12-27
+2025-12-27,Newcastle,Nottm Forest,,,,,ENG_PL,Premier League,England,2025-12-27
+2025-12-27,Sheffield Utd,Man Utd,,,,,ENG_PL,Premier League,England,2025-12-27
+2025-12-27,Spurs,Luton,,,,,ENG_PL,Premier League,England,2025-12-27
+2025-12-27,Wolves,Liverpool,,,,,ENG_PL,Premier League,England,2025-12-27
+2025-12-30,Arsenal,Aston Villa,,,,,ENG_PL,Premier League,England,2025-12-30
+2025-12-30,Brighton,West Ham,,,,,ENG_PL,Premier League,England,2025-12-30
+2025-12-30,Bournemouth,Nottm Forest,,,,,ENG_PL,Premier League,England,2025-12-30
+2025-12-30,Crystal Palace,Brentford,,,,,ENG_PL,Premier League,England,2025-12-30
+2025-12-30,Everton,Liverpool,,,,,ENG_PL,Premier League,England,2025-12-30
+2025-12-30,Man City,Luton,,,,,ENG_PL,Premier League,England,2025-12-30
+2025-12-30,Newcastle,Burnley,,,,,ENG_PL,Premier League,England,2025-12-30
+2025-12-30,Sheffield Utd,Fulham,,,,,ENG_PL,Premier League,England,2025-12-30
+2025-12-30,Spurs,Man Utd,,,,,ENG_PL,Premier League,England,2025-12-30
+2025-12-30,Wolves,Chelsea,,,,,ENG_PL,Premier League,England,2025-12-30
+2026-01-03,Aston Villa,Sheffield Utd,,,,,ENG_PL,Premier League,England,2026-01-03
+2026-01-03,Brentford,Arsenal,,,,,ENG_PL,Premier League,England,2026-01-03
+2026-01-03,Chelsea,Bournemouth,,,,,ENG_PL,Premier League,England,2026-01-03
+2026-01-03,Fulham,Brighton,,,,,ENG_PL,Premier League,England,2026-01-03
+2026-01-03,Liverpool,Man City,,,,,ENG_PL,Premier League,England,2026-01-03
+2026-01-03,Luton,Newcastle,,,,,ENG_PL,Premier League,England,2026-01-03
+2026-01-03,Man Utd,Crystal Palace,,,,,ENG_PL,Premier League,England,2026-01-03
+2026-01-03,Nottm Forest,Everton,,,,,ENG_PL,Premier League,England,2026-01-03
+2026-01-03,West Ham,Spurs,,,,,ENG_PL,Premier League,England,2026-01-03
+2026-01-03,Burnley,Wolves,,,,,ENG_PL,Premier League,England,2026-01-03
+2026-01-07,Arsenal,Man City,,,,,ENG_PL,Premier League,England,2026-01-07
+2026-01-07,Brentford,West Ham,,,,,ENG_PL,Premier League,England,2026-01-07
+2026-01-07,Brighton,Spurs,,,,,ENG_PL,Premier League,England,2026-01-07
+2026-01-07,Bournemouth,Newcastle,,,,,ENG_PL,Premier League,England,2026-01-07
+2026-01-07,Everton,Aston Villa,,,,,ENG_PL,Premier League,England,2026-01-07
+2026-01-07,Fulham,Burnley,,,,,ENG_PL,Premier League,England,2026-01-07
+2026-01-07,Liverpool,Crystal Palace,,,,,ENG_PL,Premier League,England,2026-01-07
+2026-01-07,Man Utd,Chelsea,,,,,ENG_PL,Premier League,England,2026-01-07
+2026-01-07,Nottm Forest,Luton,,,,,ENG_PL,Premier League,England,2026-01-07
+2026-01-07,Wolves,Sheffield Utd,,,,,ENG_PL,Premier League,England,2026-01-07
+2026-01-17,Aston Villa,Fulham,,,,,ENG_PL,Premier League,England,2026-01-17
+2026-01-17,Chelsea,Brentford,,,,,ENG_PL,Premier League,England,2026-01-17
+2026-01-17,Crystal Palace,Brighton,,,,,ENG_PL,Premier League,England,2026-01-17
+2026-01-17,Luton,Liverpool,,,,,ENG_PL,Premier League,England,2026-01-17
+2026-01-17,Man City,Bournemouth,,,,,ENG_PL,Premier League,England,2026-01-17
+2026-01-17,Newcastle,Man Utd,,,,,ENG_PL,Premier League,England,2026-01-17
+2026-01-17,Sheffield Utd,Arsenal,,,,,ENG_PL,Premier League,England,2026-01-17
+2026-01-17,West Ham,Wolves,,,,,ENG_PL,Premier League,England,2026-01-17
+2026-01-17,Spurs,Everton,,,,,ENG_PL,Premier League,England,2026-01-17
+2026-01-17,Burnley,Nottm Forest,,,,,ENG_PL,Premier League,England,2026-01-17
+2026-01-24,Arsenal,Newcastle,,,,,ENG_PL,Premier League,England,2026-01-24
+2026-01-24,Brentford,Man City,,,,,ENG_PL,Premier League,England,2026-01-24
+2026-01-24,Brighton,Sheffield Utd,,,,,ENG_PL,Premier League,England,2026-01-24
+2026-01-24,Bournemouth,West Ham,,,,,ENG_PL,Premier League,England,2026-01-24
+2026-01-24,Everton,Crystal Palace,,,,,ENG_PL,Premier League,England,2026-01-24
+2026-01-24,Fulham,Luton,,,,,ENG_PL,Premier League,England,2026-01-24
+2026-01-24,Liverpool,Chelsea,,,,,ENG_PL,Premier League,England,2026-01-24
+2026-01-24,Man Utd,Burnley,,,,,ENG_PL,Premier League,England,2026-01-24
+2026-01-24,Nottm Forest,Aston Villa,,,,,ENG_PL,Premier League,England,2026-01-24
+2026-01-24,Wolves,Spurs,,,,,ENG_PL,Premier League,England,2026-01-24
+2026-01-31,Aston Villa,Brighton,,,,,ENG_PL,Premier League,England,2026-01-31
+2026-01-31,Chelsea,Fulham,,,,,ENG_PL,Premier League,England,2026-01-31
+2026-01-31,Crystal Palace,Wolves,,,,,ENG_PL,Premier League,England,2026-01-31
+2026-01-31,Luton,Arsenal,,,,,ENG_PL,Premier League,England,2026-01-31
+2026-01-31,Man City,Nottm Forest,,,,,ENG_PL,Premier League,England,2026-01-31
+2026-01-31,Newcastle,Liverpool,,,,,ENG_PL,Premier League,England,2026-01-31
+2026-01-31,Sheffield Utd,Everton,,,,,ENG_PL,Premier League,England,2026-01-31
+2026-01-31,West Ham,Man Utd,,,,,ENG_PL,Premier League,England,2026-01-31
+2026-01-31,Spurs,Bournemouth,,,,,ENG_PL,Premier League,England,2026-01-31
+2026-01-31,Burnley,Brentford,,,,,ENG_PL,Premier League,England,2026-01-31
+2026-02-07,Arsenal,Spurs,,,,,ENG_PL,Premier League,England,2026-02-07
+2026-02-07,Brentford,Aston Villa,,,,,ENG_PL,Premier League,England,2026-02-07
+2026-02-07,Chelsea,Everton,,,,,ENG_PL,Premier League,England,2026-02-07
+2026-02-07,Bournemouth,Wolves,,,,,ENG_PL,Premier League,England,2026-02-07
+2026-02-07,Liverpool,Fulham,,,,,ENG_PL,Premier League,England,2026-02-07
+2026-02-07,Luton,Sheffield Utd,,,,,ENG_PL,Premier League,England,2026-02-07
+2026-02-07,Man City,Man Utd,,,,,ENG_PL,Premier League,England,2026-02-07
+2026-02-07,Newcastle,West Ham,,,,,ENG_PL,Premier League,England,2026-02-07
+2026-02-07,Nottm Forest,Brighton,,,,,ENG_PL,Premier League,England,2026-02-07
+2026-02-07,Burnley,Crystal Palace,,,,,ENG_PL,Premier League,England,2026-02-07
+2026-02-11,Aston Villa,Chelsea,,,,,ENG_PL,Premier League,England,2026-02-11
+2026-02-11,Brighton,Arsenal,,,,,ENG_PL,Premier League,England,2026-02-11
+2026-02-11,Crystal Palace,Luton,,,,,ENG_PL,Premier League,England,2026-02-11
+2026-02-11,Everton,Bournemouth,,,,,ENG_PL,Premier League,England,2026-02-11
+2026-02-11,Fulham,Brentford,,,,,ENG_PL,Premier League,England,2026-02-11
+2026-02-11,Man Utd,Liverpool,,,,,ENG_PL,Premier League,England,2026-02-11
+2026-02-11,Sheffield Utd,Burnley,,,,,ENG_PL,Premier League,England,2026-02-11
+2026-02-11,West Ham,Nottm Forest,,,,,ENG_PL,Premier League,England,2026-02-11
+2026-02-11,Spurs,Man City,,,,,ENG_PL,Premier League,England,2026-02-11
+2026-02-11,Wolves,Newcastle,,,,,ENG_PL,Premier League,England,2026-02-11
+2026-02-21,Aston Villa,Luton,,,,,ENG_PL,Premier League,England,2026-02-21
+2026-02-21,Brighton,Chelsea,,,,,ENG_PL,Premier League,England,2026-02-21
+2026-02-21,Crystal Palace,Bournemouth,,,,,ENG_PL,Premier League,England,2026-02-21
+2026-02-21,Everton,Burnley,,,,,ENG_PL,Premier League,England,2026-02-21
+2026-02-21,Fulham,Newcastle,,,,,ENG_PL,Premier League,England,2026-02-21
+2026-02-21,Man Utd,Nottm Forest,,,,,ENG_PL,Premier League,England,2026-02-21
+2026-02-21,Sheffield Utd,Man City,,,,,ENG_PL,Premier League,England,2026-02-21
+2026-02-21,West Ham,Arsenal,,,,,ENG_PL,Premier League,England,2026-02-21
+2026-02-21,Spurs,Liverpool,,,,,ENG_PL,Premier League,England,2026-02-21
+2026-02-21,Wolves,Brentford,,,,,ENG_PL,Premier League,England,2026-02-21
+2026-02-28,Arsenal,Crystal Palace,,,,,ENG_PL,Premier League,England,2026-02-28
+2026-02-28,Brentford,Spurs,,,,,ENG_PL,Premier League,England,2026-02-28
+2026-02-28,Chelsea,Sheffield Utd,,,,,ENG_PL,Premier League,England,2026-02-28
+2026-02-28,Bournemouth,Brighton,,,,,ENG_PL,Premier League,England,2026-02-28
+2026-02-28,Liverpool,West Ham,,,,,ENG_PL,Premier League,England,2026-02-28
+2026-02-28,Luton,Man Utd,,,,,ENG_PL,Premier League,England,2026-02-28
+2026-02-28,Man City,Wolves,,,,,ENG_PL,Premier League,England,2026-02-28
+2026-02-28,Newcastle,Everton,,,,,ENG_PL,Premier League,England,2026-02-28
+2026-02-28,Nottm Forest,Fulham,,,,,ENG_PL,Premier League,England,2026-02-28
+2026-02-28,Burnley,Aston Villa,,,,,ENG_PL,Premier League,England,2026-02-28
+2026-03-04,Aston Villa,Crystal Palace,,,,,ENG_PL,Premier League,England,2026-03-04
+2026-03-04,Brentford,Brighton,,,,,ENG_PL,Premier League,England,2026-03-04
+2026-03-04,Chelsea,Arsenal,,,,,ENG_PL,Premier League,England,2026-03-04
+2026-03-04,Fulham,Bournemouth,,,,,ENG_PL,Premier League,England,2026-03-04
+2026-03-04,Liverpool,Wolves,,,,,ENG_PL,Premier League,England,2026-03-04
+2026-03-04,Luton,Spurs,,,,,ENG_PL,Premier League,England,2026-03-04
+2026-03-04,Man Utd,Sheffield Utd,,,,,ENG_PL,Premier League,England,2026-03-04
+2026-03-04,Nottm Forest,Newcastle,,,,,ENG_PL,Premier League,England,2026-03-04
+2026-03-04,West Ham,Everton,,,,,ENG_PL,Premier League,England,2026-03-04
+2026-03-04,Burnley,Man City,,,,,ENG_PL,Premier League,England,2026-03-04
+2026-03-14,Arsenal,Fulham,,,,,ENG_PL,Premier League,England,2026-03-14
+2026-03-14,Brighton,Burnley,,,,,ENG_PL,Premier League,England,2026-03-14
+2026-03-14,Bournemouth,Brentford,,,,,ENG_PL,Premier League,England,2026-03-14
+2026-03-14,Crystal Palace,Nottm Forest,,,,,ENG_PL,Premier League,England,2026-03-14
+2026-03-14,Everton,Luton,,,,,ENG_PL,Premier League,England,2026-03-14
+2026-03-14,Man City,West Ham,,,,,ENG_PL,Premier League,England,2026-03-14
+2026-03-14,Newcastle,Aston Villa,,,,,ENG_PL,Premier League,England,2026-03-14
+2026-03-14,Sheffield Utd,Liverpool,,,,,ENG_PL,Premier League,England,2026-03-14
+2026-03-14,Spurs,Chelsea,,,,,ENG_PL,Premier League,England,2026-03-14
+2026-03-14,Wolves,Man Utd,,,,,ENG_PL,Premier League,England,2026-03-14
+2026-03-21,Aston Villa,Wolves,,,,,ENG_PL,Premier League,England,2026-03-21
+2026-03-21,Brentford,Newcastle,,,,,ENG_PL,Premier League,England,2026-03-21
+2026-03-21,Chelsea,Man City,,,,,ENG_PL,Premier League,England,2026-03-21
+2026-03-21,Fulham,Crystal Palace,,,,,ENG_PL,Premier League,England,2026-03-21
+2026-03-21,Liverpool,Bournemouth,,,,,ENG_PL,Premier League,England,2026-03-21
+2026-03-21,Luton,Brighton,,,,,ENG_PL,Premier League,England,2026-03-21
+2026-03-21,Man Utd,Everton,,,,,ENG_PL,Premier League,England,2026-03-21
+2026-03-21,Nottm Forest,Spurs,,,,,ENG_PL,Premier League,England,2026-03-21
+2026-03-21,West Ham,Sheffield Utd,,,,,ENG_PL,Premier League,England,2026-03-21
+2026-03-21,Burnley,Arsenal,,,,,ENG_PL,Premier League,England,2026-03-21
+2026-04-11,Arsenal,Brentford,,,,,ENG_PL,Premier League,England,2026-04-11
+2026-04-11,Brighton,Fulham,,,,,ENG_PL,Premier League,England,2026-04-11
+2026-04-11,Bournemouth,Chelsea,,,,,ENG_PL,Premier League,England,2026-04-11
+2026-04-11,Crystal Palace,Man Utd,,,,,ENG_PL,Premier League,England,2026-04-11
+2026-04-11,Everton,Nottm Forest,,,,,ENG_PL,Premier League,England,2026-04-11
+2026-04-11,Man City,Liverpool,,,,,ENG_PL,Premier League,England,2026-04-11
+2026-04-11,Newcastle,Luton,,,,,ENG_PL,Premier League,England,2026-04-11
+2026-04-11,Sheffield Utd,Aston Villa,,,,,ENG_PL,Premier League,England,2026-04-11
+2026-04-11,Spurs,West Ham,,,,,ENG_PL,Premier League,England,2026-04-11
+2026-04-11,Wolves,Burnley,,,,,ENG_PL,Premier League,England,2026-04-11
+2026-04-18,Aston Villa,Spurs,,,,,ENG_PL,Premier League,England,2026-04-18
+2026-04-18,Brighton,Liverpool,,,,,ENG_PL,Premier League,England,2026-04-18
+2026-04-18,Crystal Palace,Newcastle,,,,,ENG_PL,Premier League,England,2026-04-18
+2026-04-18,Everton,Wolves,,,,,ENG_PL,Premier League,England,2026-04-18
+2026-04-18,Fulham,Man City,,,,,ENG_PL,Premier League,England,2026-04-18
+2026-04-18,Luton,Burnley,,,,,ENG_PL,Premier League,England,2026-04-18
+2026-04-18,Man Utd,Arsenal,,,,,ENG_PL,Premier League,England,2026-04-18
+2026-04-18,Nottm Forest,Brentford,,,,,ENG_PL,Premier League,England,2026-04-18
+2026-04-18,Sheffield Utd,Bournemouth,,,,,ENG_PL,Premier League,England,2026-04-18
+2026-04-18,West Ham,Chelsea,,,,,ENG_PL,Premier League,England,2026-04-18
+2026-04-25,Arsenal,Nottm Forest,,,,,ENG_PL,Premier League,England,2026-04-25
+2026-04-25,Brentford,Luton,,,,,ENG_PL,Premier League,England,2026-04-25
+2026-04-25,Chelsea,Crystal Palace,,,,,ENG_PL,Premier League,England,2026-04-25
+2026-04-25,Bournemouth,Man Utd,,,,,ENG_PL,Premier League,England,2026-04-25
+2026-04-25,Liverpool,Aston Villa,,,,,ENG_PL,Premier League,England,2026-04-25
+2026-04-25,Man City,Everton,,,,,ENG_PL,Premier League,England,2026-04-25
+2026-04-25,Newcastle,Brighton,,,,,ENG_PL,Premier League,England,2026-04-25
+2026-04-25,Spurs,Sheffield Utd,,,,,ENG_PL,Premier League,England,2026-04-25
+2026-04-25,Wolves,Fulham,,,,,ENG_PL,Premier League,England,2026-04-25
+2026-04-25,Burnley,West Ham,,,,,ENG_PL,Premier League,England,2026-04-25
+2026-05-02,Arsenal,Liverpool,,,,,ENG_PL,Premier League,England,2026-05-02
+2026-05-02,Aston Villa,West Ham,,,,,ENG_PL,Premier League,England,2026-05-02
+2026-05-02,Brentford,Everton,,,,,ENG_PL,Premier League,England,2026-05-02
+2026-05-02,Brighton,Wolves,,,,,ENG_PL,Premier League,England,2026-05-02
+2026-05-02,Crystal Palace,Sheffield Utd,,,,,ENG_PL,Premier League,England,2026-05-02
+2026-05-02,Fulham,Man Utd,,,,,ENG_PL,Premier League,England,2026-05-02
+2026-05-02,Luton,Bournemouth,,,,,ENG_PL,Premier League,England,2026-05-02
+2026-05-02,Newcastle,Man City,,,,,ENG_PL,Premier League,England,2026-05-02
+2026-05-02,Nottm Forest,Chelsea,,,,,ENG_PL,Premier League,England,2026-05-02
+2026-05-02,Burnley,Spurs,,,,,ENG_PL,Premier League,England,2026-05-02
+2026-05-09,Chelsea,Burnley,,,,,ENG_PL,Premier League,England,2026-05-09
+2026-05-09,Bournemouth,Aston Villa,,,,,ENG_PL,Premier League,England,2026-05-09
+2026-05-09,Everton,Fulham,,,,,ENG_PL,Premier League,England,2026-05-09
+2026-05-09,Liverpool,Brentford,,,,,ENG_PL,Premier League,England,2026-05-09
+2026-05-09,Man City,Crystal Palace,,,,,ENG_PL,Premier League,England,2026-05-09
+2026-05-09,Man Utd,Brighton,,,,,ENG_PL,Premier League,England,2026-05-09
+2026-05-09,Sheffield Utd,Nottm Forest,,,,,ENG_PL,Premier League,England,2026-05-09
+2026-05-09,West Ham,Luton,,,,,ENG_PL,Premier League,England,2026-05-09
+2026-05-09,Spurs,Newcastle,,,,,ENG_PL,Premier League,England,2026-05-09
+2026-05-09,Wolves,Arsenal,,,,,ENG_PL,Premier League,England,2026-05-09
+2026-05-17,Arsenal,Bournemouth,,,,,ENG_PL,Premier League,England,2026-05-17
+2026-05-17,Aston Villa,Man City,,,,,ENG_PL,Premier League,England,2026-05-17
+2026-05-17,Brentford,Man Utd,,,,,ENG_PL,Premier League,England,2026-05-17
+2026-05-17,Brighton,Everton,,,,,ENG_PL,Premier League,England,2026-05-17
+2026-05-17,Crystal Palace,West Ham,,,,,ENG_PL,Premier League,England,2026-05-17
+2026-05-17,Fulham,Spurs,,,,,ENG_PL,Premier League,England,2026-05-17
+2026-05-17,Luton,Chelsea,,,,,ENG_PL,Premier League,England,2026-05-17
+2026-05-17,Newcastle,Sheffield Utd,,,,,ENG_PL,Premier League,England,2026-05-17
+2026-05-17,Nottm Forest,Wolves,,,,,ENG_PL,Premier League,England,2026-05-17
+2026-05-17,Burnley,Liverpool,,,,,ENG_PL,Premier League,England,2026-05-17
+2026-05-24,Chelsea,Newcastle,,,,,ENG_PL,Premier League,England,2026-05-24
+2026-05-24,Bournemouth,Burnley,,,,,ENG_PL,Premier League,England,2026-05-24
+2026-05-24,Everton,Arsenal,,,,,ENG_PL,Premier League,England,2026-05-24
+2026-05-24,Liverpool,Nottm Forest,,,,,ENG_PL,Premier League,England,2026-05-24
+2026-05-24,Man City,Brighton,,,,,ENG_PL,Premier League,England,2026-05-24
+2026-05-24,Man Utd,Aston Villa,,,,,ENG_PL,Premier League,England,2026-05-24
+2026-05-24,Sheffield Utd,Brentford,,,,,ENG_PL,Premier League,England,2026-05-24
+2026-05-24,West Ham,Fulham,,,,,ENG_PL,Premier League,England,2026-05-24
+2026-05-24,Spurs,Crystal Palace,,,,,ENG_PL,Premier League,England,2026-05-24
+2026-05-24,Wolves,Luton,,,,,ENG_PL,Premier League,England,2026-05-24
