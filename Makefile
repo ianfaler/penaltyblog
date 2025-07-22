@@ -119,4 +119,4 @@ reality-check:
 
 # Strict audit - comprehensive data integrity checking across all leagues
 audit:
-	python scripts/audit.py --all-leagues
+	python3 rock_solid_audit.py

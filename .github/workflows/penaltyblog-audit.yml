@@ -29,7 +29,7 @@ jobs:
         
     - name: Run stable audit
       run: |
-        python3 final_production_audit.py
+        python3 rock_solid_audit.py
         
     - name: Upload audit results
       if: always()
