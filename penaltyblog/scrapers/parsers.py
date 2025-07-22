@@ -1,12 +1,54 @@
-"""HTML parsing utilities for converting scraped data to standardized DataFrames."""
+"""Data parsing utilities for converting scraped data to standardized DataFrames."""
 
 import pandas as pd
 import re
+import json
 from typing import Dict, List, Optional, Union
 from bs4 import BeautifulSoup
 import logging
 
 logger = logging.getLogger(__name__)
+
+def parse_data_to_dataframe(data: str, league_code: str = None) -> pd.DataFrame:
+    """
+    Parse data content and convert to a standardized match DataFrame.
+    Automatically detects data format (HTML, JSON, CSV, API) and applies appropriate parser.
+    
+    Parameters
+    ----------
+    data : str
+        The data content to parse (HTML, JSON, CSV, etc.)
+    league_code : str, optional
+        League code for league-specific parsing logic
+        
+    Returns
+    -------
+    pd.DataFrame
+        Standardized DataFrame with columns: date, home, away, home_score, away_score, etc.
+    """
+    if not data or not data.strip():
+        logger.warning("Empty data provided to parser")
+        return create_empty_fixture_dataframe()
+    
+    data = data.strip()
+    
+    # Detect data format and parse accordingly
+    try:
+        # JSON/API format detection
+        if data.startswith('{') or data.startswith('['):
+            return parse_json_to_dataframe(data, league_code)
+        
+        # CSV format detection
+        elif ',' in data and ('\n' in data or '\r' in data):
+            return parse_csv_to_dataframe(data, league_code)
+        
+        # HTML format (default fallback)
+        else:
+            return parse_html_to_dataframe(data, league_code)
+            
+    except Exception as e:
+        logger.error(f"Failed to parse data for {league_code}: {e}")
+        return create_empty_fixture_dataframe()
 
 def parse_html_to_dataframe(html: str, league_code: str = None) -> pd.DataFrame:
     """
@@ -24,33 +66,220 @@ def parse_html_to_dataframe(html: str, league_code: str = None) -> pd.DataFrame:
     pd.DataFrame
         Standardized DataFrame with columns: date, home, away, home_score, away_score, etc.
     """
-    soup = BeautifulSoup(html, 'html.parser')
+    try:
+        soup = BeautifulSoup(html, 'html.parser')
+        
+        # First try to find existing HTML tables and parse them
+        tables = soup.find_all('table')
+        
+        for table in tables:
+            try:
+                # Try pandas read_html on the table
+                df_list = pd.read_html(str(table))
+                if df_list:
+                    df = df_list[0]
+                    # Check if this looks like a fixture table
+                    if is_fixture_table(df):
+                        return normalize_fixture_dataframe(df, league_code)
+            except Exception as e:
+                logger.debug(f"Failed to parse table with pandas: {e}")
+                continue
+        
+        # If no tables found, try to extract fixture data from HTML structure
+        matches = extract_matches_from_html(soup, league_code)
+        
+        if matches:
+            df = pd.DataFrame(matches)
+            return normalize_fixture_dataframe(df, league_code)
+        
+        # If no matches found, return empty DataFrame with correct structure
+        return create_empty_fixture_dataframe()
+        
+    except Exception as e:
+        logger.error(f"HTML parsing failed for {league_code}: {e}")
+        return create_empty_fixture_dataframe()
+
+def parse_json_to_dataframe(json_data: str, league_code: str = None) -> pd.DataFrame:
+    """
+    Parse JSON/API content and convert to a standardized match DataFrame.
     
-    # First try to find existing HTML tables and parse them
-    tables = soup.find_all('table')
-    
-    for table in tables:
-        try:
-            # Try pandas read_html on the table
-            df_list = pd.read_html(str(table))
-            if df_list:
-                df = df_list[0]
-                # Check if this looks like a fixture table
-                if is_fixture_table(df):
-                    return normalize_fixture_dataframe(df, league_code)
-        except Exception as e:
-            logger.debug(f"Failed to parse table with pandas: {e}")
-            continue
-    
-    # If no tables found, try to extract fixture data from HTML structure
-    matches = extract_matches_from_html(soup, league_code)
-    
-    if matches:
+    Parameters
+    ----------
+    json_data : str
+        The JSON content to parse
+    league_code : str, optional
+        League code for league-specific parsing logic
+        
+    Returns
+    -------
+    pd.DataFrame
+        Standardized DataFrame with columns: date, home, away, home_score, away_score, etc.
+    """
+    try:
+        data = json.loads(json_data)
+        
+        # Handle different JSON structures
+        if isinstance(data, list):
+            # Direct list of matches
+            matches = data
+        elif isinstance(data, dict):
+            # Look for common keys that contain match data
+            possible_keys = ['fixtures', 'matches', 'games', 'events', 'data', 'results']
+            matches = None
+            
+            for key in possible_keys:
+                if key in data:
+                    matches = data[key]
+                    break
+            
+            if matches is None:
+                # If no standard key found, try to find list values
+                for value in data.values():
+                    if isinstance(value, list) and len(value) > 0:
+                        matches = value
+                        break
+                        
+            if matches is None:
+                logger.warning(f"No match data found in JSON for {league_code}")
+                return create_empty_fixture_dataframe()
+        else:
+            logger.warning(f"Unexpected JSON structure for {league_code}")
+            return create_empty_fixture_dataframe()
+        
+        # Convert JSON matches to DataFrame
+        if not matches:
+            return create_empty_fixture_dataframe()
+        
+        # Apply league-specific JSON parsing if available
+        if league_code:
+            parsed_matches = parse_league_specific_json(matches, league_code)
+            if parsed_matches:
+                matches = parsed_matches
+        
+        # Convert to DataFrame
         df = pd.DataFrame(matches)
         return normalize_fixture_dataframe(df, league_code)
+        
+    except json.JSONDecodeError as e:
+        logger.error(f"Invalid JSON data for {league_code}: {e}")
+        return create_empty_fixture_dataframe()
+    except Exception as e:
+        logger.error(f"JSON parsing failed for {league_code}: {e}")
+        return create_empty_fixture_dataframe()
+
+def parse_csv_to_dataframe(csv_data: str, league_code: str = None) -> pd.DataFrame:
+    """
+    Parse CSV content and convert to a standardized match DataFrame.
     
-    # If no matches found, return empty DataFrame with correct structure
-    return create_empty_fixture_dataframe()
+    Parameters
+    ----------
+    csv_data : str
+        The CSV content to parse
+    league_code : str, optional
+        League code for league-specific parsing logic
+        
+    Returns
+    -------
+    pd.DataFrame
+        Standardized DataFrame with columns: date, home, away, home_score, away_score, etc.
+    """
+    try:
+        from io import StringIO
+        
+        # Try different separators
+        separators = [',', ';', '\t']
+        
+        for sep in separators:
+            try:
+                df = pd.read_csv(StringIO(csv_data), sep=sep)
+                if not df.empty and len(df.columns) > 2:
+                    # Check if this looks like fixture data
+                    if is_fixture_table(df):
+                        return normalize_fixture_dataframe(df, league_code)
+            except Exception as e:
+                logger.debug(f"Failed to parse CSV with separator '{sep}': {e}")
+                continue
+        
+        logger.warning(f"Could not parse CSV data for {league_code}")
+        return create_empty_fixture_dataframe()
+        
+    except Exception as e:
+        logger.error(f"CSV parsing failed for {league_code}: {e}")
+        return create_empty_fixture_dataframe()
+
+def parse_league_specific_json(matches: List[Dict], league_code: str) -> Optional[List[Dict]]:
+    """
+    Apply league-specific JSON parsing logic.
+    
+    Parameters
+    ----------
+    matches : List[Dict]
+        Raw match data from JSON
+    league_code : str
+        League code for specific parsing logic
+        
+    Returns
+    -------
+    Optional[List[Dict]]
+        Parsed match data or None if no specific logic applies
+    """
+    if league_code == 'ENG_PL':
+        # Premier League Fantasy API specific parsing
+        return parse_fpl_api_matches(matches)
+    
+    # Add more league-specific parsers here as needed
+    # elif league_code == 'ESP_LL':
+    #     return parse_laliga_api_matches(matches)
+    
+    return None
+
+def parse_fpl_api_matches(matches: List[Dict]) -> List[Dict]:
+    """
+    Parse Fantasy Premier League API fixtures format.
+    
+    Parameters
+    ----------
+    matches : List[Dict]
+        Raw FPL API fixture data
+        
+    Returns
+    -------
+    List[Dict]
+        Standardized match data
+    """
+    parsed_matches = []
+    
+    for match in matches:
+        try:
+            # FPL API structure: team_h, team_a, team_h_score, team_a_score, kickoff_time
+            if 'team_h' in match and 'team_a' in match:
+                parsed_match = {
+                    'home': get_fpl_team_name(match.get('team_h')),
+                    'away': get_fpl_team_name(match.get('team_a')),
+                    'home_score': match.get('team_h_score'),
+                    'away_score': match.get('team_a_score'),
+                    'date': match.get('kickoff_time', '').split('T')[0] if match.get('kickoff_time') else None
+                }
+                parsed_matches.append(parsed_match)
+        except Exception as e:
+            logger.debug(f"Failed to parse FPL match: {e}")
+            continue
+    
+    return parsed_matches
+
+def get_fpl_team_name(team_id: int) -> str:
+    """
+    Convert FPL team ID to team name.
+    This is a basic mapping - in production you'd want to fetch this from the API.
+    """
+    fpl_teams = {
+        1: "Arsenal", 2: "Aston Villa", 3: "Bournemouth", 4: "Brentford",
+        5: "Brighton", 6: "Burnley", 7: "Chelsea", 8: "Crystal Palace",
+        9: "Everton", 10: "Fulham", 11: "Liverpool", 12: "Luton",
+        13: "Man City", 14: "Man Utd", 15: "Newcastle", 16: "Nottm Forest",
+        17: "Sheffield Utd", 18: "Spurs", 19: "West Ham", 20: "Wolves"
+    }
+    return fpl_teams.get(team_id, f"Team_{team_id}")
 
 def is_fixture_table(df: pd.DataFrame) -> bool:
     """

@@ -20,7 +20,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from penaltyblog.config.leagues import load_leagues, get_league_by_code, get_default_league
-from penaltyblog.scrapers.parsers import parse_html_to_dataframe, merge_fixture_dataframes
+from penaltyblog.scrapers.parsers import parse_data_to_dataframe, merge_fixture_dataframes
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -78,7 +78,7 @@ class MatchScraper:
             response.raise_for_status()
             
             # Parse HTML to DataFrame
-            df = parse_html_to_dataframe(response.text, league_code)
+            df = parse_data_to_dataframe(response.text, league_code)
             
             if df.empty:
                 logger.warning(f"No match data found for {league.display_name}")
