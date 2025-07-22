@@ -55,6 +55,14 @@ jobs:
       run: |
         python -m examples.demo_pipeline
 
+    - name: Test league configuration
+      run: |
+        python -c "from penaltyblog.config.leagues import load_leagues; leagues = load_leagues(); print(f'Loaded {len(leagues)} leagues'); assert len(leagues) >= 47"
+
+    - name: Test scraper CLI
+      run: |
+        python -m penaltyblog.scrapers.match_scraper --list-leagues
+
   lint:
     runs-on: ubuntu-latest
     
@@ -101,3 +109,60 @@ jobs:
 
     - name: Run safety check
       run: safety check || true
+
+  scraper-integration:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+        pip install -e ".[dev]"
+
+    - name: Test scraper with mocked data (Premier League)
+      run: |
+        # Create a mock data directory and test the scraper functionality
+        mkdir -p test_data
+        python -c "
+        import sys
+        sys.path.insert(0, '.')
+        from penaltyblog.scrapers.match_scraper import MatchScraper
+        from unittest.mock import patch, Mock
+        import pandas as pd
+        
+        # Mock successful scraping
+        with patch('requests.Session.get') as mock_get:
+            mock_response = Mock()
+            mock_response.text = '<html><body><div>No current fixtures</div></body></html>'
+            mock_response.raise_for_status.return_value = None
+            mock_get.return_value = mock_response
+            
+            scraper = MatchScraper()
+            result = scraper.scrape_league('ENG_PL')
+            print(f'Scraper test completed. Result type: {type(result)}')
+            print(f'Result columns: {list(result.columns) if hasattr(result, \"columns\") else \"N/A\"}')
+            assert isinstance(result, pd.DataFrame)
+        "
+
+    - name: Test web interface
+      run: |
+        python -c "
+        from fastapi.testclient import TestClient
+        from penaltyblog.web import app
+        
+        client = TestClient(app)
+        response = client.get('/')
+        assert response.status_code == 200
+        print('Web interface test passed')
+        
+        response = client.get('/leagues')
+        assert response.status_code == 200
+        print('Leagues endpoint test passed')
+        "
