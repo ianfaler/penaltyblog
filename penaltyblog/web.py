@@ -9,11 +9,13 @@ import logging
 # Import league management
 try:
     from .config.leagues import load_leagues, get_league_by_code, get_default_league
+    from .utils.dates import in_next_week
 except ImportError:
     # Fallback for development
     import sys
     sys.path.insert(0, str(Path(__file__).parent))
     from config.leagues import load_leagues, get_league_by_code, get_default_league
+    from utils.dates import in_next_week
 
 app = FastAPI(title="PenaltyBlog ⚽ Data Viewer")
 
@@ -26,8 +28,10 @@ def get_current_monday():
     monday = today - timedelta(days=days_since_monday)
     return monday.replace(hour=0, minute=0, second=0, microsecond=0)
 
-def find_league_csv(league_code: str = None) -> Path:
-    """Find CSV file for a specific league or the default/combined data."""
+def _find_csvs(league_code: str = None) -> List[Path]:
+    """Find CSV files for specific league or all leagues."""
+    csv_files = []
+    
     # Look for dated directories first (new structure)
     dated_dirs = sorted([d for d in CSV_DIR.iterdir() if d.is_dir() and d.name.match(r'\d{4}-\d{2}-\d{2}')], reverse=True)
     
@@ -43,25 +47,55 @@ def find_league_csv(league_code: str = None) -> Path:
                 league_filename = "".join(c for c in league_filename if c.isalnum() or c in "._-")
                 league_file = latest_dir / league_filename
                 if league_file.exists():
-                    return league_file
-        
-        # Look for combined file
-        combined_file = latest_dir / "combined_leagues.csv"
-        if combined_file.exists():
-            return combined_file
+                    csv_files.append(league_file)
+        else:
+            # Get all CSV files in the latest directory
+            for csv_file in latest_dir.glob("*.csv"):
+                if csv_file.name != "combined_leagues.csv":  # Skip combined file to avoid duplicates
+                    csv_files.append(csv_file)
+            
+            # If no individual league files, fall back to combined
+            if not csv_files:
+                combined_file = latest_dir / "combined_leagues.csv"
+                if combined_file.exists():
+                    csv_files.append(combined_file)
     
     # Fallback to old single CSV structure
-    monday = get_current_monday()
-    current_week_file = CSV_DIR / f"{monday.strftime('%Y-%m-%d')}.csv"
+    if not csv_files:
+        monday = get_current_monday()
+        current_week_file = CSV_DIR / f"{monday.strftime('%Y-%m-%d')}.csv"
+        
+        if current_week_file.exists():
+            csv_files.append(current_week_file)
+        else:
+            # Find most recent file
+            files = sorted(CSV_DIR.glob("*.csv"), key=lambda p: p.stat().st_mtime, reverse=True)
+            if files:
+                csv_files.extend(files[:1])  # Just the most recent
     
-    if current_week_file.exists():
-        return current_week_file
-    
-    # Otherwise, fall back to most recent file
-    files = sorted(CSV_DIR.glob("*.csv"), key=lambda p: p.stat().st_mtime, reverse=True)
-    if not files:
+    return csv_files
+
+def find_league_csv(league_code: str = None) -> Path:
+    """Find CSV file for a specific league or the default/combined data."""
+    csv_files = _find_csvs(league_code)
+    if not csv_files:
         raise FileNotFoundError("No CSV files produced yet. Run the match scraper to generate data.")
-    return files[0]
+    return csv_files[0]
+
+def _df_to_html_table(df: pd.DataFrame) -> str:
+    """Convert DataFrame to HTML table format matching existing style."""
+    if df.empty:
+        return "<thead><tr><th>No Data</th></tr></thead><tbody><tr><td>No fixtures found for this week</td></tr></tbody>"
+    
+    # Sort by date for better readability
+    if 'date' in df.columns:
+        df = df.sort_values('date')
+    
+    thead = "<thead><tr>" + "".join(f"<th>{c}</th>" for c in df.columns) + "</tr></thead>"
+    rows = "<tbody>" + "".join(
+        "<tr>" + "".join(f"<td>{v}</td>" for v in row) + "</tr>" for row in df.to_numpy()
+    ) + "</tbody>"
+    return thead + rows
 
 def get_available_leagues_from_data() -> List[str]:
     """Get list of available leagues from the data directory."""
@@ -145,6 +179,7 @@ def root():
         
         <button hx-get="/data" hx-target="#tbl" hx-trigger="click">Refresh Data 📥</button>
         <button hx-get="/scrape" hx-target="#status" hx-trigger="click">Scrape Fresh Data 🔄</button>
+        <a href="/week">This Week 📅</a>
       </div>
       
       <div id="status"></div>
@@ -296,3 +331,55 @@ def list_leagues():
         }
     except Exception as e:
         return {"error": str(e)}
+
+@app.get("/week", response_class=HTMLResponse)
+def this_week(league: str | None = None):
+    """Show fixtures scheduled within the next 7 days."""
+    try:
+        # 1️⃣ Load one league if ?league=, else concat all
+        dfs = []
+        for csv in _find_csvs(league):       # reuse existing helper
+            df = pd.read_csv(csv, parse_dates=["date"])
+            # Filter to this week's fixtures
+            week_fixtures = df[df["date"].dt.date.apply(in_next_week)]
+            if not week_fixtures.empty:
+                dfs.append(week_fixtures)
+        
+        if not dfs:
+            return f"""
+            <html><head>
+              <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+              <title>This Week's Fixtures</title>
+            </head><body class="container">
+              <h1>📅 This Week's Fixtures</h1>
+              <p><a href="/">← Back to All Data</a></p>
+              <p>No fixtures found for this week.</p>
+            </body></html>
+            """
+        
+        dfw = pd.concat(dfs)
+        table_html = _df_to_html_table(dfw)        # reuse existing HTML formatter
+        
+        return f"""
+        <html><head>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+          <title>This Week's Fixtures</title>
+        </head><body class="container">
+          <h1>📅 This Week's Fixtures</h1>
+          <p><a href="/">← Back to All Data</a></p>
+          <p><em>Showing fixtures from today through the next 7 days</em></p>
+          <table class="striped">{table_html}</table>
+        </body></html>
+        """
+    except Exception as exc:
+        logging.error(f"Error loading week view: {exc}")
+        return f"""
+        <html><head>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+          <title>This Week's Fixtures - Error</title>
+        </head><body class="container">
+          <h1>📅 This Week's Fixtures</h1>
+          <p><a href="/">← Back to All Data</a></p>
+          <p>Error loading fixtures: {str(exc)}</p>
+        </body></html>
+        """

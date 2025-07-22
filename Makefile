@@ -1,6 +1,6 @@
 # Penaltyblog Development Makefile
 
-.PHONY: help setup install install-dev clean test lint format check demo docs serve
+.PHONY: help setup install install-dev clean test lint format check demo docs serve week scrape scrape-pl scrape-demo list-leagues reality-check
 
 # Default target
 help:
@@ -14,12 +14,14 @@ help:
 	@echo "  check         - Run all code quality checks"
 	@echo "  demo          - Run the demo pipeline"
 	@echo "  serve         - Start the web interface"
+	@echo "  week          - Open this week's fixtures view in browser"
 	@echo "  clean         - Clean build artifacts"
 	@echo "  docs          - Build documentation"
 	@echo "  scrape        - Scrape data from all leagues"
 	@echo "  scrape-pl     - Scrape Premier League only"
 	@echo "  scrape-demo   - Scrape Premier League and La Liga (demo)"
 	@echo "  list-leagues  - List all available leagues"
+	@echo "  reality-check - Reality check - validate current week fixtures and predictions"
 
 # Complete setup for new environment
 setup:
@@ -88,7 +90,11 @@ upload: build
 
 # Start the web interface
 serve:
-	python -m penaltyblog web
+	poetry run python -m penaltyblog.web
+
+# Open this week's fixtures view in browser
+week:
+	poetry run python -m webbrowser -t "http://127.0.0.1:8000/week"
 
 # Scrape data from all leagues
 scrape:
