@@ -1,28 +1,28 @@
 #!/usr/bin/env python3
 """
-Daily Schedule Update Script - REAL DATA VERSION
-===============================================
+Real Data Scraper for PenaltyBlog
+=================================
 
-This script runs daily to update the football schedule with REAL current data.
-It fetches actual Premier League data instead of generating fake matches.
+This script fetches real football data using the FootballData scraper
+and creates updated CSV files with current week's data.
 """
 
-import os
 import sys
-import shutil
-from datetime import datetime, timedelta
+import os
 from pathlib import Path
+from datetime import datetime, timedelta
 import pandas as pd
 import requests
 import io
 import logging
 
+# Add the scrapers directory to the path
+scrapers_dir = Path(__file__).parent / "penaltyblog" / "scrapers"
+sys.path.append(str(scrapers_dir))
+
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-
-# Add the project root to Python path
-sys.path.insert(0, str(Path(__file__).parent))
 
 def get_current_monday():
     """Get the Monday of the current week."""
@@ -31,30 +31,7 @@ def get_current_monday():
     monday = today - timedelta(days=days_since_monday)
     return monday.replace(hour=0, minute=0, second=0, microsecond=0)
 
-def archive_old_data():
-    """Archive old CSV files to prevent confusion."""
-    data_dir = Path("data")
-    archive_dir = data_dir / "archive"
-    archive_dir.mkdir(exist_ok=True)
-    
-    today = datetime.now().date()
-    
-    for csv_file in data_dir.glob("*.csv"):
-        try:
-            # Parse date from filename (format: YYYY-MM-DD.csv)
-            file_date_str = csv_file.stem
-            file_date = datetime.strptime(file_date_str, "%Y-%m-%d").date()
-            
-            # Archive files older than 7 days
-            if (today - file_date).days > 7:
-                archive_path = archive_dir / csv_file.name
-                shutil.move(str(csv_file), str(archive_path))
-                print(f"📦 Archived old file: {csv_file.name}")
-        except ValueError:
-            # Skip files that don't match date format
-            continue
-
-def fetch_real_premier_league_data():
+def fetch_premier_league_data():
     """Fetch real Premier League data from football-data.co.uk"""
     
     # Try current season first, then previous season
@@ -133,15 +110,19 @@ def process_real_data(df):
                 away_score = 0
             
             # Generate realistic xG and probabilities based on real data
+            # For matches that have been played, use actual results to inform probabilities
             if home_score > away_score:
+                # Home win
                 home_win_prob = 0.6
                 draw_prob = 0.2
                 away_win_prob = 0.2
             elif away_score > home_score:
+                # Away win
                 home_win_prob = 0.2
                 draw_prob = 0.2
                 away_win_prob = 0.6
             else:
+                # Draw or future match
                 home_win_prob = 0.4
                 draw_prob = 0.3
                 away_win_prob = 0.3
@@ -213,54 +194,60 @@ def get_recent_matches_for_current_week(df):
     
     return result_df
 
-def update_schedule():
-    """Main function to update the schedule with REAL data."""
-    print("🔄 Running daily schedule update with REAL data...")
+def save_real_data():
+    """Main function to fetch and save real data"""
     
-    # Archive old files
-    archive_old_data()
+    logger.info("🔄 Starting real data scraping...")
     
-    # Fetch and process real data
-    raw_data = fetch_real_premier_league_data()
+    # Fetch real data
+    raw_data = fetch_premier_league_data()
     
     if raw_data.empty:
-        print("❌ Failed to fetch real data, keeping existing data")
-        return None
+        logger.error("❌ Failed to fetch real data, keeping existing data")
+        return False
     
+    # Process the data
     processed_data = process_real_data(raw_data)
     
     if processed_data.empty:
-        print("❌ Failed to process real data")
-        return None
+        logger.error("❌ Failed to process real data")
+        return False
     
     # Get recent matches formatted for current week
     current_week_data = get_recent_matches_for_current_week(processed_data)
     
     if current_week_data.empty:
-        print("❌ No matches could be prepared for current week")
-        return None
+        logger.error("❌ No matches could be prepared for current week")
+        return False
     
-    # Save to CSV with current Monday's date
+    # Save to current Monday's CSV file
     monday = get_current_monday()
     filename = f"data/{monday.strftime('%Y-%m-%d')}.csv"
     
+    # Ensure data directory exists
+    Path("data").mkdir(exist_ok=True)
+    
+    # Save the data
     current_week_data.to_csv(filename, index=False)
     
-    print(f"✅ Updated schedule saved to: {filename}")
-    print(f"📅 Week of: {monday.strftime('%Y-%m-%d')} to {(monday + timedelta(days=6)).strftime('%Y-%m-%d')}")
-    print(f"🏈 Generated {len(current_week_data)} REAL fixtures")
+    logger.info(f"✅ Real data saved to: {filename}")
+    logger.info(f"📅 Week of: {monday.strftime('%Y-%m-%d')}")
+    logger.info(f"🏈 Saved {len(current_week_data)} real fixtures")
     
     # Display sample
-    print("\n📋 Sample REAL fixtures:")
+    logger.info("\n📋 Sample real fixtures:")
     sample_df = current_week_data.head(5)[['date', 'team_home', 'team_away', 'goals_home', 'goals_away']]
     print(sample_df.to_string(index=False))
     
-    print("\n🎯 SUCCESS: Now using REAL Premier League data!")
-    print("📊 Teams: Real Premier League clubs")
-    print("📈 Results: Real match outcomes") 
-    print("⚽ Data source: football-data.co.uk")
-    
-    return filename
+    return True
 
 if __name__ == "__main__":
-    update_schedule()
+    success = save_real_data()
+    if success:
+        print("\n🎯 SUCCESS: Real data scraping completed!")
+        print("✅ Your app now shows REAL football data instead of fake data")
+        print("📊 The data shows real Premier League teams and results")
+        print("🔄 Run this script daily to keep data updated")
+    else:
+        print("\n❌ FAILED: Could not fetch real data")
+        print("💡 Check your internet connection and try again")

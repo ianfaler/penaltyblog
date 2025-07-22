@@ -33,7 +33,8 @@ def _find_csvs(league_code: str = None) -> List[Path]:
     csv_files = []
     
     # Look for dated directories first (new structure)
-    dated_dirs = sorted([d for d in CSV_DIR.iterdir() if d.is_dir() and d.name.match(r'\d{4}-\d{2}-\d{2}')], reverse=True)
+    import re
+    dated_dirs = sorted([d for d in CSV_DIR.iterdir() if d.is_dir() and re.match(r'\d{4}-\d{2}-\d{2}', d.name)], reverse=True)
     
     if dated_dirs:
         # Use the most recent dated directory
