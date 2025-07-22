@@ -1,21 +1,19 @@
 date,team_home,team_away,goals_home,goals_away,xg_home,xg_away,home_win_prob,draw_prob,away_win_prob,league_code,league_name,country
-2024-12-16,Brentford,Everton,1,0,0.47,0.27,0.738,0.212,0.05,ENG_PL,Premier League,England
-2024-12-17,Man City,Burnley,0,0,0.89,0.72,0.43,0.255,0.315,ENG_PL,Premier League,England
-2024-12-18,Arsenal,Crystal Palace,1,2,0.85,2.49,0.194,0.176,0.63,ENG_PL,Premier League,England
-2024-12-19,Man United,Crystal Palace,2,0,1.88,0.99,0.686,0.202,0.112,ENG_PL,Premier League,England
-2024-12-20,Juventus,Monza,1,0,1.53,0.92,0.619,0.216,0.165,ITA_SA,Serie A,Italy
-2024-12-21,Bologna,Lecce,0,1,0.9,1.28,0.211,0.161,0.628,ITA_SA,Serie A,Italy
-2024-12-22,Napoli,Torino,1,3,0.98,3.31,0.2,0.172,0.628,ITA_SA,Serie A,Italy
-2024-12-16,Atalanta,Roma,1,0,1.15,0.66,0.71,0.229,0.061,ITA_SA,Serie A,Italy
-2024-12-17,Sevilla,Almeria,0,1,0.76,1.64,0.284,0.222,0.494,ESP_LL,La Liga,Spain
-2024-12-18,Athletic Bilbao,Valencia,1,1,0.72,0.8,0.358,0.363,0.279,ESP_LL,La Liga,Spain
-2024-12-19,Real Madrid,Granada,1,1,1.69,0.79,0.255,0.369,0.376,ESP_LL,La Liga,Spain
-2024-12-20,Las Palmas,Granada,1,2,0.73,1.57,0.173,0.182,0.645,ESP_LL,La Liga,Spain
-2024-12-21,Freiburg,Werder Bremen,1,1,1.07,0.99,0.333,0.367,0.3,GER_BL,Bundesliga,Germany
-2024-12-22,RB Leipzig,Augsburg,1,2,0.77,2.88,0.266,0.249,0.485,GER_BL,Bundesliga,Germany
-2024-12-16,Cologne,Bayern Munich,1,1,1.2,0.87,0.298,0.383,0.319,GER_BL,Bundesliga,Germany
-2024-12-17,Cologne,Eintracht Frankfurt,1,0,1.04,0.39,0.65,0.153,0.197,GER_BL,Bundesliga,Germany
-2024-12-18,Reims,Rennes,2,1,1.65,1.48,0.574,0.161,0.265,FRA_L1,Ligue 1,France
-2024-12-19,Lille,Brest,2,1,2.17,0.7,0.627,0.207,0.166,FRA_L1,Ligue 1,France
-2024-12-20,Marseille,Brest,1,0,1.76,0.9,0.696,0.203,0.101,FRA_L1,Ligue 1,France
-2024-12-21,Lorient,Lens,1,2,1.54,1.77,0.111,0.222,0.667,FRA_L1,Ligue 1,France
+2025-07-21,Nottm Forest,Fulham,2,0,2.77,0.6,0.658,0.189,0.153,ENG_PL,Premier League,England
+2025-07-22,Wolves,Aston Villa,0,1,0.83,0.69,0.141,0.2,0.659,ENG_PL,Premier League,England
+2025-07-23,Bournemouth,Brentford,2,0,2.44,0.55,0.498,0.181,0.321,ENG_PL,Premier League,England
+2025-07-24,Liverpool,West Ham,4,0,2.71,0.33,0.63,0.181,0.189,ENG_PL,Premier League,England
+2025-07-25,Lecce,Salernitana,2,0,2.41,0.99,0.633,0.2,0.167,ITA_SA,Serie A,Italy
+2025-07-26,Cagliari,AC Milan,1,0,0.84,0.29,0.57,0.239,0.191,ITA_SA,Serie A,Italy
+2025-07-27,Udinese,Roma,1,2,1.31,2.35,0.219,0.187,0.594,ITA_SA,Serie A,Italy
+2025-07-21,Cittadella,Cesena,2,1,2.81,1.69,0.645,0.248,0.107,ITA_SB,Serie B,Italy
+2025-07-22,Modena,Bari,1,0,1.44,0.82,0.517,0.199,0.284,ITA_SB,Serie B,Italy
+2025-07-23,Mantova,Carrarese,1,1,0.82,1.07,0.364,0.396,0.24,ITA_SB,Serie B,Italy
+2025-07-24,Rayo Vallecano,Las Palmas,2,0,2.24,0.95,0.519,0.185,0.296,ESP_LL,La Liga,Spain
+2025-07-25,Mallorca,Sevilla,0,0,0.58,0.95,0.441,0.268,0.291,ESP_LL,La Liga,Spain
+2025-07-26,Celtic,Motherwell,0,1,0.75,0.5,0.19,0.241,0.569,SCO_PL,Scottish Premier League,Scotland
+2025-07-27,St Johnstone,Hibernian,1,1,1.42,1.38,0.394,0.278,0.328,SCO_PL,Scottish Premier League,Scotland
+2025-07-21,Benfica,Rio Ave,2,0,1.09,0.45,0.513,0.197,0.29,POR_PL,Primeira Liga,Portugal
+2025-07-22,Benfica,Porto,0,2,0.75,2.29,0.055,0.248,0.697,POR_PL,Primeira Liga,Portugal
+2025-07-23,AFC Wimbledon,Gillingham,1,1,0.92,0.69,0.271,0.362,0.367,ENG_L2,League Two,England
+2025-07-24,Bradford,Gillingham,0,0,0.65,0.55,0.411,0.228,0.361,ENG_L2,League Two,England

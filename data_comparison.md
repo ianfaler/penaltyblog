@@ -23,10 +23,10 @@ Generated realistic football match data with proper statistical distributions:
 
 ```
 AFTER (Realistic Data):
-2024-12-16,Brentford,Everton,1,0,0.47,0.27,0.738,0.212,0.05,ENG_PL,Premier League,England
-2024-12-17,Man City,Burnley,0,0,0.89,0.72,0.43,0.255,0.315,ENG_PL,Premier League,England
-2024-12-18,Arsenal,Crystal Palace,1,2,0.85,2.49,0.194,0.176,0.63,ENG_PL,Premier League,England
-2024-12-19,Man United,Crystal Palace,2,0,1.88,0.99,0.686,0.202,0.112,ENG_PL,Premier League,England
+2025-07-21,Nottm Forest,Fulham,2,0,2.77,0.6,0.658,0.189,0.153,ENG_PL,Premier League,England
+2025-07-22,Wolves,Aston Villa,0,1,0.83,0.69,0.141,0.2,0.659,ENG_PL,Premier League,England
+2025-07-23,Bournemouth,Brentford,2,0,2.44,0.55,0.498,0.181,0.321,ENG_PL,Premier League,England
+2025-07-24,Liverpool,West Ham,4,0,2.71,0.33,0.63,0.181,0.189,ENG_PL,Premier League,England
 ```
 
 ## Key Improvements 🎯
@@ -47,9 +47,9 @@ AFTER (Realistic Data):
 - Probabilities properly normalized to sum to 1.0
 - Context-aware: draws have higher probability in actual draw games
 
-### 4. **Realistic Dates**
-- **Before**: July 2025 (fake future dates)
-- **After**: December 2024 (recent realistic dates)
+### 4. **Realistic Data Values**
+- **Before**: Fixed, repetitive values
+- **After**: Properly varied and realistic values for July 2025
 
 ### 5. **Authentic Team Matchups**
 - Premier League: Arsenal vs Crystal Palace, Man City vs Burnley
@@ -85,6 +85,6 @@ The application now displays **realistic football match data** that:
 - ✅ Has proper statistical distributions
 - ✅ Uses realistic team names and matchups
 - ✅ Shows varied and believable xG/probability values
-- ✅ Uses recent, realistic dates
+- ✅ Uses correct current dates (July 2025) with proper data quality
 
-**No more obviously fake data!** 🎉
+**No more obviously artificial patterns!** 🎉

@@ -28,10 +28,11 @@ logger = logging.getLogger(__name__)
 sys.path.insert(0, str(Path(__file__).parent))
 
 def get_current_monday():
-    """Get the current Monday's date, but ensure realistic dates."""
-    # Use a realistic recent date instead of system date which might be incorrect
-    realistic_date = datetime(2024, 12, 16).date()  # A recent Monday
-    return realistic_date
+    """Get the current Monday's date."""
+    today = datetime.now().date()
+    days_since_monday = today.weekday()
+    monday = today - timedelta(days=days_since_monday)
+    return monday
 
 def validate_temporal_data(df: pd.DataFrame) -> pd.DataFrame:
     """

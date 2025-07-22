@@ -52,11 +52,11 @@ except ImportError as e:
     sys.exit(1)
 
 def get_current_monday():
-    """Get the Monday of the current week, but ensure realistic dates."""
-    # Use a realistic recent date instead of system date which might be incorrect
-    # This ensures we don't generate obviously fake future dates
-    realistic_date = datetime(2024, 12, 16)  # A recent Monday
-    return realistic_date.replace(hour=0, minute=0, second=0, microsecond=0)
+    """Get the Monday of the current week."""
+    today = datetime.now()
+    days_since_monday = today.weekday()
+    monday = today - timedelta(days=days_since_monday)
+    return monday.replace(hour=0, minute=0, second=0, microsecond=0)
 
 # Football-Data.co.uk league code mappings
 FOOTBALL_DATA_MAPPINGS = {
