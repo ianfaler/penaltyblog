@@ -1,266 +1,216 @@
 #!/usr/bin/env python3
 """
-Daily Schedule Update Script - REAL DATA VERSION
-===============================================
+Daily Schedule Update Script - FIXED VERSION
+===========================================
 
-This script runs daily to update the football schedule with REAL current data.
-It fetches actual Premier League data instead of generating fake matches.
+This script fetches REAL data from proven sources and fails explicitly 
+if data cannot be retrieved, rather than generating fake data.
+
+CRITICAL FIXES:
+- Removed demo data generation in production
+- Added proper error handling that fails explicitly
+- Added temporal validation to reject completed results for future dates
+- Ensures scrapers actually connect to real data sources
+
 """
 
-import os
 import sys
-import shutil
-from datetime import datetime, timedelta
-from pathlib import Path
-import pandas as pd
-import requests
-import io
 import logging
+import pandas as pd
+from datetime import datetime, timedelta, date
+from pathlib import Path
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Add the project root to Python path
+# Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
 
 def get_current_monday():
-    """Get the Monday of the current week."""
-    today = datetime.now()
+    """Get the current Monday's date."""
+    today = datetime.now().date()
     days_since_monday = today.weekday()
     monday = today - timedelta(days=days_since_monday)
-    return monday.replace(hour=0, minute=0, second=0, microsecond=0)
+    return monday
 
-def archive_old_data():
-    """Archive old CSV files to prevent confusion."""
-    data_dir = Path("data")
-    archive_dir = data_dir / "archive"
-    archive_dir.mkdir(exist_ok=True)
+def validate_temporal_data(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Validate temporal data - reject completed results for future dates.
     
-    today = datetime.now().date()
-    
-    for csv_file in data_dir.glob("*.csv"):
-        try:
-            # Parse date from filename (format: YYYY-MM-DD.csv)
-            file_date_str = csv_file.stem
-            file_date = datetime.strptime(file_date_str, "%Y-%m-%d").date()
-            
-            # Archive files older than 7 days
-            if (today - file_date).days > 7:
-                archive_path = archive_dir / csv_file.name
-                shutil.move(str(csv_file), str(archive_path))
-                print(f"📦 Archived old file: {csv_file.name}")
-        except ValueError:
-            # Skip files that don't match date format
-            continue
-
-def fetch_real_premier_league_data():
-    """Fetch real Premier League data from football-data.co.uk"""
-    
-    # Try current season first, then previous season
-    urls = [
-        "https://www.football-data.co.uk/mmz4281/2425/E0.csv",  # 2024-25 season
-        "https://www.football-data.co.uk/mmz4281/2324/E0.csv"   # 2023-24 season (backup)
-    ]
-    
-    for url in urls:
-        try:
-            logger.info(f"Fetching real Premier League data from {url}...")
-            response = requests.get(url, timeout=30)
-            response.raise_for_status()
-            
-            # Read the CSV data
-            df = pd.read_csv(io.StringIO(response.text))
-            
-            if not df.empty:
-                logger.info(f"Successfully fetched {len(df)} matches from real data source")
-                return df
-            
-        except Exception as e:
-            logger.warning(f"Failed to fetch from {url}: {e}")
-            continue
-    
-    logger.error("Failed to fetch data from all sources")
-    return pd.DataFrame()
-
-def process_real_data(df):
-    """Process the real data into our expected format"""
-    
-    if df.empty:
-        return pd.DataFrame()
-    
-    processed_matches = []
-    
-    for _, row in df.iterrows():
-        try:
-            # Parse date - football-data uses DD/MM/YY format
-            date_str = str(row.get('Date', '')).strip()
-            if not date_str or date_str == 'nan':
-                continue
-                
-            # Try different date formats
-            date_obj = None
-            for date_format in ['%d/%m/%y', '%d/%m/%Y']:
-                try:
-                    date_obj = datetime.strptime(date_str, date_format)
-                    # Fix year if it's in the wrong century
-                    if date_obj.year < 2000:
-                        date_obj = date_obj.replace(year=date_obj.year + 100)
-                    break
-                except ValueError:
-                    continue
-            
-            if not date_obj:
-                continue
-            
-            # Get team names
-            home_team = str(row.get('HomeTeam', '')).strip()
-            away_team = str(row.get('AwayTeam', '')).strip()
-            
-            if not home_team or not away_team:
-                continue
-            
-            # Get scores (use 0 if not available/match not played)
-            home_score = row.get('FTHG', 0)
-            away_score = row.get('FTAG', 0)
-            
-            # Convert to int, defaulting to 0 if NaN
-            try:
-                home_score = int(home_score) if pd.notna(home_score) else 0
-                away_score = int(away_score) if pd.notna(away_score) else 0
-            except (ValueError, TypeError):
-                home_score = 0
-                away_score = 0
-            
-            # Generate realistic xG and probabilities based on real data
-            if home_score > away_score:
-                home_win_prob = 0.6
-                draw_prob = 0.2
-                away_win_prob = 0.2
-            elif away_score > home_score:
-                home_win_prob = 0.2
-                draw_prob = 0.2
-                away_win_prob = 0.6
-            else:
-                home_win_prob = 0.4
-                draw_prob = 0.3
-                away_win_prob = 0.3
-            
-            # Generate reasonable xG values
-            xg_home = max(0.1, (home_score + 1) * 0.8) if home_score > 0 else 1.2
-            xg_away = max(0.1, (away_score + 1) * 0.8) if away_score > 0 else 1.1
-            
-            match_data = {
-                'date': date_obj.strftime('%Y-%m-%d'),
-                'team_home': home_team,
-                'team_away': away_team,
-                'goals_home': home_score,
-                'goals_away': away_score,
-                'xg_home': round(xg_home, 2),
-                'xg_away': round(xg_away, 2),
-                'home_win_prob': round(home_win_prob, 3),
-                'draw_prob': round(draw_prob, 3),
-                'away_win_prob': round(away_win_prob, 3)
-            }
-            
-            processed_matches.append(match_data)
-            
-        except Exception as e:
-            logger.warning(f"Error processing match data: {e}")
-            continue
-    
-    if processed_matches:
-        result_df = pd.DataFrame(processed_matches)
-        logger.info(f"Successfully processed {len(result_df)} matches")
-        return result_df
-    else:
-        logger.warning("No matches could be processed")
-        return pd.DataFrame()
-
-def get_recent_matches_for_current_week(df):
-    """Get the most recent matches and format them as if they're for current week"""
-    
+    This is a critical fix to prevent fake data from being accepted.
+    """
     if df.empty:
         return df
     
-    # Convert date strings to datetime
-    df['date_obj'] = pd.to_datetime(df['date'])
-    
-    # Sort by date and get the most recent matches
-    recent_matches = df.sort_values('date_obj').tail(20).copy()
-    
-    if recent_matches.empty:
-        return pd.DataFrame()
-    
-    # Get current week's dates
-    monday = get_current_monday()
-    week_dates = [monday + timedelta(days=i) for i in range(7)]
-    
-    # Redistribute recent matches across current week
-    redistributed_matches = []
-    for i, (_, match) in enumerate(recent_matches.iterrows()):
-        # Assign to different days of the week cyclically
-        day_index = i % 7
-        new_date = week_dates[day_index]
+    # Convert date column to datetime if it exists
+    if 'date' in df.columns:
+        df['date_parsed'] = pd.to_datetime(df['date'], errors='coerce')
+        current_date = datetime.now().date()
         
-        # Update the match with new date
-        match_copy = match.copy()
-        match_copy['date'] = new_date.strftime('%Y-%m-%d')
-        redistributed_matches.append(match_copy.drop('date_obj'))
+        # Find future dates with completed results
+        future_mask = df['date_parsed'].dt.date > current_date
+        completed_mask = df['goals_home'].notna() & df['goals_away'].notna()
+        invalid_future_results = future_mask & completed_mask
+        
+        if invalid_future_results.any():
+            invalid_count = invalid_future_results.sum()
+            logger.error(f"TEMPORAL VALIDATION FAILED: Found {invalid_count} completed results for future dates")
+            logger.error("This indicates fake/demo data. Rejecting entire dataset.")
+            
+            # Log the problematic entries
+            problematic = df[invalid_future_results][['date', 'team_home', 'team_away', 'goals_home', 'goals_away']]
+            logger.error(f"Problematic entries:\n{problematic.to_string()}")
+            
+            raise ValueError(f"Temporal validation failed: {invalid_count} future completed results detected")
+        
+        # Remove the temporary column
+        df = df.drop('date_parsed', axis=1)
     
-    result_df = pd.DataFrame(redistributed_matches)
-    logger.info(f"Redistributed {len(result_df)} recent matches across current week")
+    return df
+
+def fetch_real_data_from_scrapers():
+    """
+    Fetch real data using the unified scraper system.
     
-    return result_df
+    This replaces the old demo data generation with actual scraping.
+    """
+    try:
+        from penaltyblog.scrapers.unified_scraper import UnifiedScraper
+        
+        logger.info("🔄 Fetching real data from proven sources...")
+        scraper = UnifiedScraper(season="2024-25")
+        
+        # Try Premier League first as default
+        df = scraper.scrape_league("ENG_PL", preferred_source="fbref")
+        
+        if df.empty:
+            logger.error("Failed to fetch data from unified scraper")
+            return pd.DataFrame()
+        
+        logger.info(f"✅ Successfully fetched {len(df)} fixtures from real sources")
+        
+        # Apply temporal validation
+        df = validate_temporal_data(df)
+        
+        return df
+        
+    except Exception as e:
+        logger.error(f"❌ Real data scraping failed: {e}")
+        return pd.DataFrame()
+
+def archive_old_data():
+    """Archive old data files."""
+    data_dir = Path("data")
+    if not data_dir.exists():
+        data_dir.mkdir(parents=True)
+        return
+    
+    # Archive files older than 7 days
+    cutoff_date = datetime.now() - timedelta(days=7)
+    
+    for csv_file in data_dir.glob("*.csv"):
+        if csv_file.stat().st_mtime < cutoff_date.timestamp():
+            archive_dir = data_dir / "archive"
+            archive_dir.mkdir(exist_ok=True)
+            
+            archived_path = archive_dir / csv_file.name
+            csv_file.rename(archived_path)
+            logger.info(f"📦 Archived old file: {csv_file.name}")
 
 def update_schedule():
-    """Main function to update the schedule with REAL data."""
-    print("🔄 Running daily schedule update with REAL data...")
+    """
+    Main function to update the schedule with REAL data only.
+    
+    CRITICAL CHANGES:
+    - No demo data generation
+    - Explicit failure when real data unavailable
+    - Temporal validation enforced
+    """
+    print("🔄 Running daily schedule update with REAL data only...")
     
     # Archive old files
     archive_old_data()
     
-    # Fetch and process real data
-    raw_data = fetch_real_premier_league_data()
+    # Fetch real data - NO FALLBACK TO FAKE DATA
+    real_data = fetch_real_data_from_scrapers()
     
-    if raw_data.empty:
-        print("❌ Failed to fetch real data, keeping existing data")
+    if real_data.empty:
+        print("❌ CRITICAL FAILURE: No real data available")
+        print("❌ Refusing to generate fake data in production")
+        print("❌ Please check data source connections")
+        print("❌ System will continue with existing data if available")
         return None
     
-    processed_data = process_real_data(raw_data)
+    # Validate data quality
+    if len(real_data) < 10:
+        logger.warning(f"⚠️  Low data volume: only {len(real_data)} fixtures")
+        print("⚠️  Warning: Limited real data available")
     
-    if processed_data.empty:
-        print("❌ Failed to process real data")
-        return None
+    # Get current week's data if applicable
+    current_week_data = real_data
     
-    # Get recent matches formatted for current week
-    current_week_data = get_recent_matches_for_current_week(processed_data)
+    # Filter for current/upcoming matches only
+    if 'date' in current_week_data.columns:
+        current_week_data['date_parsed'] = pd.to_datetime(current_week_data['date'], errors='coerce')
+        today = datetime.now().date()
+        
+        # Include matches from today onwards for the next 7 days
+        start_date = today
+        end_date = today + timedelta(days=7)
+        
+        date_mask = (
+            (current_week_data['date_parsed'].dt.date >= start_date) &
+            (current_week_data['date_parsed'].dt.date <= end_date)
+        )
+        
+        current_week_data = current_week_data[date_mask].drop('date_parsed', axis=1)
     
     if current_week_data.empty:
-        print("❌ No matches could be prepared for current week")
+        print("❌ No upcoming fixtures found in real data")
+        print("❌ This may be normal during off-season")
         return None
     
     # Save to CSV with current Monday's date
     monday = get_current_monday()
     filename = f"data/{monday.strftime('%Y-%m-%d')}.csv"
     
+    # Ensure data directory exists
+    Path("data").mkdir(parents=True, exist_ok=True)
+    
     current_week_data.to_csv(filename, index=False)
     
-    print(f"✅ Updated schedule saved to: {filename}")
+    print(f"✅ Real data saved to: {filename}")
     print(f"📅 Week of: {monday.strftime('%Y-%m-%d')} to {(monday + timedelta(days=6)).strftime('%Y-%m-%d')}")
-    print(f"🏈 Generated {len(current_week_data)} REAL fixtures")
+    print(f"🏈 Processed {len(current_week_data)} REAL fixtures")
     
     # Display sample
-    print("\n📋 Sample REAL fixtures:")
-    sample_df = current_week_data.head(5)[['date', 'team_home', 'team_away', 'goals_home', 'goals_away']]
-    print(sample_df.to_string(index=False))
+    if not current_week_data.empty:
+        print("\n📋 Sample REAL fixtures:")
+        display_cols = ['date', 'home', 'away']
+        # Use available columns
+        available_cols = [col for col in display_cols if col in current_week_data.columns]
+        if not available_cols:
+            available_cols = list(current_week_data.columns)[:3]  # First 3 columns
+        
+        sample_df = current_week_data.head(5)[available_cols]
+        print(sample_df.to_string(index=False))
     
-    print("\n🎯 SUCCESS: Now using REAL Premier League data!")
-    print("📊 Teams: Real Premier League clubs")
-    print("📈 Results: Real match outcomes") 
-    print("⚽ Data source: football-data.co.uk")
+    print("\n🎯 SUCCESS: Using REAL data from proven sources!")
+    print("📊 Data Source: FBRef/Understat/Football-Data")
+    print("✅ No fake data generation in production")
     
     return filename
 
 if __name__ == "__main__":
-    update_schedule()
+    try:
+        result = update_schedule()
+        if result:
+            print(f"\n✅ Daily update completed successfully: {result}")
+        else:
+            print("\n❌ Daily update failed - no real data available")
+            sys.exit(1)
+    except Exception as e:
+        print(f"\n❌ Daily update failed with error: {e}")
+        logger.error(f"Daily update failed: {e}")
+        sys.exit(1)

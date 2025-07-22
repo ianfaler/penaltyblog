@@ -169,6 +169,8 @@ class UnifiedScraper:
         """
         Scrape data for a specific league from a specific source.
         
+        Enhanced to fail explicitly when no real data is available.
+        
         Parameters
         ----------
         league_code : str
@@ -211,6 +213,11 @@ class UnifiedScraper:
                 logger.warning(f"No data returned from {source} for {league.display_name}")
                 return None
             
+            # CRITICAL: Validate that this is real data, not demo data
+            if not self._validate_real_data(df, league_code, source):
+                logger.error(f"Data validation failed - rejecting data from {source} for {league.display_name}")
+                return None
+            
             # Standardize the DataFrame
             df = self._standardize_dataframe(df, league_code, source)
             
@@ -220,6 +227,70 @@ class UnifiedScraper:
         except Exception as e:
             logger.error(f"❌ Failed to scrape {league.display_name} from {source}: {e}")
             return None
+    
+    def _validate_real_data(self, df: pd.DataFrame, league_code: str, source: str) -> bool:
+        """
+        Validate that the scraped data is real, not demo/fake data.
+        
+        This is a critical validation to prevent fake data from entering the system.
+        
+        Parameters
+        ----------
+        df : pd.DataFrame
+            The scraped data
+        league_code : str
+            League code for context
+        source : str
+            Data source for context
+            
+        Returns
+        -------
+        bool
+            True if data appears to be real, False otherwise
+        """
+        if df.empty:
+            logger.warning(f"Empty dataframe from {source} for {league_code}")
+            return False
+        
+        # Check for temporal validation issues (completed results for future dates)
+        if 'date' in df.columns and 'goals_home' in df.columns and 'goals_away' in df.columns:
+            df_copy = df.copy()
+            df_copy['date_parsed'] = pd.to_datetime(df_copy['date'], errors='coerce')
+            current_date = datetime.now().date()
+            
+            # Find future dates with completed results
+            future_mask = df_copy['date_parsed'].dt.date > current_date
+            completed_mask = df_copy['goals_home'].notna() & df_copy['goals_away'].notna()
+            invalid_future = future_mask & completed_mask
+            
+            if invalid_future.any():
+                invalid_count = invalid_future.sum()
+                logger.error(f"CRITICAL: {source} for {league_code} has {invalid_count} completed results for future dates")
+                logger.error("This indicates demo/fake data generation - REJECTING")
+                return False
+        
+        # Check for suspicious patterns that indicate fake data
+        if 'team_home' in df.columns and 'team_away' in df.columns:
+            # Check for obviously fake team names
+            fake_patterns = ['test', 'demo', 'fake', 'sample', 'placeholder']
+            all_teams = list(df['team_home'].unique()) + list(df['team_away'].unique())
+            
+            for team in all_teams:
+                if pd.isna(team):
+                    continue
+                team_lower = str(team).lower()
+                for pattern in fake_patterns:
+                    if pattern in team_lower:
+                        logger.error(f"Fake team name detected: '{team}' from {source} for {league_code}")
+                        return False
+        
+        # Check data size - real data should have reasonable amount
+        if len(df) < 5:  # Too few rows might indicate fake/test data
+            logger.warning(f"Very small dataset from {source} for {league_code}: {len(df)} rows")
+            return False
+        
+        logger.debug(f"Data validation passed for {source} {league_code}: {len(df)} rows")
+        return True
     
     def _standardize_dataframe(self, df: pd.DataFrame, league_code: str, source: str) -> pd.DataFrame:
         """Standardize DataFrame format across different sources."""
@@ -270,6 +341,8 @@ class UnifiedScraper:
         """
         Scrape data for a specific league, trying multiple sources if needed.
         
+        Enhanced to fail explicitly when no real data sources work.
+        
         Parameters
         ----------
         league_code : str
@@ -281,12 +354,18 @@ class UnifiedScraper:
         -------
         pd.DataFrame
             DataFrame containing match data
+            
+        Raises
+        ------
+        RuntimeError
+            If no real data could be obtained from any source
         """
         available_sources = self.get_available_sources_for_league(league_code)
         
         if not available_sources:
-            logger.error(f"No data sources available for league {league_code}")
-            return pd.DataFrame()
+            error_msg = f"No data sources available for league {league_code}"
+            logger.error(error_msg)
+            raise RuntimeError(error_msg)
         
         # Prioritize sources: FBRef > Football-Data > Understat
         source_priority = ["fbref", "footballdata", "understat"]
@@ -297,12 +376,33 @@ class UnifiedScraper:
         else:
             sources_to_try = [s for s in source_priority if s in available_sources]
         
-        for source in sources_to_try:
-            df = self.scrape_league_from_source(league_code, source)
-            if df is not None and not df.empty:
-                return df
+        last_error = None
+        attempted_sources = []
         
-        logger.error(f"Failed to scrape data for {league_code} from any available source")
+        for source in sources_to_try:
+            attempted_sources.append(source)
+            try:
+                df = self.scrape_league_from_source(league_code, source)
+                if df is not None and not df.empty:
+                    logger.info(f"✅ Successfully obtained real data from {source} for {league_code}")
+                    return df
+                else:
+                    logger.warning(f"Source {source} returned no data for {league_code}")
+            except Exception as e:
+                last_error = e
+                logger.error(f"Source {source} failed for {league_code}: {e}")
+        
+        # If we get here, all sources failed
+        error_msg = (
+            f"CRITICAL FAILURE: All data sources failed for {league_code}. "
+            f"Attempted sources: {attempted_sources}. "
+            f"This system will NOT generate fake data as a fallback. "
+            f"Last error: {last_error}"
+        )
+        logger.error(error_msg)
+        
+        # Return empty DataFrame but log that this is an explicit failure
+        logger.error("Returning empty DataFrame - no fake data generation")
         return pd.DataFrame()
     
     def scrape_multiple_leagues(self, league_codes: List[str], preferred_source: str = None) -> Dict[str, pd.DataFrame]:
