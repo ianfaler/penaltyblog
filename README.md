@@ -113,6 +113,13 @@ pytest test/  # Run all tests
 make check    # Run linting and type checking
 ```
 
+### Reality-check (optional)
+Verify we're scraping live fixtures & generating sane predictions:
+
+```bash
+make reality-check
+```
+
 ## Documentation
 
 Learn more about how to utilize `penaltyblog` by exploring the [official documentation](https://penaltyblog.readthedocs.io/en/latest/) and detailed examples:

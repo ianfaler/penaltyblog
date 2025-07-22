@@ -5,6 +5,9 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
+  schedule:
+    # Run reality check nightly at 2 AM UTC
+    - cron: '0 2 * * *'
 
 jobs:
   test:
@@ -166,3 +169,33 @@ jobs:
         assert response.status_code == 200
         print('Leagues endpoint test passed')
         "
+
+  reality-check:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.event_name == 'schedule'
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-reality-${{ hashFiles('**/pyproject.toml') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-reality-
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+        pip install -e ".[dev]"
+
+    - name: Run reality check
+      run: |
+        make reality-check

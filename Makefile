@@ -105,3 +105,7 @@ scrape-demo:
 # List all available leagues
 list-leagues:
 	python -m penaltyblog.scrapers.match_scraper --list-leagues
+
+# Reality check - validate current week fixtures and predictions
+reality-check:
+	python scripts/reality_check.py
