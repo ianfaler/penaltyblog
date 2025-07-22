@@ -81,6 +81,11 @@ make list-leagues
 
 # Start web interface to view data
 make serve  # open http://127.0.0.1:8000
+
+# View this week's fixtures
+make scrape          # refresh data
+make serve           # start server
+# browser → http://127.0.0.1:8000/week
 ```
 
 ### 4. Run Demo Pipeline
