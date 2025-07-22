@@ -1,0 +1,362 @@
+leagues:
+  # TIER 1 - Major European Leagues
+  ENG_PL:
+    name: "Premier League"
+    country: "England"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://fantasy.premierleague.com/api/fixtures/"
+  
+  ESP_LL:
+    name: "La Liga"
+    country: "Spain"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.laliga.com/en-GB/laliga-santander/results"
+  
+  GER_BL:
+    name: "Bundesliga"
+    country: "Germany"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.bundesliga.com/en/bundesliga/fixtures"
+  
+  ITA_SA:
+    name: "Serie A"
+    country: "Italy"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.legaseriea.it/en/serie-a/fixture-and-results"
+  
+  FRA_L1:
+    name: "Ligue 1"
+    country: "France"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.ligue1.com/ligue1/calendrier-resultats"
+  
+  # TIER 1 - Other Major Leagues
+  NED_ED:
+    name: "Eredivisie"
+    country: "Netherlands"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.eredivisie.nl/en-us/fixtures"
+  
+  POR_PL:
+    name: "Primeira Liga"
+    country: "Portugal"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.ligaportugal.pt/en/liga/fixtures"
+  
+  BEL_PD:
+    name: "Pro League"
+    country: "Belgium"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.proleague.be/en/fixtures-results"
+  
+  TUR_SL:
+    name: "Super Lig"
+    country: "Turkey"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.tff.org/Default.aspx?pageId=198"
+  
+  GRE_SL:
+    name: "Super League"
+    country: "Greece"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.slgr.gr/en/fixtures"
+  
+  # TIER 1 - Eastern Europe
+  RUS_PL:
+    name: "Premier League"
+    country: "Russia"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.premierliga.ru/en/calendar"
+  
+  UKR_PL:
+    name: "Premier League"
+    country: "Ukraine"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://upl.ua/en/championship/calendar"
+  
+  # TIER 1 - Scandinavia
+  SWE_AS:
+    name: "Allsvenskan"
+    country: "Sweden"
+    tier: 1
+    season_id: "2024"
+    url_template: "https://www.svenskfotboll.se/svensk-fotboll/allsvenskan/schema-resultat/"
+  
+  NOR_EL:
+    name: "Eliteserien"
+    country: "Norway"
+    tier: 1
+    season_id: "2024"
+    url_template: "https://www.fotball.no/eliteserien/kalender-resultater/"
+  
+  DEN_SL:
+    name: "Superliga"
+    country: "Denmark"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.superliga.dk/kalender"
+  
+  # TIER 2 - Second Divisions
+  ENG_CH:
+    name: "Championship"
+    country: "England"
+    tier: 2
+    season_id: "2024-25"
+    url_template: "https://www.efl.com/fixtures-results/"
+  
+  ESP_L2:
+    name: "Segunda División"
+    country: "Spain"
+    tier: 2
+    season_id: "2024-25"
+    url_template: "https://www.laliga.com/en-GB/laliga-smartbank/results"
+  
+  GER_B2:
+    name: "2. Bundesliga"
+    country: "Germany"
+    tier: 2
+    season_id: "2024-25"
+    url_template: "https://www.bundesliga.com/en/2bundesliga/fixtures"
+  
+  ITA_SB:
+    name: "Serie B"
+    country: "Italy"
+    tier: 2
+    season_id: "2024-25"
+    url_template: "https://www.legab.it/calendario-risultati"
+  
+  FRA_L2:
+    name: "Ligue 2"
+    country: "France"
+    tier: 2
+    season_id: "2024-25"
+    url_template: "https://www.ligue2.fr/ligue2/calendrier-resultats"
+  
+  # TIER 1 - Americas
+  BRA_SP:
+    name: "Série A"
+    country: "Brazil"
+    tier: 1
+    season_id: "2024"
+    url_template: "https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/tabela"
+  
+  ARG_PL:
+    name: "Primera División"
+    country: "Argentina"
+    tier: 1
+    season_id: "2024"
+    url_template: "https://www.afa.com.ar/es/torneos/primera-division"
+  
+  MEX_LM:
+    name: "Liga MX"
+    country: "Mexico"
+    tier: 1
+    season_id: "2024"
+    url_template: "https://www.ligamx.net/cancha/jornada"
+  
+  USA_ML:
+    name: "MLS"
+    country: "United States"
+    tier: 1
+    season_id: "2024"
+    url_template: "https://www.mlssoccer.com/schedule"
+  
+  COL_PL:
+    name: "Primera A"
+    country: "Colombia"
+    tier: 1
+    season_id: "2024"
+    url_template: "https://www.fcf.com.co/index.php/torneos/liga-betplay-dimayor"
+  
+  # TIER 1 - Asia Pacific
+  JPN_J1:
+    name: "J1 League"
+    country: "Japan"
+    tier: 1
+    season_id: "2024"
+    url_template: "https://www.jleague.jp/en/match/j1/"
+  
+  KOR_KL:
+    name: "K League 1"
+    country: "South Korea"
+    tier: 1
+    season_id: "2024"
+    url_template: "https://www.kleague.com/en/schedule"
+  
+  CHN_CS:
+    name: "Chinese Super League"
+    country: "China"
+    tier: 1
+    season_id: "2024"
+    url_template: "https://www.csl-china.com/en/schedule"
+  
+  AUS_AL:
+    name: "A-League"
+    country: "Australia"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.a-league.com.au/fixtures-results"
+  
+  # TIER 1 - Africa & Middle East
+  EGY_PL:
+    name: "Premier League"
+    country: "Egypt"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.efa.com.eg/tournaments/premier-league"
+  
+  MAR_BL:
+    name: "Botola"
+    country: "Morocco"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.frmf.ma/fr/competition/botola-pro"
+  
+  SAU_PL:
+    name: "Saudi Pro League"
+    country: "Saudi Arabia"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.slstat.com/en/schedule"
+  
+  # TIER 2 - More Second Divisions
+  NED_KD:
+    name: "Keuken Kampioen Divisie"
+    country: "Netherlands"
+    tier: 2
+    season_id: "2024-25"
+    url_template: "https://www.keuken-kampioen-divisie.nl/programma-uitslagen"
+  
+  POR_L2:
+    name: "Liga Portugal 2"
+    country: "Portugal"
+    tier: 2
+    season_id: "2024-25"
+    url_template: "https://www.ligaportugal.pt/en/liga2/fixtures"
+  
+  BEL_D2:
+    name: "Challenger Pro League"
+    country: "Belgium"
+    tier: 2
+    season_id: "2024-25"
+    url_template: "https://www.proleague.be/en/challenger-pro-league/fixtures-results"
+  
+  # TIER 3 - Third Divisions
+  ENG_L1:
+    name: "League One"
+    country: "England"
+    tier: 3
+    season_id: "2024-25"
+    url_template: "https://www.efl.com/fixtures-results/"
+  
+  ESP_RF:
+    name: "Primera RFEF"
+    country: "Spain"
+    tier: 3
+    season_id: "2024-25"
+    url_template: "https://www.rfef.es/competiciones/primera-rfef/calendario-resultados"
+  
+  GER_3L:
+    name: "3. Liga"
+    country: "Germany"
+    tier: 3
+    season_id: "2024-25"
+    url_template: "https://www.dfb.de/3-liga/spieltag/"
+  
+  # TIER 1 - Additional Major Leagues
+  CZE_FL:
+    name: "Fortuna Liga"
+    country: "Czech Republic"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.fortunaliga.cz/zapasy"
+  
+  SVK_FL:
+    name: "Fortuna Liga"
+    country: "Slovakia"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.profutbal.sk/zapasy"
+  
+  HUN_NB:
+    name: "NB I"
+    country: "Hungary"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.mlsz.hu/nb1/merkozes"
+  
+  ROM_L1:
+    name: "Liga 1"
+    country: "Romania"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.lpf.ro/liga-1/program-rezultate"
+  
+  BUL_FL:
+    name: "First League"
+    country: "Bulgaria"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.bfunion.bg/competitions/a-grupa/fixtures"
+  
+  CRO_1H:
+    name: "1. HNL"
+    country: "Croatia"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://hnl.hr/en/fixtures"
+  
+  SRB_SL:
+    name: "SuperLiga"
+    country: "Serbia"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.superliga.rs/raspored-rezultati"
+  
+  AUT_BL:
+    name: "Bundesliga"
+    country: "Austria"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.bundesliga.at/de/bundesliga/spielplan/"
+  
+  SUI_SL:
+    name: "Super League"
+    country: "Switzerland"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.sfl.ch/de/super-league/spielplan/"
+  
+  # TIER 1 - More International
+  CYP_FL:
+    name: "First Division"
+    country: "Cyprus"
+    tier: 1
+    season_id: "2024-25"
+    url_template: "https://www.cfa.com.cy/en/competitions/first-division/fixtures"
+  
+  ISL_PL:
+    name: "Besta deild karla"
+    country: "Iceland"
+    tier: 1
+    season_id: "2024"
+    url_template: "https://www.ksi.is/knattspyrna/mottakar/urvalsdeild/stada/"
+  
+  FIN_VL:
+    name: "Veikkausliiga"
+    country: "Finland"
+    tier: 1
+    season_id: "2024"
+    url_template: "https://www.veikkausliiga.com/ottelut"

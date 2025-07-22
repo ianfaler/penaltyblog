@@ -1,485 +1,399 @@
 leagues:
   ARG_PL:
     country: Argentina
-    disabled_date: '2025-07-22T13:51:25.894094'
-    disabled_reason: Temporarily disabled - endpoint issues detected
-    enabled: false
+    enabled: true
     name: "Primera Divisi\xF3n"
     season_id: '2024'
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.afa.com.ar/es/torneos/primera-division
   AUS_AL:
     country: Australia
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894077'
     name: A-League
     season_id: 2024-25
-    status: verified_working
     tier: 1
     url_template: https://www.a-league.com.au/fixtures-results
   AUT_BL:
     country: Austria
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894091'
     name: Bundesliga
     season_id: 2024-25
-    status: verified_working
     tier: 1
     url_template: https://www.bundesliga.at/de/bundesliga/spielplan/
   BEL_D2:
     country: Belgium
-    disabled_date: '2025-07-22T13:51:25.894097'
-    disabled_reason: Temporarily disabled - endpoint issues detected
-    enabled: false
+    enabled: true
     name: Challenger Pro League
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 2
     url_template: https://www.proleague.be/en/challenger-pro-league/fixtures-results
   BEL_PD:
     country: Belgium
-    disabled_date: '2025-07-22T13:51:25.894099'
-    disabled_reason: Temporarily disabled - endpoint issues detected
-    enabled: false
+    enabled: true
     name: Pro League
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.proleague.be/en/fixtures-results
   BRA_SP:
     country: Brazil
-    disabled_date: '2025-07-22T13:51:25.894100'
-    disabled_reason: Temporarily disabled - endpoint issues detected
-    enabled: false
+    enabled: true
     name: "S\xE9rie A"
     season_id: '2024'
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/tabela
   BUL_FL:
     country: Bulgaria
-    disabled_date: '2025-07-22T13:51:25.894100'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631504'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: First League
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.bfunion.bg/competitions/a-grupa/fixtures
   CHN_CS:
     country: China
-    disabled_date: '2025-07-22T13:51:25.894101'
-    disabled_reason: Temporarily disabled - endpoint issues detected
-    enabled: false
+    enabled: true
     name: Chinese Super League
     season_id: '2024'
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.csl-china.com/en/schedule
   COL_PL:
     country: Colombia
-    disabled_date: '2025-07-22T13:51:25.894102'
-    disabled_reason: Temporarily disabled - endpoint issues detected
-    enabled: false
+    enabled: true
     name: Primera A
     season_id: '2024'
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.fcf.com.co/index.php/torneos/liga-betplay-dimayor
   CRO_1H:
     country: Croatia
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894089'
     name: 1. HNL
     season_id: 2024-25
-    status: verified_working
     tier: 1
     url_template: https://hnl.hr/en/fixtures
   CYP_FL:
     country: Cyprus
-    disabled_date: '2025-07-22T13:51:25.894103'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631507'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: First Division
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.cfa.com.cy/en/competitions/first-division/fixtures
   CZE_FL:
     country: Czech Republic
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894084'
     name: Fortuna Liga
     season_id: 2024-25
-    status: verified_working
     tier: 1
     url_template: https://www.fortunaliga.cz/zapasy
   DEN_SL:
     country: Denmark
-    disabled_date: '2025-07-22T13:51:25.894104'
-    disabled_reason: Temporarily disabled - endpoint issues detected
-    enabled: false
+    enabled: true
     name: Superliga
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.superliga.dk/kalender
   EGY_PL:
     country: Egypt
-    disabled_date: '2025-07-22T13:51:25.894105'
-    disabled_reason: Temporarily disabled - endpoint issues detected
-    enabled: false
+    enabled: true
     name: Premier League
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.efa.com.eg/tournaments/premier-league
   ENG_CH:
     country: England
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894068'
     name: Championship
     season_id: 2024-25
-    status: verified_working
     tier: 2
     url_template: https://www.efl.com/fixtures-results/
   ENG_L1:
     country: England
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894079'
     name: League One
     season_id: 2024-25
-    status: verified_working
     tier: 3
     url_template: https://www.efl.com/fixtures-results/
   ENG_PL:
     country: England
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894035'
     name: Premier League
     season_id: 2024-25
-    status: verified_working
     tier: 1
     url_template: https://fantasy.premierleague.com/api/fixtures/
   ESP_L2:
     country: Spain
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894071'
     name: "Segunda Divisi\xF3n"
     season_id: 2024-25
-    status: verified_working
     tier: 2
     url_template: https://www.laliga.com/en-GB/laliga-smartbank/results
   ESP_LL:
     country: Spain
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894057'
     name: La Liga
     season_id: 2024-25
-    status: verified_working
     tier: 1
     url_template: https://www.laliga.com/en-GB/laliga-santander/results
   ESP_RF:
     country: Spain
-    disabled_date: '2025-07-22T13:51:25.894106'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631500'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Primera RFEF
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 3
     url_template: https://www.rfef.es/competiciones/primera-rfef/calendario-resultados
   FIN_VL:
     country: Finland
-    disabled_date: '2025-07-22T13:51:25.894107'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631509'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Veikkausliiga
     season_id: '2024'
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.veikkausliiga.com/ottelut
   FRA_L1:
     country: France
-    disabled_date: '2025-07-22T13:51:25.894108'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631450'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Ligue 1
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.ligue1.com/ligue1/calendrier-resultats
   FRA_L2:
     country: France
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894073'
     name: Ligue 2
     season_id: 2024-25
-    status: verified_working
     tier: 2
     url_template: https://www.ligue2.fr/ligue2/calendrier-resultats
   GER_3L:
     country: Germany
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894082'
     name: 3. Liga
     season_id: 2024-25
-    status: verified_working
     tier: 3
     url_template: https://www.dfb.de/3-liga/spieltag/
   GER_B2:
     country: Germany
-    disabled_date: '2025-07-22T13:51:25.894109'
-    disabled_reason: Temporarily disabled - endpoint issues detected
-    enabled: false
+    enabled: true
     name: 2. Bundesliga
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 2
     url_template: https://www.bundesliga.com/en/2bundesliga/fixtures
   GER_BL:
     country: Germany
-    disabled_date: '2025-07-22T13:51:25.894109'
-    disabled_reason: Temporarily disabled - endpoint issues detected
-    enabled: false
+    enabled: true
     name: Bundesliga
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.bundesliga.com/en/bundesliga/fixtures
   GRE_SL:
     country: Greece
-    disabled_date: '2025-07-22T13:51:25.894110'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631481'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Super League
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.slgr.gr/en/fixtures
   HUN_NB:
     country: Hungary
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894086'
     name: NB I
     season_id: 2024-25
-    status: verified_working
     tier: 1
     url_template: https://www.mlsz.hu/nb1/merkozes
   ISL_PL:
     country: Iceland
-    disabled_date: '2025-07-22T13:51:25.894111'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631508'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Besta deild karla
     season_id: '2024'
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.ksi.is/knattspyrna/mottakar/urvalsdeild/stada/
   ITA_SA:
     country: Italy
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894061'
     name: Serie A
     season_id: 2024-25
-    status: verified_working
     tier: 1
     url_template: https://www.legaseriea.it/en/serie-a/fixture-and-results
   ITA_SB:
     country: Italy
-    disabled_date: '2025-07-22T13:51:25.894112'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631486'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Serie B
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 2
     url_template: https://www.legab.it/calendario-risultati
   JPN_J1:
     country: Japan
-    disabled_date: '2025-07-22T13:51:25.894113'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631489'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: J1 League
     season_id: '2024'
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.jleague.jp/en/match/j1/
   KOR_KL:
     country: South Korea
-    disabled_date: '2025-07-22T13:51:25.894114'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631490'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: K League 1
     season_id: '2024'
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.kleague.com/en/schedule
   MAR_BL:
     country: Morocco
-    disabled_date: '2025-07-22T13:51:25.894116'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631491'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Botola
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.frmf.ma/fr/competition/botola-pro
   MEX_LM:
     country: Mexico
-    disabled_date: '2025-07-22T13:51:25.894117'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631487'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Liga MX
     season_id: '2024'
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.ligamx.net/cancha/jornada
   NED_ED:
     country: Netherlands
-    disabled_date: '2025-07-22T13:51:25.894118'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631476'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Eredivisie
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.eredivisie.nl/en-us/fixtures
   NED_KD:
     country: Netherlands
-    disabled_date: '2025-07-22T13:51:25.894119'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631493'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Keuken Kampioen Divisie
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 2
     url_template: https://www.keuken-kampioen-divisie.nl/programma-uitslagen
   NOR_EL:
     country: Norway
-    disabled_date: '2025-07-22T13:51:25.894120'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631484'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Eliteserien
     season_id: '2024'
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.fotball.no/eliteserien/kalender-resultater/
   POR_L2:
     country: Portugal
-    disabled_date: '2025-07-22T13:51:25.894121'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631494'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Liga Portugal 2
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 2
     url_template: https://www.ligaportugal.pt/en/liga2/fixtures
   POR_PL:
     country: Portugal
-    disabled_date: '2025-07-22T13:51:25.894121'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631478'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Primeira Liga
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.ligaportugal.pt/en/liga/fixtures
   ROM_L1:
     country: Romania
-    disabled_date: '2025-07-22T13:51:25.894122'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631503'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Liga 1
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.lpf.ro/liga-1/program-rezultate
   RUS_PL:
     country: Russia
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894066'
     name: Premier League
     season_id: 2024-25
-    status: verified_working
     tier: 1
     url_template: https://www.premierliga.ru/en/calendar
   SAU_PL:
     country: Saudi Arabia
-    disabled_date: '2025-07-22T13:51:25.894123'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631492'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Saudi Pro League
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.slstat.com/en/schedule
   SRB_SL:
     country: Serbia
-    disabled_date: '2025-07-22T13:51:25.894124'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631505'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: SuperLiga
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.superliga.rs/raspored-rezultati
   SUI_SL:
     country: Switzerland
-    disabled_date: '2025-07-22T13:51:25.894125'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631506'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Super League
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.sfl.ch/de/super-league/spielplan/
   SVK_FL:
     country: Slovakia
-    disabled_date: '2025-07-22T13:51:25.894125'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631502'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Fortuna Liga
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.profutbal.sk/zapasy
   SWE_AS:
     country: Sweden
-    disabled_date: '2025-07-22T13:51:25.894126'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631483'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Allsvenskan
     season_id: '2024'
-    status: disabled_for_stability
     tier: 1
     url_template: https://www.svenskfotboll.se/svensk-fotboll/allsvenskan/schema-resultat/
   TUR_SL:
     country: Turkey
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894064'
     name: Super Lig
     season_id: 2024-25
-    status: verified_working
     tier: 1
     url_template: https://www.tff.org/Default.aspx?pageId=198
   UKR_PL:
     country: Ukraine
-    disabled_date: '2025-07-22T13:51:25.894127'
-    disabled_reason: Temporarily disabled - endpoint issues detected
+    disabled_date: '2025-07-22T13:49:52.631482'
+    disabled_reason: Temporarily disabled due to endpoint issues
     enabled: false
     name: Premier League
     season_id: 2024-25
-    status: disabled_for_stability
     tier: 1
     url_template: https://upl.ua/en/championship/calendar
   USA_ML:
     country: United States
     enabled: true
-    last_verified: '2025-07-22T13:51:25.894075'
     name: MLS
     season_id: '2024'
-    status: verified_working
     tier: 1
     url_template: https://www.mlssoccer.com/schedule
