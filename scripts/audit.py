@@ -95,15 +95,23 @@ class DataIntegrityAuditor:
             raise StrictAuditError("No leagues found in configuration")
             
         results = {}
-        total_leagues = len(leagues['leagues'])
+        total_leagues = len(leagues)
         
         logger.info(f"📋 Found {total_leagues} leagues to audit")
         
         # Process each league
-        for i, (league_code, league_config) in enumerate(leagues['leagues'].items(), 1):
-            logger.info(f"[{i}/{total_leagues}] Auditing {league_code} ({league_config['name']})")
+        for i, (league_code, league_obj) in enumerate(leagues.items(), 1):
+            logger.info(f"[{i}/{total_leagues}] Auditing {league_code} ({league_obj.name})")
             
             try:
+                # Convert League object to dict format for compatibility
+                league_config = {
+                    'name': league_obj.name,
+                    'country': league_obj.country,
+                    'tier': league_obj.tier,
+                    'season_id': league_obj.season_id,
+                    'url_template': league_obj.url_template
+                }
                 result = self.audit_single_league(league_code, league_config)
                 results[league_code] = result
                 
