@@ -166,7 +166,7 @@ def root():
       </style>
     </head><body class="container">
       <h1>⚽ PenaltyBlog - Football Data Viewer</h1>
-      <p><em>Real football data from proven sources: FBRef, Understat, and Football-Data.co.uk</em></p>
+      <p><em>Real football data from ALL supported leagues worldwide using proven sources: FBRef, Understat, and Football-Data.co.uk</em></p>
       
       <div class="controls">
         <label for="league-select">League:</label>
@@ -237,10 +237,10 @@ def scrape_data():
         import subprocess
         import sys
         
-        # Run the unified scraper for major leagues (FBRef, Understat, Football-Data sources)
+        # Run the unified scraper for ALL supported leagues (FBRef, Understat, Football-Data sources)
         result = subprocess.run([
             sys.executable, "-m", "penaltyblog.scrapers.unified_scraper", 
-            "--league", "ENG_PL,ESP_LL,GER_BL,ITA_SA,FRA_L1", "--verbose"
+            "--all-supported", "--verbose"
         ], capture_output=True, text=True, cwd=CSV_DIR.parent)
         
         if result.returncode == 0:
