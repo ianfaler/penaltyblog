@@ -367,6 +367,26 @@ COMPETITION_MAPPINGS: Dict[str, Dict[str, Any]] = {
         },
         "footballdata": {"slug": "T1"},
     },
+    "USA Major League Soccer": {
+        "fbref": {
+            "slug": "22",
+            "stats": [
+                "standard",
+                "goalkeeping",
+                "advanced_goalkeeping",
+                "shooting",
+                "passing",
+                "passing_types",
+                "goal_shot_creation",
+                "defensive_actions",
+                "possession",
+                "playing_time",
+                "misc",
+            ],
+        },
+        "mls_official": {"base_url": "https://www.mlssoccer.com"},
+        "espn": {"slug": "usa.1"},
+    },
 }
 
 
