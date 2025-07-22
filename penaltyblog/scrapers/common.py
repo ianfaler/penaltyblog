@@ -123,7 +123,7 @@ COMPETITION_MAPPINGS: Dict[str, Dict[str, Any]] = {
     },
     "ENG League 2": {
         "fbref": {
-            "slug": "15",
+            "slug": "16",
             "stats": [
                 "standard",
                 "goalkeeping",
