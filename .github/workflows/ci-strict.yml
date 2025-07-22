@@ -1,0 +1,194 @@
+name: Strict Data Integrity Audit
+
+on:
+  # Run on every PR and push to main
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  
+  # Run nightly at 2 AM UTC
+  schedule:
+    - cron: '0 2 * * *'
+  
+  # Allow manual triggering
+  workflow_dispatch:
+    inputs:
+      leagues:
+        description: 'Comma-separated league codes to audit (or "all" for all leagues)'
+        required: false
+        default: 'ENG_PL,ESP_LL'
+      min_rows:
+        description: 'Minimum rows required per league'
+        required: false
+        default: '5'
+
+jobs:
+  strict-audit:
+    name: 🔍 Strict Data Integrity Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+    - name: 📥 Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+        
+    - name: 📦 Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .
+        pip install tenacity requests beautifulsoup4 pandas pyyaml
+        
+    - name: 🔍 Run strict audit
+      run: |
+        echo "🔍 Starting strict data integrity audit..."
+        
+        # Determine which leagues to audit
+        if [ "${{ github.event.inputs.leagues }}" = "all" ] || [ -z "${{ github.event.inputs.leagues }}" ]; then
+          echo "📋 Auditing ALL leagues"
+          AUDIT_ARGS="--all-leagues"
+        else
+          echo "📋 Auditing specific leagues: ${{ github.event.inputs.leagues }}"
+          AUDIT_ARGS="--league ${{ github.event.inputs.leagues }}"
+        fi
+        
+        # Set minimum rows
+        MIN_ROWS="${{ github.event.inputs.min_rows }}"
+        if [ -z "$MIN_ROWS" ]; then
+          MIN_ROWS="5"
+        fi
+        
+        echo "⚙️  Minimum rows per league: $MIN_ROWS"
+        
+        # Run the audit
+        python scripts/audit.py $AUDIT_ARGS --min-rows $MIN_ROWS --verbose
+        
+    - name: 📊 Check for fake data artifacts
+      run: |
+        echo "🔍 Scanning for remaining fake data artifacts..."
+        
+        # Search for any remaining fake data patterns
+        FAKE_PATTERNS_FOUND=0
+        
+        echo "Checking for fake team names..."
+        if grep -r -i "team a\|team b\|dummy\|placeholder\|lorem\|sample.*team" --include="*.py" --include="*.csv" . --exclude-dir=.git --exclude-dir=__pycache__ --exclude-dir=.pytest_cache; then
+          echo "❌ Found fake team names!"
+          FAKE_PATTERNS_FOUND=1
+        fi
+        
+        echo "Checking for hardcoded scores..."
+        if grep -r -i "hardcoded\|hard.coded\|fixed.*score" --include="*.py" . --exclude-dir=.git --exclude-dir=__pycache__; then
+          echo "❌ Found hardcoded scores!"
+          FAKE_PATTERNS_FOUND=1
+        fi
+        
+        echo "Checking for fake data generation functions..."
+        if grep -r "generate.*realistic.*data\|generate.*sample.*data\|fake.*data" --include="*.py" . --exclude-dir=.git --exclude-dir=__pycache__ --exclude-dir=test | grep -v "REMOVED\|forbidden\|#"; then
+          echo "❌ Found fake data generation functions!"
+          FAKE_PATTERNS_FOUND=1
+        fi
+        
+        if [ $FAKE_PATTERNS_FOUND -eq 1 ]; then
+          echo "💥 AUDIT FAILED: Fake data artifacts detected!"
+          exit 1
+        else
+          echo "✅ No fake data artifacts found"
+        fi
+        
+    - name: 🧪 Run fast tests (non-slow)
+      run: |
+        echo "🧪 Running fast tests..."
+        python -m pytest test/ -m "not slow" -v --tb=short
+        
+    - name: 📈 Upload audit results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: audit-results-${{ github.run_number }}
+        path: |
+          data/
+          *.log
+        retention-days: 7
+        
+    - name: 📝 Comment PR with results
+      if: github.event_name == 'pull_request' && always()
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          
+          // Create comment body
+          let comment = `## 🔍 Strict Data Integrity Audit Results\n\n`;
+          
+          if (process.env.GITHUB_JOB_STATUS === 'success') {
+            comment += `✅ **AUDIT PASSED** - All data integrity checks successful\n\n`;
+            comment += `- ✅ No fake data artifacts detected\n`;
+            comment += `- ✅ All leagues meet minimum row requirements\n`;
+            comment += `- ✅ Fast tests passed\n`;
+          } else {
+            comment += `❌ **AUDIT FAILED** - Data integrity issues detected\n\n`;
+            comment += `Please check the workflow logs for details.\n\n`;
+            comment += `**Common issues:**\n`;
+            comment += `- Fake data generation functions found\n`;
+            comment += `- Leagues returning insufficient real data\n`;
+            comment += `- Cross-validation failures\n`;
+            comment += `- Test failures\n`;
+          }
+          
+          comment += `\n---\n`;
+          comment += `Run ID: \`${{ github.run_id }}\`\n`;
+          comment += `Commit: \`${{ github.sha }}\``;
+          
+          // Post comment
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
+
+  league-coverage-check:
+    name: 📋 League Coverage Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: 📊 Check league coverage
+      run: |
+        echo "📋 Checking league coverage..."
+        
+        # Count leagues in config
+        TOTAL_LEAGUES=$(grep -c "^  [A-Z]" penaltyblog/config/leagues.yaml || echo "0")
+        echo "📈 Total leagues in configuration: $TOTAL_LEAGUES"
+        
+        # Minimum expected leagues
+        MIN_EXPECTED=20
+        
+        if [ $TOTAL_LEAGUES -lt $MIN_EXPECTED ]; then
+          echo "❌ Insufficient league coverage: $TOTAL_LEAGUES < $MIN_EXPECTED"
+          exit 1
+        else
+          echo "✅ League coverage adequate: $TOTAL_LEAGUES >= $MIN_EXPECTED"
+        fi
+        
+        # Check for major leagues
+        MAJOR_LEAGUES=("ENG_PL" "ESP_LL" "GER_BL" "ITA_SA" "FRA_L1")
+        
+        for league in "${MAJOR_LEAGUES[@]}"; do
+          if grep -q "^  $league:" penaltyblog/config/leagues.yaml; then
+            echo "✅ $league found"
+          else
+            echo "❌ $league missing"
+            exit 1
+          fi
+        done
+        
+        echo "🎉 All major leagues present"

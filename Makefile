@@ -22,6 +22,7 @@ help:
 	@echo "  scrape-demo   - Scrape Premier League and La Liga (demo)"
 	@echo "  list-leagues  - List all available leagues"
 	@echo "  reality-check - Reality check - validate current week fixtures and predictions"
+	@echo "  audit         - Strict audit - comprehensive data integrity checking across all leagues"
 
 # Complete setup for new environment
 setup:
@@ -115,3 +116,7 @@ list-leagues:
 # Reality check - validate current week fixtures and predictions
 reality-check:
 	python scripts/reality_check.py
+
+# Strict audit - comprehensive data integrity checking across all leagues
+audit:
+	python scripts/audit.py --all-leagues
