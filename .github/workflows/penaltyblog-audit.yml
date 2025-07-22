@@ -1,0 +1,42 @@
+name: Penaltyblog Audit
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Daily at 2 AM UTC
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # Allow manual triggers
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        pip install requests pyyaml
+        
+    - name: Run stable audit
+      run: |
+        python3 final_production_audit.py
+        
+    - name: Upload audit results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: audit-results
+        path: |
+          *.log
+          *.json
+          *.md

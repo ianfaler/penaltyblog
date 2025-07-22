@@ -1,0 +1,29 @@
+{
+  "audit_settings": {
+    "timeout_per_league": 10,
+    "max_retries": 2,
+    "parallel_workers": 5,
+    "fail_fast": false,
+    "only_enabled_leagues": true
+  },
+  "schedule": {
+    "daily_audit": "0 2 * * *",
+    "weekly_full_audit": "0 3 * * 0"
+  },
+  "notifications": {
+    "on_failure": true,
+    "on_success": false,
+    "critical_leagues": [
+      "BEL_D2",
+      "ENG_L1",
+      "HUN_NB",
+      "FRA_L2",
+      "ESP_L2",
+      "GER_BL",
+      "GER_3L",
+      "EGY_PL",
+      "RUS_PL",
+      "ESP_LL"
+    ]
+  }
+}

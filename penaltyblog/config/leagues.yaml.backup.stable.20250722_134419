@@ -1,0 +1,436 @@
+leagues:
+  ARG_PL:
+    country: Argentina
+    last_updated: '2025-07-22'
+    name: "Primera Divisi\xF3n"
+    season_id: '2024'
+    source: ESPN Argentina
+    status: active
+    tier: 1
+    url_template: https://www.espn.com/soccer/league/_/name/arg.1
+  AUS_AL:
+    country: Australia
+    name: A-League
+    season_id: 2024-25
+    tier: 1
+    url_template: https://www.a-league.com.au/fixtures-results
+  AUT_BL:
+    country: Austria
+    name: Bundesliga
+    season_id: 2024-25
+    tier: 1
+    url_template: https://www.bundesliga.at/de/bundesliga/spielplan/
+  BEL_D2:
+    country: Belgium
+    last_updated: '2025-07-22'
+    name: Challenger Pro League
+    season_id: 2024-25
+    source: Sporza
+    status: active
+    tier: 2
+    url_template: https://www.sporza.be/nl/matches/voetbal/challenger-pro-league/
+  BEL_PD:
+    country: Belgium
+    last_updated: '2025-07-22'
+    name: Pro League
+    season_id: 2024-25
+    source: Sporza
+    status: active
+    tier: 1
+    url_template: https://www.sporza.be/nl/matches/voetbal/jupiler-pro-league/
+  BRA_SP:
+    country: Brazil
+    last_updated: '2025-07-22'
+    name: "S\xE9rie A"
+    season_id: '2024'
+    source: ESPN Brazil
+    status: active
+    tier: 1
+    url_template: https://www.espn.com/soccer/league/_/name/bra.1
+  BUL_FL:
+    country: Bulgaria
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: First League
+    season_id: 2024-25
+    source: Bulgarian Football
+    status: problematic
+    tier: 1
+    url_template: https://www.bfunion.bg/competitions/a-pfg
+  CHN_CS:
+    country: China
+    last_updated: '2025-07-22'
+    name: Chinese Super League
+    season_id: '2024'
+    source: ESPN China
+    status: active
+    tier: 1
+    url_template: https://www.espn.com/soccer/league/_/name/chn.1
+  COL_PL:
+    country: Colombia
+    last_updated: '2025-07-22'
+    name: Primera A
+    season_id: '2024'
+    source: ESPN Colombia
+    status: active
+    tier: 1
+    url_template: https://www.espn.com/soccer/league/_/name/col.1
+  CRO_1H:
+    country: Croatia
+    name: 1. HNL
+    season_id: 2024-25
+    tier: 1
+    url_template: https://hnl.hr/en/fixtures
+  CYP_FL:
+    country: Cyprus
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: First Division
+    season_id: 2024-25
+    source: Cyprus Football
+    status: problematic
+    tier: 1
+    url_template: https://www.cfa.com.cy/competitions/
+  CZE_FL:
+    country: Czech Republic
+    name: Fortuna Liga
+    season_id: 2024-25
+    tier: 1
+    url_template: https://www.fortunaliga.cz/zapasy
+  DEN_SL:
+    country: Denmark
+    last_updated: '2025-07-22'
+    name: Superliga
+    season_id: 2024-25
+    source: Danish Superliga
+    status: active
+    tier: 1
+    url_template: https://www.superliga.dk/kampe/
+  EGY_PL:
+    country: Egypt
+    last_updated: '2025-07-22'
+    name: Premier League
+    season_id: 2024-25
+    source: ESPN Egypt
+    status: active
+    tier: 1
+    url_template: https://www.espn.com/soccer/league/_/name/egy.1
+  ENG_CH:
+    country: England
+    name: Championship
+    season_id: 2024-25
+    tier: 2
+    url_template: https://www.efl.com/fixtures-results/
+  ENG_L1:
+    country: England
+    name: League One
+    season_id: 2024-25
+    tier: 3
+    url_template: https://www.efl.com/fixtures-results/
+  ENG_PL:
+    country: England
+    name: Premier League
+    season_id: 2024-25
+    tier: 1
+    url_template: https://fantasy.premierleague.com/api/fixtures/
+  ESP_L2:
+    country: Spain
+    name: "Segunda Divisi\xF3n"
+    season_id: 2024-25
+    tier: 2
+    url_template: https://www.laliga.com/en-GB/laliga-smartbank/results
+  ESP_LL:
+    country: Spain
+    name: La Liga
+    season_id: 2024-25
+    tier: 1
+    url_template: https://www.laliga.com/en-GB/laliga-santander/results
+  ESP_RF:
+    country: Spain
+    last_error: '403'
+    last_updated: '2025-07-22'
+    name: Primera RFEF
+    season_id: 2024-25
+    source: RFEF Official
+    status: problematic
+    tier: 3
+    url_template: https://www.rfef.es/en/competitions/primera-rfef
+  FIN_VL:
+    country: Finland
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: Veikkausliiga
+    season_id: '2024'
+    source: Veikkausliiga
+    status: problematic
+    tier: 1
+    url_template: https://www.veikkausliiga.com/ottelut
+  FRA_L1:
+    country: France
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: Ligue 1
+    season_id: 2024-25
+    source: Official Ligue 1
+    status: problematic
+    tier: 1
+    url_template: https://www.ligue1.fr/ligue1/calendrier-resultats
+  FRA_L2:
+    country: France
+    name: Ligue 2
+    season_id: 2024-25
+    tier: 2
+    url_template: https://www.ligue2.fr/ligue2/calendrier-resultats
+  GER_3L:
+    country: Germany
+    name: 3. Liga
+    season_id: 2024-25
+    tier: 3
+    url_template: https://www.dfb.de/3-liga/spieltag/
+  GER_B2:
+    country: Germany
+    last_updated: '2025-07-22'
+    name: 2. Bundesliga
+    season_id: 2024-25
+    source: OpenLigaDB API
+    status: active
+    tier: 2
+    url_template: https://api.openligadb.de/getmatchdata/bl2/2024
+  GER_BL:
+    country: Germany
+    last_updated: '2025-07-22'
+    name: Bundesliga
+    season_id: 2024-25
+    source: OpenLigaDB API
+    status: active
+    tier: 1
+    url_template: https://api.openligadb.de/getmatchdata/bl1/2024
+  GRE_SL:
+    country: Greece
+    last_error: 'HTTPSConnectionPool(host=''www.superleague.gr'', port=443): Max retries
+      exceeded with url: /el/championship/program_results/ (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection
+      object at 0x7f4acfabf4d0>: Failed to resolve ''www.superleague.gr'' ([Errno
+      -3] Temporary failure in name resolution)"))'
+    last_updated: '2025-07-22'
+    name: Super League
+    season_id: 2024-25
+    source: Super League Greece
+    status: problematic
+    tier: 1
+    url_template: https://www.superleague.gr/el/championship/program_results/
+  HUN_NB:
+    country: Hungary
+    name: NB I
+    season_id: 2024-25
+    tier: 1
+    url_template: https://www.mlsz.hu/nb1/merkozes
+  ISL_PL:
+    country: Iceland
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: Besta deild karla
+    season_id: '2024'
+    source: Iceland Football
+    status: problematic
+    tier: 1
+    url_template: https://www.ksi.is/mot/neid-madur/
+  ITA_SA:
+    country: Italy
+    name: Serie A
+    season_id: 2024-25
+    tier: 1
+    url_template: https://www.legaseriea.it/en/serie-a/fixture-and-results
+  ITA_SB:
+    country: Italy
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: Serie B
+    season_id: 2024-25
+    source: Serie B Official
+    status: problematic
+    tier: 2
+    url_template: https://www.legaserieb.it/calendario-e-risultati
+  JPN_J1:
+    country: Japan
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: J1 League
+    season_id: '2024'
+    source: J-League Official
+    status: problematic
+    tier: 1
+    url_template: https://www.jleague.jp/en/match/
+  KOR_KL:
+    country: South Korea
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: K League 1
+    season_id: '2024'
+    source: K League Official
+    status: problematic
+    tier: 1
+    url_template: https://www.kleague.com/schedule
+  MAR_BL:
+    country: Morocco
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: Botola
+    season_id: 2024-25
+    source: ESPN Morocco
+    status: problematic
+    tier: 1
+    url_template: https://www.espn.com/soccer/league/_/name/mar.1
+  MEX_LM:
+    country: Mexico
+    last_error: '500'
+    last_updated: '2025-07-22'
+    name: Liga MX
+    season_id: '2024'
+    source: Liga MX Official
+    status: problematic
+    tier: 1
+    url_template: https://www.ligamx.net/cancha/estadisticas
+  NED_ED:
+    country: Netherlands
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: Eredivisie
+    season_id: 2024-25
+    source: Official Eredivisie
+    status: problematic
+    tier: 1
+    url_template: https://www.eredivisie.nl/wedstrijden
+  NED_KD:
+    country: Netherlands
+    last_error: 'HTTPSConnectionPool(host=''www.keuken-kampioen-divisie.nl'', port=443):
+      Max retries exceeded with url: /programma-uitslagen (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection
+      object at 0x7f4acfabfb10>: Failed to resolve ''www.keuken-kampioen-divisie.nl''
+      ([Errno -2] Name or service not known)"))'
+    last_updated: '2025-07-22'
+    name: Keuken Kampioen Divisie
+    season_id: 2024-25
+    source: KKD Official
+    status: problematic
+    tier: 2
+    url_template: https://www.keuken-kampioen-divisie.nl/programma-uitslagen
+  NOR_EL:
+    country: Norway
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: Eliteserien
+    season_id: '2024'
+    source: Norwegian Football
+    status: problematic
+    tier: 1
+    url_template: https://www.fotball.no/fotballdata/turnering/hoved/
+  POR_L2:
+    country: Portugal
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: Liga Portugal 2
+    season_id: 2024-25
+    source: Liga Portugal 2
+    status: problematic
+    tier: 2
+    url_template: https://www.ligaportugal.pt/en/liga2/fixture/
+  POR_PL:
+    country: Portugal
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: Primeira Liga
+    season_id: 2024-25
+    source: Liga Portugal
+    status: problematic
+    tier: 1
+    url_template: https://www.ligaportugal.pt/en/liga/fixture/
+  ROM_L1:
+    country: Romania
+    last_error: '403'
+    last_updated: '2025-07-22'
+    name: Liga 1
+    season_id: 2024-25
+    source: Romanian Football
+    status: problematic
+    tier: 1
+    url_template: https://www.frf.ro/liga-1/
+  RUS_PL:
+    country: Russia
+    name: Premier League
+    season_id: 2024-25
+    tier: 1
+    url_template: https://www.premierliga.ru/en/calendar
+  SAU_PL:
+    country: Saudi Arabia
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: Saudi Pro League
+    season_id: 2024-25
+    source: Saudi Pro League
+    status: problematic
+    tier: 1
+    url_template: https://www.slstat.com/spl2024-2025en/
+  SRB_SL:
+    country: Serbia
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: SuperLiga
+    season_id: 2024-25
+    source: Serbian Football
+    status: problematic
+    tier: 1
+    url_template: https://www.fss.rs/sr-cir/competitions/super-league
+  SUI_SL:
+    country: Switzerland
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: Super League
+    season_id: 2024-25
+    source: Swiss Football
+    status: problematic
+    tier: 1
+    url_template: https://www.sfl.ch/de/super-league/spiele-resultate/
+  SVK_FL:
+    country: Slovakia
+    last_error: 'HTTPSConnectionPool(host=''www.profutbal.sk'', port=443): Max retries
+      exceeded with url: /zapasy (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection
+      object at 0x7f4acfabf750>, ''Connection to www.profutbal.sk timed out. (connect
+      timeout=10)''))'
+    last_updated: '2025-07-22'
+    name: Fortuna Liga
+    season_id: 2024-25
+    source: Slovak Football
+    status: problematic
+    tier: 1
+    url_template: https://www.profutbal.sk/zapasy
+  SWE_AS:
+    country: Sweden
+    last_error: '403'
+    last_updated: '2025-07-22'
+    name: Allsvenskan
+    season_id: '2024'
+    source: Swedish Football
+    status: problematic
+    tier: 1
+    url_template: https://www.svenskfotboll.se/allsvenskan/tabell-resultat/
+  TUR_SL:
+    country: Turkey
+    name: Super Lig
+    season_id: 2024-25
+    tier: 1
+    url_template: https://www.tff.org/Default.aspx?pageId=198
+  UKR_PL:
+    country: Ukraine
+    last_error: '404'
+    last_updated: '2025-07-22'
+    name: Premier League
+    season_id: 2024-25
+    source: Ukrainian Premier League
+    status: problematic
+    tier: 1
+    url_template: https://upl.ua/en/championship/calendar/
+  USA_ML:
+    country: United States
+    name: MLS
+    season_id: '2024'
+    tier: 1
+    url_template: https://www.mlssoccer.com/schedule
