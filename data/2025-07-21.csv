@@ -1,21 +1,19 @@
 date,team_home,team_away,goals_home,goals_away,xg_home,xg_away,home_win_prob,draw_prob,away_win_prob,league_code,league_name,country
-2025-07-21,Cittadella,Palermo,2,1,2.25,1.35,0.65,0.15,0.2,ITA_SB,Serie B,Italy
-2025-07-22,Catanzaro,Salernitana,1,0,1.35,1.0,0.65,0.15,0.2,ITA_SB,Serie B,Italy
-2025-07-23,Sassuolo,Cosenza,2,1,2.25,1.35,0.65,0.15,0.2,ITA_SB,Serie B,Italy
-2025-07-24,Modena,Sudtirol,0,0,1.1,1.0,0.4,0.3,0.3,ITA_SB,Serie B,Italy
-2025-07-25,Mantova,Reggiana,0,2,1.1,2.25,0.2,0.15,0.65,ITA_SB,Serie B,Italy
-2025-07-26,Carrarese,Cesena,2,0,2.25,1.0,0.65,0.15,0.2,ITA_SB,Serie B,Italy
-2025-07-27,Fulham,Bournemouth,2,2,2.25,2.25,0.4,0.3,0.3,ENG_PL,Premier League,England
-2025-07-21,Bari,Spezia,2,0,2.25,1.0,0.65,0.15,0.2,ITA_SB,Serie B,Italy
-2025-07-22,Cremonese,Brescia,1,1,1.35,1.35,0.4,0.3,0.3,ITA_SB,Serie B,Italy
-2025-07-23,Hibernian,Kilmarnock,1,0,1.35,1.0,0.65,0.15,0.2,SCO_PL,Unknown,Unknown
-2025-07-24,Motherwell,Rangers,2,2,2.25,2.25,0.4,0.3,0.3,SCO_PL,Unknown,Unknown
-2025-07-25,Ross County,Hearts,2,2,2.25,2.25,0.4,0.3,0.3,SCO_PL,Unknown,Unknown
-2025-07-26,St Mirren,Dundee,1,2,1.35,2.25,0.2,0.15,0.65,SCO_PL,Unknown,Unknown
-2025-07-27,Man United,Newcastle,0,2,1.1,2.25,0.2,0.15,0.65,ENG_PL,Premier League,England
-2025-07-21,Famalicao,Santa Clara,1,2,1.35,2.25,0.2,0.15,0.65,POR_PL,Primeira Liga,Portugal
-2025-07-22,Ipswich,Chelsea,2,0,2.25,1.0,0.65,0.15,0.2,ENG_PL,Premier League,England
-2025-07-23,Bologna,Verona,2,3,2.25,3.15,0.2,0.15,0.65,ITA_SA,Serie A,Italy
-2025-07-24,Como,Lecce,2,0,2.25,1.0,0.65,0.15,0.2,ITA_SA,Serie A,Italy
-2025-07-25,AFC Wimbledon,Gillingham,1,0,1.35,1.0,0.65,0.15,0.2,ENG_L2,Unknown,Unknown
-2025-07-26,Aston Villa,Brighton,2,2,2.25,2.25,0.4,0.3,0.3,ENG_PL,Premier League,England
+2025-07-21,Nottm Forest,Fulham,2,0,2.77,0.6,0.658,0.189,0.153,ENG_PL,Premier League,England
+2025-07-22,Wolves,Aston Villa,0,1,0.83,0.69,0.141,0.2,0.659,ENG_PL,Premier League,England
+2025-07-23,Bournemouth,Brentford,2,0,2.44,0.55,0.498,0.181,0.321,ENG_PL,Premier League,England
+2025-07-24,Liverpool,West Ham,4,0,2.71,0.33,0.63,0.181,0.189,ENG_PL,Premier League,England
+2025-07-25,Lecce,Salernitana,2,0,2.41,0.99,0.633,0.2,0.167,ITA_SA,Serie A,Italy
+2025-07-26,Cagliari,AC Milan,1,0,0.84,0.29,0.57,0.239,0.191,ITA_SA,Serie A,Italy
+2025-07-27,Udinese,Roma,1,2,1.31,2.35,0.219,0.187,0.594,ITA_SA,Serie A,Italy
+2025-07-21,Cittadella,Cesena,2,1,2.81,1.69,0.645,0.248,0.107,ITA_SB,Serie B,Italy
+2025-07-22,Modena,Bari,1,0,1.44,0.82,0.517,0.199,0.284,ITA_SB,Serie B,Italy
+2025-07-23,Mantova,Carrarese,1,1,0.82,1.07,0.364,0.396,0.24,ITA_SB,Serie B,Italy
+2025-07-24,Rayo Vallecano,Las Palmas,2,0,2.24,0.95,0.519,0.185,0.296,ESP_LL,La Liga,Spain
+2025-07-25,Mallorca,Sevilla,0,0,0.58,0.95,0.441,0.268,0.291,ESP_LL,La Liga,Spain
+2025-07-26,Celtic,Motherwell,0,1,0.75,0.5,0.19,0.241,0.569,SCO_PL,Scottish Premier League,Scotland
+2025-07-27,St Johnstone,Hibernian,1,1,1.42,1.38,0.394,0.278,0.328,SCO_PL,Scottish Premier League,Scotland
+2025-07-21,Benfica,Rio Ave,2,0,1.09,0.45,0.513,0.197,0.29,POR_PL,Primeira Liga,Portugal
+2025-07-22,Benfica,Porto,0,2,0.75,2.29,0.055,0.248,0.697,POR_PL,Primeira Liga,Portugal
+2025-07-23,AFC Wimbledon,Gillingham,1,1,0.92,0.69,0.271,0.362,0.367,ENG_L2,League Two,England
+2025-07-24,Bradford,Gillingham,0,0,0.65,0.55,0.411,0.228,0.361,ENG_L2,League Two,England
