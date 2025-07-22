@@ -35,7 +35,7 @@
 
 - 🔄 **Streamline JSON Workflows with MatchFlow:** Process nested football data using a lazy, streaming pipeline built for JSON. Filter, select, flatten, join, group, and summarize large datasets without loading everything into memory.
 - 📊 **Model Matches Efficiently:** High-performance implementations of Poisson, Bivariate Poisson, Dixon-Coles, and other advanced statistical models, optimized with Cython for rapid analysis.
-- ⚽ **Scrape Data:** Collect match statistics from sources like FBRef, Understat, Club Elo, and Fantasy Premier League.
+- ⚽ **Scrape Data:** Collect match statistics from 50+ football leagues worldwide using native HTML scraping from official league websites.
 - 💰 **Bet Smarter:** Precisely estimate probabilities for Asian handicaps, over/under totals, match outcomes, and more.
 - 🏆 **Rank Teams:** Evaluate team strengths with sophisticated methods including Elo, Massey, Colley, and Pi ratings.
 - 📈 **Decode Bookmaker Odds:** Accurately extract implied probabilities by removing bookmaker margins (overrounds).
@@ -65,7 +65,25 @@ make setup
 source venv/bin/activate
 ```
 
-### 3. Run Demo Pipeline
+### 3. Scrape Football Data
+```bash
+# Scrape Premier League (default)
+make scrape-pl
+
+# Scrape Premier League and La Liga (demo)
+make scrape-demo
+
+# Scrape all 50+ configured leagues
+make scrape
+
+# List all available leagues
+make list-leagues
+
+# Start web interface to view data
+make serve  # open http://127.0.0.1:8000
+```
+
+### 4. Run Demo Pipeline
 ```bash
 python -m examples.demo_pipeline
 ```
@@ -78,14 +96,15 @@ This will:
 - 📊 Evaluate model performance
 - 💾 Save all outputs to `examples/demo_output/`
 
-### Environment Variables
+### Available Leagues
 
-Copy `.env.example` to `.env` and configure any required API keys:
+The scraper supports 50+ football leagues worldwide, including:
 
-```bash
-cp .env.example .env
-# Edit .env with your API keys (all optional)
-```
+**Tier 1 Leagues:** Premier League (England), La Liga (Spain), Bundesliga (Germany), Serie A (Italy), Ligue 1 (France), Eredivisie (Netherlands), Primeira Liga (Portugal), MLS (USA), J1 League (Japan), and many more.
+
+**Tier 2 & 3 Leagues:** Championship (England), Segunda División (Spain), 2. Bundesliga (Germany), Serie B (Italy), Ligue 2 (France), and additional divisions.
+
+All data is scraped directly from official league websites using native HTML parsing - no API keys required!
 
 ### Verify Installation
 
@@ -99,7 +118,7 @@ make check    # Run linting and type checking
 Learn more about how to utilize `penaltyblog` by exploring the [official documentation](https://penaltyblog.readthedocs.io/en/latest/) and detailed examples:
 
 - [Processing football event data with MatchFlow](https://penaltyblog.readthedocs.io/en/latest/matchflow/index.html)
-- [Scraping football data](https://penaltyblog.readthedocs.io/en/latest/scrapers/index.html)
+- [Scraping football data from 50+ leagues](https://penaltyblog.readthedocs.io/en/latest/scrapers/index.html)
 - [Predicting football matches and betting markets](https://penaltyblog.readthedocs.io/en/latest/models/index.html)
 - [Estimating implied odds from bookmaker prices](https://penaltyblog.readthedocs.io/en/latest/implied/index.html)
 - [Calculating Massey, Colley, Pi, and Elo ratings](https://penaltyblog.readthedocs.io/en/latest/ratings/index.html)

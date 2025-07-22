@@ -1,8 +1,19 @@
 from pathlib import Path
 import pandas as pd
 from datetime import datetime, timedelta
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import HTMLResponse, JSONResponse
+from typing import Optional, List
+import logging
+
+# Import league management
+try:
+    from .config.leagues import load_leagues, get_league_by_code, get_default_league
+except ImportError:
+    # Fallback for development
+    import sys
+    sys.path.insert(0, str(Path(__file__).parent))
+    from config.leagues import load_leagues, get_league_by_code, get_default_league
 
 app = FastAPI(title="PenaltyBlog ⚽ Data Viewer")
 
@@ -15,58 +26,152 @@ def get_current_monday():
     monday = today - timedelta(days=days_since_monday)
     return monday.replace(hour=0, minute=0, second=0, microsecond=0)
 
-def current_week_csv() -> Path:
-    """Find the CSV file for the current week."""
+def find_league_csv(league_code: str = None) -> Path:
+    """Find CSV file for a specific league or the default/combined data."""
+    # Look for dated directories first (new structure)
+    dated_dirs = sorted([d for d in CSV_DIR.iterdir() if d.is_dir() and d.name.match(r'\d{4}-\d{2}-\d{2}')], reverse=True)
+    
+    if dated_dirs:
+        # Use the most recent dated directory
+        latest_dir = dated_dirs[0]
+        
+        if league_code:
+            # Look for specific league file
+            league = get_league_by_code(league_code)
+            if league:
+                league_filename = f"{league.country.replace(' ', '_')}_{league.name.replace(' ', '_')}.csv"
+                league_filename = "".join(c for c in league_filename if c.isalnum() or c in "._-")
+                league_file = latest_dir / league_filename
+                if league_file.exists():
+                    return league_file
+        
+        # Look for combined file
+        combined_file = latest_dir / "combined_leagues.csv"
+        if combined_file.exists():
+            return combined_file
+    
+    # Fallback to old single CSV structure
     monday = get_current_monday()
     current_week_file = CSV_DIR / f"{monday.strftime('%Y-%m-%d')}.csv"
     
-    # If current week file exists, use it
     if current_week_file.exists():
         return current_week_file
     
     # Otherwise, fall back to most recent file
     files = sorted(CSV_DIR.glob("*.csv"), key=lambda p: p.stat().st_mtime, reverse=True)
     if not files:
-        raise FileNotFoundError("No CSV files produced yet. Run daily_update.py to generate current week's schedule.")
+        raise FileNotFoundError("No CSV files produced yet. Run the match scraper to generate data.")
     return files[0]
+
+def get_available_leagues_from_data() -> List[str]:
+    """Get list of available leagues from the data directory."""
+    try:
+        # Look in the most recent dated directory
+        dated_dirs = sorted([d for d in CSV_DIR.iterdir() if d.is_dir() and d.name.match(r'\d{4}-\d{2}-\d{2}')], reverse=True)
+        
+        if dated_dirs:
+            latest_dir = dated_dirs[0]
+            csv_files = list(latest_dir.glob("*.csv"))
+            
+            # Extract league codes from filenames
+            available_leagues = []
+            configured_leagues = load_leagues()
+            
+            for csv_file in csv_files:
+                if csv_file.name == "combined_leagues.csv":
+                    continue
+                
+                # Try to match filename to league
+                for code, league in configured_leagues.items():
+                    expected_filename = f"{league.country.replace(' ', '_')}_{league.name.replace(' ', '_')}.csv"
+                    expected_filename = "".join(c for c in expected_filename if c.isalnum() or c in "._-")
+                    if csv_file.name == expected_filename:
+                        available_leagues.append(code)
+                        break
+            
+            return available_leagues
+    except Exception:
+        pass
+    
+    return []
 
 def latest_csv() -> Path:
     """Find the most recent CSV file in the data directory."""
-    return current_week_csv()
+    return find_league_csv()
 
 @app.get("/", response_class=HTMLResponse)
 def root():
     """Return a minimal HTMX-powered table pulling JSON from /data."""
-    monday = get_current_monday()
-    week_end = monday + timedelta(days=6)
+    try:
+        available_leagues = get_available_leagues_from_data()
+        configured_leagues = load_leagues()
+        
+        # Create league dropdown options
+        league_options = []
+        league_options.append('<option value="">All Leagues (Combined)</option>')
+        
+        for league_code in available_leagues:
+            league = configured_leagues.get(league_code)
+            if league:
+                league_options.append(f'<option value="{league_code}">{league.display_name}</option>')
+        
+        league_dropdown = ''.join(league_options)
+        
+    except Exception as e:
+        league_dropdown = '<option value="">Error loading leagues</option>'
     
     return f"""
     <html><head>
       <script src="https://unpkg.com/htmx.org@1.9.12"></script>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
       <title>PenaltyBlog Data</title>
+      <style>
+        .controls {{ margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }}
+        .controls > * {{ margin: 0; }}
+      </style>
     </head><body class="container">
-      <h1>⚽ PenaltyBlog - Current Week Predictions</h1>
-      <p><strong>Week of:</strong> {monday.strftime('%B %d, %Y')} - {week_end.strftime('%B %d, %Y')}</p>
-      <p><em>Data updates daily to show current week's fixtures and predictions</em></p>
+      <h1>⚽ PenaltyBlog - Football Data Viewer</h1>
+      <p><em>Live football data from official league sources using HTML scraping</em></p>
       
-      <div>
+      <div class="controls">
+        <label for="league-select">League:</label>
+        <select id="league-select" 
+                hx-get="/data" 
+                hx-target="#tbl" 
+                hx-trigger="change"
+                hx-vals="js:{{league: document.getElementById('league-select').value}}">
+          {league_dropdown}
+        </select>
+        
         <button hx-get="/data" hx-target="#tbl" hx-trigger="click">Refresh Data 📥</button>
-        <button hx-get="/update" hx-target="#status" hx-trigger="click">Generate New Schedule 🔄</button>
+        <button hx-get="/scrape" hx-target="#status" hx-trigger="click">Scrape Fresh Data 🔄</button>
       </div>
       
       <div id="status"></div>
-      <table id="tbl" class="striped" hx-get="/data" hx-trigger="load, every 30s"></table>
+      <table id="tbl" class="striped" hx-get="/data" hx-trigger="load"></table>
     </body></html>
     """
 
 @app.get("/data", response_class=HTMLResponse)
-def data_table():
+def data_table(league: Optional[str] = Query(None, description="League code to filter by")):
     """Return HTML table rows for the latest CSV data."""
     try:
-        df = pd.read_csv(latest_csv()).head(200)  # limit rows for browser
+        csv_file = find_league_csv(league)
+        df = pd.read_csv(csv_file)
+        
+        # Filter by league if specified and we have league_code column
+        if league and 'league_code' in df.columns:
+            df = df[df['league_code'] == league]
+        
+        # Limit rows for browser performance
+        df = df.head(200)
+        
+        if df.empty:
+            return "<thead><tr><th>No Data</th></tr></thead><tbody><tr><td>No matches found for the selected league</td></tr></tbody>"
+        
     except Exception as exc:
-        raise HTTPException(status_code=500, detail=str(exc))
+        logging.error(f"Error loading data: {exc}")
+        return f"<thead><tr><th>Error</th></tr></thead><tbody><tr><td>Error loading data: {str(exc)}</td></tr></tbody>"
     
     thead = "<thead><tr>" + "".join(f"<th>{c}</th>" for c in df.columns) + "</tr></thead>"
     rows = "<tbody>" + "".join(
@@ -75,28 +180,39 @@ def data_table():
     return thead + rows
 
 @app.get("/data/json", response_class=JSONResponse)
-def data_json():
+def data_json(league: Optional[str] = Query(None, description="League code to filter by")):
     """Raw JSON endpoint (for future React/tableau use)."""
-    df = pd.read_csv(latest_csv())
-    return JSONResponse(df.to_dict(orient="records"))
+    try:
+        csv_file = find_league_csv(league)
+        df = pd.read_csv(csv_file)
+        
+        # Filter by league if specified and we have league_code column
+        if league and 'league_code' in df.columns:
+            df = df[df['league_code'] == league]
+        
+        return JSONResponse(df.to_dict(orient="records"))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
 
-@app.get("/update", response_class=HTMLResponse)
-def update_schedule():
-    """Manually trigger a schedule update."""
+@app.get("/scrape", response_class=HTMLResponse)
+def scrape_data():
+    """Manually trigger a data scrape for Premier League and La Liga."""
     try:
         import subprocess
         import sys
         
-        # Run the daily update script
-        result = subprocess.run([sys.executable, "daily_update.py"], 
-                              capture_output=True, text=True, cwd=CSV_DIR.parent)
+        # Run the match scraper for Premier League and La Liga (for demo)
+        result = subprocess.run([
+            sys.executable, "-m", "penaltyblog.scrapers.match_scraper", 
+            "--league", "ENG_PL,ESP_LL", "--verbose"
+        ], capture_output=True, text=True, cwd=CSV_DIR.parent)
         
         if result.returncode == 0:
             return f"""
             <div class="success">
-                <p>✅ Schedule updated successfully!</p>
+                <p>✅ Data scraped successfully!</p>
                 <details>
-                    <summary>Update log</summary>
+                    <summary>Scrape log</summary>
                     <pre>{result.stdout}</pre>
                 </details>
             </div>
@@ -104,7 +220,7 @@ def update_schedule():
         else:
             return f"""
             <div class="error">
-                <p>❌ Update failed</p>
+                <p>❌ Scrape failed</p>
                 <details>
                     <summary>Error details</summary>
                     <pre>{result.stderr}</pre>
@@ -114,22 +230,69 @@ def update_schedule():
     except Exception as e:
         return f'<div class="error">❌ Error: {str(e)}</div>'
 
+@app.get("/update", response_class=HTMLResponse)
+def update_schedule():
+    """Legacy endpoint - redirects to scrape."""
+    return """
+    <div class="info">
+        <p>ℹ️ This endpoint has been updated. Use the "Scrape Fresh Data" button instead.</p>
+        <p>The new system scrapes live data from official league websites.</p>
+    </div>
+    """
+
 @app.get("/status")
 def status():
     """Get current status information."""
     try:
-        csv_file = current_week_csv()
+        csv_file = latest_csv()
         df = pd.read_csv(csv_file)
         
-        monday = get_current_monday()
-        week_end = monday + timedelta(days=6)
+        available_leagues = get_available_leagues_from_data()
+        
+        status_info = {
+            "data_file": csv_file.name,
+            "total_fixtures": len(df),
+            "available_leagues": len(available_leagues),
+            "league_codes": available_leagues,
+            "last_updated": csv_file.stat().st_mtime
+        }
+        
+        # Add date range if date column exists
+        if 'date' in df.columns and not df.empty:
+            status_info["date_range"] = f"{df['date'].min()} to {df['date'].max()}"
+        
+        # Add league breakdown if league_code column exists
+        if 'league_code' in df.columns:
+            league_counts = df['league_code'].value_counts().to_dict()
+            status_info["fixtures_by_league"] = league_counts
+        
+        return status_info
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.get("/leagues")
+def list_leagues():
+    """Get list of all configured leagues."""
+    try:
+        leagues = load_leagues()
+        available_from_data = get_available_leagues_from_data()
+        
+        league_list = []
+        for code, league in leagues.items():
+            league_info = {
+                "code": code,
+                "name": league.name,
+                "country": league.country,
+                "display_name": league.display_name,
+                "tier": league.tier,
+                "has_data": code in available_from_data
+            }
+            league_list.append(league_info)
         
         return {
-            "current_week": f"{monday.strftime('%Y-%m-%d')} to {week_end.strftime('%Y-%m-%d')}",
-            "data_file": csv_file.name,
-            "fixture_count": len(df),
-            "date_range": f"{df['date'].min()} to {df['date'].max()}",
-            "last_updated": csv_file.stat().st_mtime
+            "total_configured": len(leagues),
+            "total_with_data": len(available_from_data),
+            "leagues": league_list
         }
     except Exception as e:
         return {"error": str(e)}

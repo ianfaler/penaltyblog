@@ -16,6 +16,10 @@ help:
 	@echo "  serve         - Start the web interface"
 	@echo "  clean         - Clean build artifacts"
 	@echo "  docs          - Build documentation"
+	@echo "  scrape        - Scrape data from all leagues"
+	@echo "  scrape-pl     - Scrape Premier League only"
+	@echo "  scrape-demo   - Scrape Premier League and La Liga (demo)"
+	@echo "  list-leagues  - List all available leagues"
 
 # Complete setup for new environment
 setup:
@@ -85,3 +89,19 @@ upload: build
 # Start the web interface
 serve:
 	python -m penaltyblog web
+
+# Scrape data from all leagues
+scrape:
+	python -m penaltyblog.scrapers.match_scraper --all-leagues
+
+# Scrape Premier League only (default/backward compatibility)
+scrape-pl:
+	python -m penaltyblog.scrapers.match_scraper --league ENG_PL
+
+# Scrape Premier League and La Liga (demo)
+scrape-demo:
+	python -m penaltyblog.scrapers.match_scraper --league ENG_PL,ESP_LL
+
+# List all available leagues
+list-leagues:
+	python -m penaltyblog.scrapers.match_scraper --list-leagues
