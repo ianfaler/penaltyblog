@@ -81,9 +81,6 @@ LEAGUE_TO_COMPETITION = {
     # Ligue 2
     "FRA_L2": "FRA Ligue 2",
     
-    # Russian Premier League
-    "RUS_PL": "RUS Premier League",
-    
     # Belgian First Division A
     "BEL_PD": "BEL First Division A",
     
@@ -95,6 +92,24 @@ LEAGUE_TO_COMPETITION = {
     
     # Scottish Premier League
     "SCO_PL": "SCO Premier League",
+    
+    # English League One
+    "ENG_L1": "ENG League 1",
+    
+    # English League Two  
+    "ENG_L2": "ENG League 2",
+    
+    # English Conference
+    "ENG_CN": "ENG Conference",
+    
+    # Scottish Division 1
+    "SCO_D1": "SCO Division 1",
+    
+    # Scottish Division 2
+    "SCO_D2": "SCO Division 2",
+    
+    # Scottish Division 3
+    "SCO_D3": "SCO Division 3",
 }
 
 class UnifiedScraper:

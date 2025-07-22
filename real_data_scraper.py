@@ -65,6 +65,7 @@ FOOTBALL_DATA_MAPPINGS = {
     "ENG_CH": "E1",    # Championship
     "ENG_L1": "E2",    # League One
     "ENG_L2": "E3",    # League Two
+    "ENG_CN": "EC",    # Conference
     "ESP_LL": "SP1",   # La Liga
     "ESP_L2": "SP2",   # Segunda División
     "GER_BL": "D1",    # Bundesliga
@@ -79,6 +80,9 @@ FOOTBALL_DATA_MAPPINGS = {
     "TUR_SL": "T1",    # Turkish Super Lig
     "GRE_SL": "G1",    # Greek Super League
     "SCO_PL": "SC0",   # Scottish Premier League
+    "SCO_D1": "SC1",   # Scottish Division 1
+    "SCO_D2": "SC2",   # Scottish Division 2
+    "SCO_D3": "SC3",   # Scottish Division 3
 }
 
 def get_priority_leagues():
@@ -93,7 +97,7 @@ def get_priority_leagues():
     tier_2_leagues = ["ENG_CH", "ESP_L2", "GER_B2", "ITA_SB", "FRA_L2"]
     
     # Third divisions and smaller leagues
-    other_leagues = ["ENG_L1", "ENG_L2", "SCO_PL"]
+    other_leagues = ["ENG_L1", "ENG_L2", "ENG_CN", "SCO_PL", "SCO_D1", "SCO_D2", "SCO_D3"]
     
     # Get all leagues that have Football-Data mappings
     all_supported = list(FOOTBALL_DATA_MAPPINGS.keys())
