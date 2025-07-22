@@ -49,6 +49,26 @@ Take your football analytics and betting strategy to the next level with **penal
 pip install penaltyblog
 ```
 
+### Strict Audit
+
+penaltyblog includes a comprehensive data integrity audit system that ensures all scraped data is real and validates against multiple reference sources:
+
+```bash
+make audit           # or poetry run python scripts/audit.py --all-leagues
+```
+
+The strict audit system:
+- ✅ Scrapes all leagues listed in `leagues.yaml`
+- ✅ Detects and rejects any fake/placeholder data
+- ✅ Cross-validates against Flashscore, Soccerway, and Wikipedia
+- ✅ Requires minimum 5 rows per league or fails
+- ✅ Aborts on data mismatch rate > 5%
+- ⚠️  **Placeholder data is strictly forbidden**
+
+**CI Integration:** The audit runs automatically on every PR and nightly, failing builds if data integrity issues are detected.
+
+```
+
 ## Quick-start
 
 Get up and running with **penaltyblog** in three simple commands:
