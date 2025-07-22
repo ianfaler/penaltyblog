@@ -201,7 +201,7 @@ class DataQualityValidator:
                     )
 
     def _validate_dates(self, df: pd.DataFrame, season: str = ""):
-        """Validate date information."""
+        """Validate date information with enhanced temporal validation."""
         date_col = "date" if "date" in df.columns else None
         if not date_col:
             return
@@ -225,11 +225,31 @@ class DataQualityValidator:
             f"Date range: {min_date.date()} to {max_date.date()} ({date_range.days} days)"
         )
 
-        # Check for future dates
+        # CRITICAL: Check for completed results in future dates
+        current_date = datetime.now().date()
         future_dates = valid_dates > datetime.now()
+        
         if future_dates.any():
-            count = future_dates.sum()
-            self._add_warning(f"Found {count} future dates")
+            # Check if these future dates have completed results
+            if 'goals_home' in df.columns and 'goals_away' in df.columns:
+                future_rows = df[future_dates]
+                completed_future = (future_rows['goals_home'].notna()) & (future_rows['goals_away'].notna())
+                
+                if completed_future.any():
+                    count = completed_future.sum()
+                    self._add_error(f"CRITICAL: Found {count} completed results for future dates - indicates FAKE/DEMO data")
+                    
+                    # Log examples for debugging
+                    examples = future_rows[completed_future][['date', 'goals_home', 'goals_away']].head(3)
+                    for _, row in examples.iterrows():
+                        self._add_error(f"  Future completed result: {row['date']} - {row['goals_home']}-{row['goals_away']}")
+                else:
+                    # Future dates without results are OK (upcoming fixtures)
+                    count = future_dates.sum()
+                    self._add_info(f"Found {count} future fixtures (upcoming matches)")
+            else:
+                count = future_dates.sum()
+                self._add_warning(f"Found {count} future dates")
 
         # Check for very old dates
         old_threshold = datetime.now() - timedelta(days=365 * 20)  # 20 years

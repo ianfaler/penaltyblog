@@ -111,7 +111,7 @@ class RequestsScraper(BaseScraper):
 
     def get(self, url: str, delay: float = 1.0) -> str:
         """
-        Perform HTTP GET request with robust error handling
+        Perform HTTP GET request with robust error handling and real connection validation
 
         Parameters
         ----------
@@ -128,7 +128,7 @@ class RequestsScraper(BaseScraper):
         Raises
         ------
         RequestException
-            If request fails after all retries
+            If request fails after all retries or if response indicates fake data
         """
         if delay > 0:
             time.sleep(delay)
@@ -150,6 +150,10 @@ class RequestsScraper(BaseScraper):
 
             response.raise_for_status()  # Raises HTTPError for bad responses
 
+            # Validate that we got real data, not a placeholder/error page
+            if not self.validate_response_data(response.text, url):
+                raise RequestException(f"Response validation failed for {url}")
+
             logger.info(f"Successfully fetched data from: {url}")
             return response.text
 
@@ -165,7 +169,12 @@ class RequestsScraper(BaseScraper):
 
         except HTTPError as e:
             logger.error(f"HTTP error for {url}: {e}")
-            raise RequestException(f"HTTP error {e.response.status_code}: {url}") from e
+            if e.response.status_code == 404:
+                raise RequestException(f"Data not found (404): {url}") from e
+            elif e.response.status_code == 403:
+                raise RequestException(f"Access denied (403): {url}") from e
+            else:
+                raise RequestException(f"HTTP error {e.response.status_code}: {url}") from e
 
         except RequestException as e:
             logger.error(f"Request exception for {url}: {e}")
@@ -177,7 +186,7 @@ class RequestsScraper(BaseScraper):
 
     def validate_response_data(self, data: str, url: str) -> bool:
         """
-        Validate that response data is not empty or malformed
+        Validate that response data is not empty or malformed and appears to be real data
 
         Parameters
         ----------
@@ -189,18 +198,54 @@ class RequestsScraper(BaseScraper):
         Returns
         -------
         bool
-            True if data appears valid
+            True if data appears valid and real
         """
         if not data or len(data.strip()) == 0:
             logger.warning(f"Empty response from {url}")
             return False
 
-        if "404" in data or "Not Found" in data:
-            logger.warning(f"404 error content detected from {url}")
+        # Check for common error indicators
+        error_indicators = [
+            "404", "Not Found", "Page not found",
+            "Access Denied", "Forbidden", "403 Forbidden",
+            "500 Internal Server Error", "502 Bad Gateway",
+            "503 Service Unavailable", "504 Gateway Timeout",
+            "Error", "Exception", "Invalid",
+            "Maintenance", "Temporarily unavailable"
+        ]
+        
+        data_lower = data.lower()
+        for indicator in error_indicators:
+            if indicator.lower() in data_lower:
+                logger.warning(f"Error indicator '{indicator}' detected in response from {url}")
+                return False
+
+        # Check for minimum data size (real data should be substantial)
+        if len(data) < 100:
+            logger.warning(f"Response too small ({len(data)} chars) from {url}")
             return False
 
-        if "Access Denied" in data or "Forbidden" in data:
-            logger.warning(f"Access denied content detected from {url}")
-            return False
+        # For HTML responses, check for actual content
+        if "<html" in data_lower:
+            # Should contain actual data tables or content, not just error pages
+            content_indicators = ["<table", "<tbody", "<tr", "<td", "fixtures", "results", "matches"]
+            has_content = any(indicator in data_lower for indicator in content_indicators)
+            if not has_content:
+                logger.warning(f"HTML response from {url} appears to lack actual data content")
+                return False
 
+        # For CSV responses, check for data rows
+        elif data.startswith("Date,") or "," in data:
+            lines = data.strip().split('\n')
+            if len(lines) < 2:  # Should have at least header + 1 data row
+                logger.warning(f"CSV response from {url} has insufficient data rows")
+                return False
+
+        # Check for JSON responses
+        elif data.strip().startswith('{') or data.strip().startswith('['):
+            if len(data.strip()) < 10 or data.strip() in ['{}', '[]']:
+                logger.warning(f"JSON response from {url} appears empty")
+                return False
+
+        logger.debug(f"Response validation passed for {url} ({len(data)} chars)")
         return True
