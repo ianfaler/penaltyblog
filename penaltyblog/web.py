@@ -131,7 +131,7 @@ def root():
       </style>
     </head><body class="container">
       <h1>⚽ PenaltyBlog - Football Data Viewer</h1>
-      <p><em>Live football data from official league sources using HTML scraping</em></p>
+      <p><em>Real football data from proven sources: FBRef, Understat, and Football-Data.co.uk</em></p>
       
       <div class="controls">
         <label for="league-select">League:</label>
@@ -196,15 +196,15 @@ def data_json(league: Optional[str] = Query(None, description="League code to fi
 
 @app.get("/scrape", response_class=HTMLResponse)
 def scrape_data():
-    """Manually trigger a data scrape for Premier League and La Liga."""
+    """Manually trigger a data scrape using the unified scraper with proven data sources."""
     try:
         import subprocess
         import sys
         
-        # Run the match scraper for Premier League and La Liga (for demo)
+        # Run the unified scraper for major leagues (FBRef, Understat, Football-Data sources)
         result = subprocess.run([
-            sys.executable, "-m", "penaltyblog.scrapers.match_scraper", 
-            "--league", "ENG_PL,ESP_LL", "--verbose"
+            sys.executable, "-m", "penaltyblog.scrapers.unified_scraper", 
+            "--league", "ENG_PL,ESP_LL,GER_BL,ITA_SA,FRA_L1", "--verbose"
         ], capture_output=True, text=True, cwd=CSV_DIR.parent)
         
         if result.returncode == 0:
